@@ -4,7 +4,7 @@ import { audio } from "../audio";
 import { store } from "../store";
 import { clamp, ensureSparkTexture, mulberry32 } from "./helpers";
 
-const LAUNCH_DURATION = 14;
+const LAUNCH_DURATION = 10;
 
 export class LaunchScene extends Phaser.Scene {
   private starsA: Phaser.GameObjects.Graphics | null = null;
@@ -123,12 +123,7 @@ export class LaunchScene extends Phaser.Scene {
       .setDepth(7);
 
     this.add
-      .image(26, 25, "branding/patch_ares_survey.png")
-      .setDepth(21)
-      .setScale(0.38)
-      .setAlpha(0.85);
-    this.add
-      .text(43, 14, "ARES SURVEY PROGRAM", {
+      .text(14, 14, "RED FRONTIER", {
         fontFamily: "monospace",
         fontSize: "6px",
         color: "#f4ead8",
@@ -136,7 +131,7 @@ export class LaunchScene extends Phaser.Scene {
       })
       .setDepth(21);
     this.add
-      .text(43, 23, "MERIDIAN ASCENT / ATTEMPT " + String(store.current.room?.attempt ?? 1).padStart(2, "0"), {
+      .text(14, 23, "FLIGHT " + String(store.current.room?.attempt ?? 1).padStart(2, "0") + " TO MARS", {
         fontFamily: "monospace",
         fontSize: "5px",
         color: "#9caaa7",
@@ -144,7 +139,7 @@ export class LaunchScene extends Phaser.Scene {
       .setDepth(21);
 
     this.countdownText = this.add
-      .text(372, 14, "T-00:14", {
+      .text(372, 14, "T-00:10", {
         fontFamily: "monospace",
         fontSize: "11px",
         color: "#f0b64b",
@@ -154,14 +149,14 @@ export class LaunchScene extends Phaser.Scene {
       .setDepth(21);
 
     this.statusText = this.add
-      .text(12, 208, "PRELAUNCH / SYSTEMS NOMINAL", {
+      .text(12, 208, "READY FOR LAUNCH", {
         fontFamily: "monospace",
         fontSize: "6px",
         color: "#dfcfb0",
       })
       .setDepth(21);
     this.add
-      .text(372, 208, "SOL 001 / ARES BASIN", {
+      .text(372, 208, "DAY 1 / ARES BASIN", {
         fontFamily: "monospace",
         fontSize: "5px",
         color: "#9caaa7",
@@ -207,7 +202,7 @@ export class LaunchScene extends Phaser.Scene {
     }
 
     const stage =
-      elapsed < 3.6 ? 0 : elapsed < 7.4 ? 1 : elapsed < 10.4 ? 2 : elapsed < 12.6 ? 3 : 4;
+      elapsed < 2.2 ? 0 : elapsed < 5.2 ? 1 : elapsed < 6.8 ? 2 : elapsed < 8.6 ? 3 : 4;
     if (stage !== this.stage) {
       this.enterStage(stage, initial);
       this.stage = stage;
@@ -225,7 +220,7 @@ export class LaunchScene extends Phaser.Scene {
 
     if (this.rocket) {
       let rocketY = 198;
-      if (stage === 1) rocketY = 198 - ((elapsed - 3.6) / 3.8) * 292;
+      if (stage === 1) rocketY = 198 - ((elapsed - 2.2) / 3) * 292;
       else if (stage >= 2) rocketY = -94;
       this.rocket.setY(rocketY);
       this.rocket.setVisible(stage < 2);
@@ -248,24 +243,24 @@ export class LaunchScene extends Phaser.Scene {
     }
 
     if (this.planet) {
-      const appear = clamp((elapsed - 5.6) / 2.2, 0, 1);
-      const vanish = clamp((11.4 - elapsed) / 1.6, 0, 1);
+      const appear = clamp((elapsed - 4) / 1.6, 0, 1);
+      const vanish = clamp((8.3 - elapsed) / 1.2, 0, 1);
       this.planet.setAlpha(Math.min(appear, vanish) * 0.95);
       this.planet.setScale(0.34 + appear * 0.7);
     }
 
     if (this.surface) {
-      this.surface.setAlpha(clamp((elapsed - 10.1) / 1.7, 0, 1));
+      this.surface.setAlpha(clamp((elapsed - 7.1) / 1.2, 0, 1));
     }
 
     if (this.lander) {
-      const visible = elapsed >= 10.2;
+      const visible = elapsed >= 7.1;
       this.lander.setVisible(visible);
       if (visible) {
-        const descent = clamp((elapsed - 10.9) / 1.6, 0, 1);
+        const descent = clamp((elapsed - 7.5) / 1.1, 0, 1);
         const eased = Phaser.Math.Easing.Sine.Out(descent);
         this.lander.setY(-52 + eased * 184);
-        this.lander.setAlpha(clamp((elapsed - 10.2) / 0.8, 0, 1));
+        this.lander.setAlpha(clamp((elapsed - 7.1) / 0.6, 0, 1));
         if (stage === 4) {
           this.lander.setY(142);
           this.lander.setAlpha(1);
@@ -274,11 +269,11 @@ export class LaunchScene extends Phaser.Scene {
     }
 
     if (this.pad) {
-      this.pad.setAlpha(clamp((elapsed - 9.6) / 1.2, 0, 1) * (1 - clamp((elapsed - 11.8) / 1.2, 0, 1)));
+      this.pad.setAlpha(clamp((elapsed - 6.8) / 0.8, 0, 1) * (1 - clamp((elapsed - 8.7) / 0.9, 0, 1)));
     }
 
     if (this.centerText) {
-      const show = clamp((elapsed - 7.3) / 1.2, 0, 1) * clamp((11.8 - elapsed) / 1.2, 0, 1);
+      const show = clamp((elapsed - 5.2) / 0.9, 0, 1) * clamp((8.4 - elapsed) / 0.9, 0, 1);
       this.centerText.setAlpha(show * 0.8);
     }
 
@@ -300,10 +295,10 @@ export class LaunchScene extends Phaser.Scene {
 
   private enterStage(stage: number, initial: boolean): void {
     const statuses = [
-      "PRELAUNCH / SYSTEMS NOMINAL",
-      "ASCENT / MERIDIAN NOMINAL",
-      "MARS APPROACH / ENTRY CORRIDOR",
-      "ENTRY, DESCENT & LANDING",
+      "READY FOR LAUNCH",
+      "ROCKET LAUNCHING",
+      "FLYING TO MARS",
+      "LANDING ON MARS",
       "TOUCHDOWN / ARES BASIN",
     ];
     this.statusText?.setText(statuses[stage] ?? statuses[0]!);

@@ -1,6 +1,9 @@
 import Phaser from "phaser";
-import { LANDER_POSITION, ROLES, SPAWN_POINTS, WORLD, roleById } from "../../../shared/content";
+import { LANDER_POSITION, SPAWN_POINTS, WORLD, roleById } from "../../../shared/content";
+import { buildEffects } from "../../../shared/rules";
 import type {
+  MissionState,
+  ObjectiveKind,
   ObjectiveState,
   PlayerPublic,
   RoomPublic,
@@ -37,6 +40,17 @@ const MOVE_SPEED = 84;
 const SEND_INTERVAL = 0.075;
 const INTERACT_RANGE = 52;
 const INTERACT_BREAK = 72;
+
+const OBJECTIVE_STYLE: Record<
+  ObjectiveKind,
+  { color: number; icon: string; size: number }
+> = {
+  rocks: { color: 0xf0b64b, icon: "props/mars/sample_rock.png", size: 18 },
+  soil: { color: 0xe0a15a, icon: "equipment/arm.png", size: 17 },
+  soilResearch: { color: 0x6adbe0, icon: "equipment/spectrometer.png", size: 17 },
+  weather: { color: 0xcfe9f0, icon: "equipment/weather.png", size: 17 },
+  transmit: { color: 0x8fc8a8, icon: "equipment/antenna.png", size: 17 },
+};
 
 interface CrewView {
   id: string;
@@ -84,6 +98,8 @@ export class MarsScene extends Phaser.Scene {
   private dustEmitter: Phaser.GameObjects.Particles.ParticleEmitter | null = null;
   private lastCompleted = -1;
   private lastMissionId = "";
+  private missionSnapshotSeen = false;
+  private announcedCompletions = new Set<string>();
   private frozen = false;
 
   constructor() {
@@ -108,6 +124,8 @@ export class MarsScene extends Phaser.Scene {
     this.dustEmitter = null;
     this.lastCompleted = -1;
     this.lastMissionId = "";
+    this.missionSnapshotSeen = false;
+    this.announcedCompletions.clear();
     this.frozen = false;
   }
 
@@ -117,7 +135,7 @@ export class MarsScene extends Phaser.Scene {
     // view maps and signatures before rebuilding.
     this.resetRunState();
 
-    this.cameras.main.setBackgroundColor("#1c0f0c");
+    this.cameras.main.setBackgroundColor("#241310");
     this.cameras.main.fadeIn(650, 0, 0, 0);
     this.tileKey = assets.marsTiles ? `tiles/${assets.marsTiles.image}` : "tiles/mars_tiles.png";
     this.tileIndex = new Map(
@@ -203,11 +221,9 @@ export class MarsScene extends Phaser.Scene {
       if (Math.abs(dx) > Math.abs(dy)) this.localDir = dx < 0 ? "left" : "right";
       else this.localDir = dy < 0 ? "up" : "down";
 
-      const design = mission?.design.modules ?? [];
-      const speed =
-        MOVE_SPEED *
-        (design.includes("suspension") ? 1.18 : 1) *
-        (mission && mission.speedUntil > store.serverNow ? 1.25 : 1);
+      const effects = mission ? buildEffects(mission.design) : null;
+      const boosted = Boolean(mission && mission.boostUntil > store.serverNow);
+      const speed = MOVE_SPEED * (effects?.speedMultiplier ?? 1) * (boosted ? 1.2 : 1);
       const nextX = clamp(this.localX + dx * speed * dt, 12, WORLD_WIDTH - 12);
       const nextY = clamp(this.localY + dy * speed * dt, 18, WORLD_HEIGHT - 6);
       if (!this.blocked(nextX, this.localY)) this.localX = nextX;
@@ -260,6 +276,7 @@ export class MarsScene extends Phaser.Scene {
         this.cameras.main.flash(190, 143, 200, 168, false);
       }
       this.lastCompleted = completed;
+      this.detectCompletions(mission);
 
       if (mission.activeEvent || mission.result) {
         if (this.interacting) this.stopScan();
@@ -274,6 +291,56 @@ export class MarsScene extends Phaser.Scene {
     }
   }
 
+  private detectCompletions(mission: MissionState): void {
+    if (!this.missionSnapshotSeen) {
+      this.missionSnapshotSeen = true;
+      for (const objective of mission.objectives) {
+        if (objective.completed) this.announcedCompletions.add(objective.id);
+      }
+      return;
+    }
+    for (const objective of mission.objectives) {
+      if (!objective.completed || this.announcedCompletions.has(objective.id)) continue;
+      this.announcedCompletions.add(objective.id);
+      this.sampleBurst(objective.x, objective.y - 8, objective.kind);
+    }
+  }
+
+  private sampleBurst(x: number, y: number, kind: ObjectiveKind): void {
+    const style = OBJECTIVE_STYLE[kind];
+    const texture = `burst-${kind}`;
+    ensureSparkTexture(this, texture, style.color, 3);
+    const emitter = this.add
+      .particles(x, y, texture, {
+        lifespan: { min: 320, max: 780 },
+        speed: { min: 20, max: 66 },
+        angle: { min: 195, max: 345 },
+        gravityY: 62,
+        scale: { start: 1.25, end: 0 },
+        alpha: { start: 1, end: 0 },
+        tint: [style.color, 0xffffff, 0xf4ead8],
+        emitting: false,
+      })
+      .setDepth(7600);
+    emitter.explode(kind === "transmit" ? 38 : 22);
+    this.time.delayedCall(1_200, () => emitter.destroy());
+
+    const pulse = this.add.circle(x, y - 4, 18, style.color, 0.16).setDepth(7500);
+    pulse.setStrokeStyle(2, style.color, 0.75);
+    this.tweens.add({
+      targets: pulse,
+      scale: 3,
+      alpha: 0,
+      duration: 650,
+      ease: "Cubic.out",
+      onComplete: () => pulse.destroy(),
+    });
+
+    if (kind === "transmit") {
+      this.cameras.main.flash(260, 143, 200, 168, false);
+    }
+  }
+
   private syncObjectives(objectives: ObjectiveState[]): void {
     for (const objective of objectives) {
       let view = this.objectiveViews.get(objective.id);
@@ -281,38 +348,30 @@ export class MarsScene extends Phaser.Scene {
         view = this.createObjectiveMarker(objective);
         this.objectiveViews.set(objective.id, view);
       }
+      const style = OBJECTIVE_STYLE[objective.kind];
       const visible = objective.unlocked && !objective.completed;
       view.container.setVisible(visible);
-      const color =
-        objective.kind === "sample"
-          ? 0xf0b64b
-          : objective.kind === "relay"
-            ? 0x6adbe0
-            : objective.kind === "cache"
-              ? 0x8fc8a8
-              : 0xf4ead8;
-      view.marker.setTint(color);
+      view.marker.setTexture(style.icon);
+      view.marker.setDisplaySize(style.size, style.size);
+      view.marker.setTint(style.color);
       view.ring.clear();
-      view.ring.lineStyle(1, color, 0.5);
-      view.ring.strokeEllipse(0, 2, 28, 10);
+      view.ring.lineStyle(1, style.color, 0.55);
+      view.ring.strokeEllipse(0, 2, 30, 11);
       view.label.setText(objective.shortName);
+      view.label.setColor(objective.unlocked ? "#f4ead8" : "#a89c90");
     }
   }
 
   private createObjectiveMarker(objective: ObjectiveState): ObjectiveView {
-    const color =
-      objective.kind === "sample"
-        ? 0xf0b64b
-        : objective.kind === "relay"
-          ? 0x6adbe0
-          : objective.kind === "cache"
-            ? 0x8fc8a8
-            : 0xf4ead8;
+    const style = OBJECTIVE_STYLE[objective.kind];
     const ring = this.add.graphics();
-    ring.lineStyle(1, color, 0.5);
-    ring.strokeEllipse(0, 2, 28, 10);
+    ring.lineStyle(1, style.color, 0.55);
+    ring.strokeEllipse(0, 2, 30, 11);
 
-    const marker = this.add.image(0, -12, "ui/marker_objective.png").setTint(color);
+    const marker = this.add
+      .image(0, -13, style.icon)
+      .setDisplaySize(style.size, style.size)
+      .setTint(style.color);
     const label = this.add
       .text(0, -24, objective.shortName, {
         fontFamily: "monospace",
@@ -816,11 +875,21 @@ export class MarsScene extends Phaser.Scene {
     this.obstacles.push({ x: 330, y: 580, radius: 32 });
 
     addProp("relay.png", 472, 110, 1, 20);
+    addProp("relay.png", 912, 332, 0.95, 18);
     addProp("sample_rock.png", 176, 171, 1, 16);
     addProp("sample_rock.png", 832, 191, 1, 18);
     addProp("sample_rock.png", 800, 506, 1, 16);
     addProp("cargo_crate.png", 96, 375, 1, 20);
     addProp("beacon.png", 110, 368, 0.9, 8);
+
+    for (const labX of [216, 368]) {
+      addShadow(labX, 547, 24);
+      this.add
+        .image(labX, 548, "equipment/spectrometer.png")
+        .setOrigin(0.5, 1)
+        .setScale(1.15)
+        .setDepth(548);
+    }
 
     addProp("mesa.png", 700, 160, 1, 120);
     addProp("mesa.png", 946, 438, 0.9, 108);
@@ -897,8 +966,25 @@ export class MarsScene extends Phaser.Scene {
         frequency: 220,
       })
       .setDepth(7200);
+    this.add
+      .rectangle(WORLD_WIDTH / 2, WORLD_HEIGHT / 2, WORLD_WIDTH, WORLD_HEIGHT, 0xffa864, 0.06)
+      .setDepth(7085)
+      .setBlendMode(Phaser.BlendModes.ADD);
+    const landerGlow = this.add
+      .ellipse(LANDER_POSITION.x, LANDER_POSITION.y + 4, 142, 58, 0xf0b64b, 0.08)
+      .setDepth(299)
+      .setBlendMode(Phaser.BlendModes.ADD);
+    this.tweens.add({
+      targets: landerGlow,
+      alpha: 0.15,
+      scaleX: 1.06,
+      duration: 2_600,
+      yoyo: true,
+      repeat: -1,
+      ease: "Sine.inOut",
+    });
     const haze = this.add.graphics().setDepth(7100).setScrollFactor(0);
-    haze.fillStyle(0xd28a5e, 0.035);
+    haze.fillStyle(0xd28a5e, 0.025);
     haze.fillRect(0, 0, 384, 224);
   }
 }

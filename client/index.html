@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta
       name="description"
-      content="RED FRONTIER — MISSION MARS is an original cooperative 2D pixel-art Mars mission game for one to four players. Design a rover, cross Ares Basin and bring the science home."
+      content="RED FRONTIER is an original 1–4 player pixel-art Mars adventure. Build a rover, explore the basin, study rocks, soil and weather, and bring the science home."
     />
-    <meta name="theme-color" content="#0b1224" />
-    <title>RED FRONTIER — MISSION MARS</title>
-    <link rel="icon" href="/assets/branding/patch_ares_survey.png" />
+    <meta name="theme-color" content="#171225" />
+    <title>RED FRONTIER — Build a rover. Explore Mars.</title>
+    <link rel="icon" type="image/png" href="/assets/rover/rover_right.png" />
     <link rel="stylesheet" href="/src/style.css" />
   </head>
   <body>
@@ -17,7 +17,7 @@
       <div class="starfield" aria-hidden="true"></div>
 
       <header class="topbar">
-        <div class="brand">
+        <a class="brand" href="#" data-action="go-home" aria-label="RED FRONTIER home">
           <img
             class="brand-wordmark"
             src="/assets/branding/wordmark_small.png"
@@ -25,156 +25,117 @@
             width="152"
             height="24"
           />
-          <span class="brand-sub">ARES SURVEY<br />PROGRAM</span>
+          <span class="brand-tag">MARS FIELD ADVENTURE</span>
+        </a>
+
+        <div id="room-chip" class="room-chip hidden">
+          <span>ROOM</span>
+          <strong id="room-code">----</strong>
+          <button type="button" class="mini-button" data-action="copy-room">Copy</button>
         </div>
-        <div class="link-status" aria-live="polite">
-          <span id="net-dot" class="link-dot" data-state="connecting"></span>
-          <span id="net-label">SURFACE LINK: CONNECTING</span>
-          <span id="top-room" class="top-room hidden"></span>
-        </div>
-        <nav class="top-actions" aria-label="Application controls">
-          <button class="text-button" type="button" data-action="open-notes">FIELD NOTES</button>
+
+        <div class="topbar-spacer"></div>
+
+        <div class="top-actions">
+          <span id="net-badge" class="net-badge" data-state="connecting" aria-live="polite">
+            <i aria-hidden="true"></i>
+            <span id="net-label">Connecting</span>
+          </span>
+          <button
+            id="panel-button"
+            class="top-button panel-button hidden"
+            type="button"
+            data-action="toggle-panel"
+            aria-expanded="false"
+            aria-controls="mission-panel"
+          >
+            <span class="panel-dot" aria-hidden="true"></span>
+            Mission
+          </button>
+          <button class="top-button" type="button" data-action="open-notes" title="How to play">
+            How to play
+          </button>
           <button
             id="sound-button"
-            class="text-button"
+            class="top-button icon-only"
             type="button"
             data-action="toggle-sound"
             aria-pressed="true"
-            title="Toggle sound"
+            title="Turn sound on or off"
           >
-            <span id="sound-label">SOUND ON</span>
+            <span id="sound-label">Sound on</span>
           </button>
-          <button class="text-button" type="button" data-action="fullscreen" title="Toggle fullscreen">
-            FULLSCREEN
+          <button class="top-button icon-only" type="button" data-action="fullscreen" title="Full screen">
+            Full screen
           </button>
-        </nav>
+        </div>
       </header>
 
-      <main class="workspace">
-        <section class="stage-column" aria-label="Game viewport">
-          <div id="mission-hud" class="mission-hud hidden" aria-label="Mission resources">
-            <div id="resource-strip" class="resource-strip"></div>
-            <div id="goal-chip" class="goal-chip">
-              <span class="goal-dot"></span>
-              <span id="goal-text">COLLECT FIELD DATA</span>
-            </div>
-          </div>
-
+      <main class="game-shell">
+        <div class="stage-column">
           <div id="stage-shell" class="stage-shell">
             <div id="stage-frame" class="stage-frame">
-              <div id="game-mount" aria-label="RED FRONTIER game canvas"></div>
+              <div id="game-mount" aria-label="RED FRONTIER game world"></div>
               <div class="screen-glass" aria-hidden="true"></div>
-
-              <section id="title-overlay" class="screen-layer title-overlay">
-                <div class="title-panel">
-                  <div class="eyebrow">COOPERATIVE FIELD MISSION / 1–4 CREW</div>
-                  <div class="title-lockup">
-                    <img
-                      class="title-logo"
-                      src="/assets/branding/logo_red_frontier.png"
-                      alt="RED FRONTIER"
-                      width="192"
-                      height="64"
-                    />
-                    <img
-                      class="mission-logo"
-                      src="/assets/branding/logo_mission_mars.png"
-                      alt="Mission Mars"
-                      width="160"
-                      height="32"
-                    />
-                  </div>
-                  <p class="title-tagline">
-                    ONE ROVER. FOUR STATIONS. SIX MINUTES ON THE CLOCK.
-                  </p>
-                  <div class="title-actions">
-                    <button class="primary-button" type="button" data-action="host-room">
-                      <span class="button-index">01</span> HOST MISSION
-                    </button>
-                    <button class="secondary-button" type="button" data-action="join-room">
-                      <span class="button-index">02</span> JOIN CREW
-                    </button>
-                  </div>
-                  <p class="title-note">
-                    REAL-TIME CO-OP · ROOM CODE · NO INSTALLS<br />
-                    ORIGINAL FICTIONAL PROJECT · NOT AFFILIATED WITH NASA
-                  </p>
-                </div>
-                <div class="title-side-mark" aria-hidden="true">
-                  <span>ARES BASIN</span>
-                  <span>18.4°N / 77.5°E</span>
-                  <span>SOL 001</span>
-                </div>
-              </section>
-
-              <section id="lobby-overlay" class="screen-layer lobby-layer hidden" aria-hidden="true">
-                <div class="lobby-tag"><span id="lobby-tag-phase">CREW LINK</span><strong id="lobby-tag-code">----</strong></div>
-                <div class="lobby-caption">
-                  <span class="eyebrow">MERIDIAN FIELD TEAM</span>
-                  <p id="lobby-caption-text">Waiting for crew link…</p>
-                </div>
-              </section>
+              <div class="screen-vignette" aria-hidden="true"></div>
 
               <section id="mission-overlay" class="screen-layer mission-layer hidden" aria-hidden="true">
-                <div class="mission-top">
-                  <div class="sector-chip">
-                    <span class="sector-kicker">ARES BASIN</span>
-                    <span id="sector-line">LANDING ZONE / SOL 01</span>
-                  </div>
-                  <div id="event-chip" class="event-chip">
-                    <span id="event-chip-label">EVENTS 0/5</span>
-                  </div>
-                </div>
-                <div id="mission-toast" class="mission-toast hidden" role="status"></div>
-                <div id="objective-chip" class="objective-chip">
-                  <span class="objective-icon">◇</span>
-                  <span>
-                    <span class="objective-kicker">NEXT OBJECTIVE</span>
-                    <strong id="objective-chip-name">SCAN THE CRATER RIM</strong>
-                  </span>
-                  <span id="objective-chip-distance" class="objective-distance">142 M</span>
+                <div class="world-kicker">
+                  <span class="world-dot" aria-hidden="true"></span>
+                  <span id="world-kicker-text">EXPLORING THE BASIN</span>
                 </div>
                 <div id="nearby-prompt" class="nearby-prompt hidden">
-                  <div class="nearby-icon" id="nearby-icon">⌁</div>
-                  <div class="nearby-copy">
-                    <strong id="nearby-title">SCAN OUTCROP</strong>
-                    <span id="nearby-sub">HOLD E / ACTION TO SAMPLE</span>
-                  </div>
-                  <div class="nearby-key">E</div>
+                  <span id="nearby-icon" class="nearby-icon" aria-hidden="true">◇</span>
+                  <span class="nearby-copy">
+                    <strong id="nearby-title">Scan the rocks</strong>
+                    <small id="nearby-sub">Press E or tap Action</small>
+                  </span>
+                  <kbd>E</kbd>
                 </div>
                 <div id="nearby-progress" class="nearby-progress hidden">
-                  <div class="progress-label"><span id="progress-title">SAMPLE CORE</span><span id="progress-pct">0%</span></div>
+                  <div class="progress-label">
+                    <span id="progress-title">Working</span>
+                    <span id="progress-pct">0%</span>
+                  </div>
                   <div class="progress-track"><div id="progress-fill" class="progress-fill"></div></div>
+                  <span class="progress-hint">Move away to stop. A nearby crew member helps it finish faster.</span>
                 </div>
-                <div class="mission-bottom">
-                  <div class="mission-coordinate">
-                    <span id="local-coord">X 0000 / Y 0000</span>
-                    <span id="link-quality">LINK 100%</span>
-                  </div>
-                  <div class="mission-controls-hint">
-                    <span><kbd>WASD</kbd> MOVE</span>
-                    <span><kbd>E</kbd> INTERACT</span>
-                    <span><kbd>Q</kbd> STATION TOOL</span>
-                  </div>
+                <div class="world-bottomline">
+                  <span id="local-coord">X 000 / Y 000</span>
+                  <span class="world-help"><kbd>WASD</kbd> move · <kbd>E</kbd> action · <kbd>Q</kbd> job tool</span>
                 </div>
               </section>
 
-              <section id="debrief-overlay" class="screen-layer debrief-layer hidden" aria-hidden="true">
-                <div class="debrief-banner">
-                  <span id="debrief-kicker" class="eyebrow">MISSION DEBRIEF</span>
-                  <h1 id="debrief-title">SCIENCE PACKAGE RECEIVED</h1>
-                  <p id="debrief-reason">The downlink is complete.</p>
+              <section id="design-dock" class="screen-layer design-dock hidden" aria-hidden="true">
+                <div class="dock-card">
+                  <div>
+                    <span class="eyebrow">ROVER WORKSHOP</span>
+                    <strong id="design-dock-title">Finish the rover, then launch.</strong>
+                    <span id="design-dock-stats" class="dock-stats"></span>
+                  </div>
+                  <button id="open-workshop" class="primary-button compact" type="button" data-action="open-workshop">
+                    Open workshop
+                  </button>
                 </div>
               </section>
+
+              <div id="stage-toast" class="stage-toast hidden" role="status"></div>
 
               <section id="waiting-overlay" class="screen-layer waiting-layer hidden" aria-hidden="true">
                 <div class="waiting-box">
-                  <span class="loader-ring"></span>
-                  <span id="waiting-text">ESTABLISHING SURFACE LINK</span>
+                  <span class="loader-ring" aria-hidden="true"></span>
+                  <span id="waiting-text">Connecting to the crew…</span>
                 </div>
               </section>
+            </div>
 
-              <div id="screen-vignette" class="screen-vignette" aria-hidden="true"></div>
+            <div id="hud-bar" class="hud-bar hidden" aria-label="Mission status">
+              <div id="science-pips" class="science-pips"></div>
+              <div id="next-action" class="next-action">
+                <span class="next-kicker">NEXT</span>
+                <span id="next-action-text">Look around and find your first science site.</span>
+              </div>
+              <div id="resource-strip" class="resource-strip"></div>
             </div>
 
             <div id="touch-controls" class="touch-controls hidden" aria-label="Touch controls">
@@ -186,39 +147,169 @@
                 <button class="dpad-button down" type="button" data-dir="down" aria-label="Move down">▼</button>
               </div>
               <div class="touch-actions">
-                <button id="touch-ability" class="touch-action ability" type="button" aria-label="Use station tool">
-                  <span>Q</span>TOOL
+                <button id="touch-ability" class="touch-action ability" type="button" aria-label="Use job tool">
+                  <span>Q</span>JOB
                 </button>
                 <button id="touch-interact" class="touch-action interact" type="button" aria-label="Interact">
                   <span>E</span>ACTION
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+      </main>
 
-            <div class="stage-underbar">
-              <span id="under-status">SURFACE LINK STANDBY</span>
-              <span class="under-help"><kbd>WASD</kbd> / ARROWS MOVE · <kbd>E</kbd> INTERACT · <kbd>Q</kbd> STATION TOOL</span>
-              <span class="under-version">BUILD 1.0 / ARES SURVEY</span>
+      <section id="title-screen" class="title-screen hidden" aria-label="Start a game">
+        <div class="title-backdrop" aria-hidden="true"></div>
+        <div class="title-inner">
+          <div class="title-copy">
+            <p class="eyebrow">ORIGINAL CO-OP MARS ADVENTURE · 1–4 PLAYERS</p>
+            <img
+              class="title-logo"
+              src="/assets/branding/logo_red_frontier.png"
+              alt="RED FRONTIER"
+              width="192"
+              height="64"
+            />
+            <h1>Build a rover.<br />Explore Mars.<br /><em>Bring home four kinds of science.</em></h1>
+            <p class="title-lead">
+              Work as a crew. Choose the rover parts, land in the basin, and walk to the rocks,
+              soil and weather stations. Every job matters, and every choice changes the story.
+            </p>
+            <div class="title-actions">
+              <button class="primary-button large" type="button" data-action="host-room">
+                Host a game
+              </button>
+              <button class="secondary-button large" type="button" data-action="join-room">
+                Join a game
+              </button>
+            </div>
+            <div class="title-points">
+              <div><strong>1. Build together</strong><span>Pick parts with real trade-offs.</span></div>
+              <div><strong>2. Explore the world</strong><span>Walk to markers and study Mars.</span></div>
+              <div><strong>3. Decide together</strong><span>Talk through five surprises.</span></div>
+            </div>
+            <p class="fine-print">
+              No installs. Share a 4-letter room code. Original fictional project — not affiliated
+              with NASA.
+            </p>
+          </div>
+          <div class="title-art" aria-hidden="true">
+            <div class="title-sun"></div>
+            <img class="title-rover" src="/assets/rover/rover_assembled.png" alt="" width="96" height="64" />
+            <div class="title-crew">
+              <img src="/assets/portraits/nia_okafor.png" alt="" width="48" height="48" />
+              <img src="/assets/portraits/ren_ito.png" alt="" width="48" height="48" />
+              <img src="/assets/portraits/val_ruiz.png" alt="" width="48" height="48" />
+              <img src="/assets/portraits/samir_haddad.png" alt="" width="48" height="48" />
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <aside id="rail" class="rail" aria-label="Mission control panel">
-          <div id="rail-content" class="rail-content"></div>
-          <div class="rail-foot">
-            <img src="/assets/branding/patch_ares_survey.png" alt="" width="32" height="32" />
-            <span>FICTIONAL PROJECT<br />NO NASA AFFILIATION</span>
+      <section id="lobby-screen" class="lobby-screen hidden" aria-label="Crew lobby">
+        <div class="lobby-inner">
+          <header class="lobby-head">
+            <div>
+              <p class="eyebrow">CREW LOBBY</p>
+              <h1>Get the crew together.</h1>
+              <p class="lobby-lead">
+                Share the room code. Everyone picks a job, then the host opens the rover workshop.
+              </p>
+            </div>
+            <div class="room-card">
+              <span>ROOM CODE</span>
+              <strong id="lobby-code">----</strong>
+              <button class="mini-button" type="button" data-action="copy-room">Copy code</button>
+            </div>
+          </header>
+
+          <div class="lobby-grid">
+            <section class="lobby-crew-panel">
+              <div class="section-head">
+                <h2>Your crew</h2>
+                <span id="lobby-count" class="soft-label">1 of 4 players</span>
+              </div>
+              <div id="lobby-crew" class="lobby-crew"></div>
+              <div class="lobby-links">
+                <button class="text-button" type="button" data-action="open-notes">How to play</button>
+                <button class="text-button" type="button" data-action="leave-room">Leave game</button>
+              </div>
+            </section>
+
+            <section class="lobby-roles-panel">
+              <div class="section-head">
+                <h2>Pick your job</h2>
+                <span class="soft-label">Each job has one important task</span>
+              </div>
+              <div id="role-grid" class="role-grid"></div>
+            </section>
           </div>
-        </aside>
-      </main>
+
+          <footer id="lobby-footer" class="lobby-footer"></footer>
+        </div>
+      </section>
+
+      <section id="workshop-screen" class="workshop-screen hidden" aria-label="Rover workshop">
+        <div class="workshop-sheet">
+          <header class="workshop-head">
+            <div class="workshop-title">
+              <p class="eyebrow">ROVER WORKSHOP</p>
+              <h1>Build a rover the crew can trust.</h1>
+              <p>Pick one part for each slot. Every upgrade helps somewhere and costs somewhere else.</p>
+            </div>
+            <div id="workshop-stats" class="workshop-stats"></div>
+            <button class="text-button close-workshop" type="button" data-action="close-workshop">
+              See the lab
+            </button>
+          </header>
+          <div id="workshop-body" class="workshop-body"></div>
+          <footer class="workshop-foot">
+            <nav id="workshop-tabs" class="workshop-tabs" aria-label="Workstations"></nav>
+            <div id="workshop-actions" class="workshop-actions"></div>
+          </footer>
+        </div>
+      </section>
+
+      <section id="event-screen" class="event-screen hidden" aria-label="Crew decision"></section>
+
+      <section id="debrief-screen" class="debrief-screen hidden" aria-label="Mission debrief"></section>
+
+      <aside id="mission-panel" class="mission-panel hidden" aria-hidden="true" aria-label="Mission panel">
+        <header class="panel-head">
+          <div>
+            <p id="panel-kicker" class="eyebrow">MISSION PANEL</p>
+            <h2 id="panel-title">What to do now</h2>
+          </div>
+          <button class="panel-close" type="button" data-action="close-panel" aria-label="Close mission panel">×</button>
+        </header>
+        <nav id="panel-tabs" class="panel-tabs" aria-label="Mission panel sections"></nav>
+        <div id="panel-body" class="panel-body"></div>
+        <footer id="panel-foot" class="panel-foot"></footer>
+      </aside>
+      <div id="panel-scrim" class="panel-scrim hidden" data-action="close-panel" aria-hidden="true"></div>
+
+      <section id="coach" class="coach hidden" aria-live="polite">
+        <div class="coach-head">
+          <span id="coach-kicker">QUICK TIP 1 OF 7</span>
+          <button class="text-button" type="button" data-action="coach-skip">Skip tips</button>
+        </div>
+        <div id="coach-body" class="coach-body"></div>
+        <div class="coach-actions">
+          <span id="coach-count" class="soft-label"></span>
+          <button id="coach-next" class="primary-button compact" type="button" data-action="coach-next">
+            Got it
+          </button>
+        </div>
+      </section>
 
       <footer class="app-footer">
         <span>
-          RED FRONTIER is an original fictional game. All characters, organisations, hardware and
-          values are fictional and simplified for educational gameplay. No NASA logo, photograph,
-          patch, facility or employee likeness is used. Not affiliated with or endorsed by NASA.
+          RED FRONTIER is an original fictional game. All characters, organisations and hardware are
+          fictional. Not affiliated with, endorsed by or sponsored by NASA. Gameplay values are
+          simplified for learning, not operational specifications.
         </span>
-        <span class="footer-status"><span class="status-tick"></span> LOCAL BUILD · SOCKET LINK</span>
+        <span class="footer-status"><span class="status-tick" aria-hidden="true"></span> 1–4 PLAYER CO-OP</span>
       </footer>
 
       <div id="toast-stack" class="toast-stack" aria-live="polite" aria-atomic="false"></div>
@@ -233,14 +324,14 @@
             width="256"
             height="85"
           />
-          <div class="boot-mission">MISSION MARS // SURFACE SYSTEMS BOOT</div>
+          <div class="boot-mission">MARS FIELD ADVENTURE · GETTING READY</div>
           <div class="boot-track"><div id="boot-fill" class="boot-fill"></div></div>
-          <div id="boot-status" class="boot-status">LOADING ORIGINAL SPACE ASSETS</div>
+          <div id="boot-status" class="boot-status">LOADING THE CREW AND ROVER PARTS</div>
           <button id="boot-retry" class="secondary-button hidden" type="button" data-action="retry-boot">
-            RETRY LINK
+            Try again
           </button>
         </div>
-        <span class="boot-foot">FICTIONAL PROJECT · NOT AFFILIATED WITH NASA</span>
+        <span class="boot-foot">ORIGINAL FICTIONAL PROJECT · NOT AFFILIATED WITH NASA</span>
       </div>
     </div>
 

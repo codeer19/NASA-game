@@ -1,18 +1,19 @@
 import Phaser from "phaser";
-import { MODULES, roleById } from "../../../shared/content";
+import { COMPONENT_SLOTS, componentById, roleById } from "../../../shared/content";
+import type { ComponentSlot } from "../../../shared/types";
 import type { GameState } from "../store";
 import { store } from "../store";
-import { characterTexture, playIdle } from "./helpers";
+import { characterTexture, ensureSparkTexture, playIdle } from "./helpers";
 
 interface CrewUi {
   objects: Phaser.GameObjects.GameObject[];
 }
 
 const DESIGN_SLOTS = [
-  { x: 120, y: 184, dir: "right" as const },
-  { x: 264, y: 184, dir: "left" as const },
-  { x: 142, y: 204, dir: "down" as const },
-  { x: 242, y: 204, dir: "down" as const },
+  { x: 46, y: 216, dir: "right" as const },
+  { x: 86, y: 216, dir: "right" as const },
+  { x: 296, y: 216, dir: "left" as const },
+  { x: 336, y: 216, dir: "left" as const },
 ];
 
 const LOBBY_SLOTS = [
@@ -22,11 +23,15 @@ const LOBBY_SLOTS = [
   { x: 304, y: 156, dir: "down" as const },
 ];
 
-const MODULE_ANCHORS: Record<string, { x: number; y: number }> = {
-  suspension: { x: 118, y: 118 },
-  arm: { x: 266, y: 118 },
-  spectrometer: { x: 118, y: 176 },
-  weather: { x: 266, y: 176 },
+const PART_ANCHORS: Record<ComponentSlot, { x: number; y: number }> = {
+  body: { x: 116, y: 116 },
+  wheels: { x: 101, y: 139 },
+  suspension: { x: 95, y: 163 },
+  arm: { x: 268, y: 116 },
+  camera: { x: 283, y: 139 },
+  instruments: { x: 289, y: 163 },
+  power: { x: 137, y: 195 },
+  antenna: { x: 247, y: 195 },
 };
 
 export class LabScene extends Phaser.Scene {
@@ -35,71 +40,94 @@ export class LabScene extends Phaser.Scene {
   private crew: CrewUi = { objects: [] };
   private crewSignature = "";
   private phaseSignature = "";
-  private moduleIcons = new Map<string, Phaser.GameObjects.Image>();
-  private moduleLinks = new Map<string, Phaser.GameObjects.Graphics>();
-  private selectedModules = new Set<string>();
-  private moduleLayer: Phaser.GameObjects.Container | null = null;
+  private partIcons = new Map<ComponentSlot, Phaser.GameObjects.Image>();
+  private partLabels = new Map<ComponentSlot, Phaser.GameObjects.Text>();
+  private partRings = new Map<ComponentSlot, Phaser.GameObjects.Arc>();
+  private partLayer: Phaser.GameObjects.Container | null = null;
   private scanLine: Phaser.GameObjects.Rectangle | null = null;
   private rover: Phaser.GameObjects.Image | null = null;
   private voss: Phaser.GameObjects.Sprite | null = null;
+  private glow: Phaser.GameObjects.Ellipse | null = null;
 
   constructor() {
     super("LabScene");
   }
 
   create(): void {
-    // Clear view signatures and cached handles from a previous run. Scene
-    // instances are reused when the crew returns to the lobby after a mission.
     this.crewSignature = "";
     this.phaseSignature = "";
-    this.selectedModules.clear();
-    this.moduleIcons.clear();
-    this.moduleLinks.clear();
+    this.partIcons.clear();
+    this.partLabels.clear();
+    this.partRings.clear();
     this.crew.objects = [];
 
-    this.cameras.main.fadeIn(400, 0, 0, 0);
+    this.cameras.main.fadeIn(380, 0, 0, 0);
 
     this.background = this.add
-      .image(192, 112, "scenes/hq_engineering_lab.png")
+      .image(192, 112, "scenes/hq_mission_control.png")
       .setDepth(0)
       .setAlpha(0.98);
 
     const grade = this.add.graphics().setDepth(1);
-    grade.fillStyle(0x07101e, 0.16);
+    grade.fillStyle(0x1d1017, 0.12);
     grade.fillRect(0, 0, 384, 224);
 
+    const warmLight = this.add
+      .rectangle(192, 78, 384, 150, 0xf0b64b, 0.055)
+      .setDepth(2)
+      .setBlendMode(Phaser.BlendModes.ADD);
+    this.tweens.add({
+      targets: warmLight,
+      alpha: 0.1,
+      duration: 3_200,
+      yoyo: true,
+      repeat: -1,
+      ease: "Sine.inOut",
+    });
+
     this.add
-      .image(192, 166, "props/lab/rover_jig.png")
+      .image(192, 170, "props/lab/rover_jig.png")
       .setOrigin(0.5, 0.85)
       .setDepth(40)
-      .setAlpha(0.8);
+      .setAlpha(0.9);
 
-    const roverShadow = this.add.ellipse(192, 176, 104, 20, 0x060b14, 0.32).setDepth(41);
+    this.glow = this.add.ellipse(192, 174, 128, 34, 0xf0b64b, 0.12).setDepth(41);
+    this.tweens.add({
+      targets: this.glow,
+      alpha: 0.22,
+      scaleX: 1.08,
+      duration: 2_100,
+      yoyo: true,
+      repeat: -1,
+      ease: "Sine.inOut",
+    });
+
+    const roverShadow = this.add.ellipse(192, 177, 112, 22, 0x1a0d0b, 0.4).setDepth(42);
     this.rover = this.add
-      .image(192, 166, "rover/rover_assembled.png")
+      .image(192, 168, "rover/rover_assembled.png")
       .setOrigin(0.5, 0.82)
       .setDepth(50)
-      .setScale(1.1);
-    roverShadow.setScale(1.05);
+      .setScale(1.14);
+    roverShadow.setScale(1.08);
 
     this.tweens.add({
       targets: this.rover,
-      y: 164,
-      duration: 2200,
+      y: 165,
+      duration: 2_200,
       ease: "Sine.inOut",
       yoyo: true,
       repeat: -1,
     });
 
     this.scanLine = this.add
-      .rectangle(192, 126, 112, 1, 0x6adbe0, 0.35)
+      .rectangle(192, 126, 126, 1, 0x6adbe0, 0.4)
       .setDepth(60)
       .setBlendMode(Phaser.BlendModes.ADD);
     this.tweens.add({
       targets: this.scanLine,
-      y: 174,
-      alpha: { from: 0.1, to: 0.5 },
-      duration: 1800,
+      y: 180,
+      alpha: { from: 0.12, to: 0.55 },
+      duration: 2_000,
       ease: "Sine.inOut",
       yoyo: true,
       repeat: -1,
@@ -108,16 +136,16 @@ export class LabScene extends Phaser.Scene {
     this.add
       .image(72, 55, "props/hq/wall_screen_small.png")
       .setDepth(5)
-      .setAlpha(0.9)
-      .setScale(1.25);
+      .setAlpha(0.95)
+      .setScale(1.3);
     const screenShade = this.add
-      .rectangle(72, 55, 32, 20, 0x2e8c80, 0.18)
+      .rectangle(72, 55, 34, 21, 0x2e8c80, 0.22)
       .setDepth(6)
       .setBlendMode(Phaser.BlendModes.ADD);
     this.tweens.add({
       targets: screenShade,
-      alpha: 0.35,
-      duration: 1400,
+      alpha: 0.42,
+      duration: 1_400,
       yoyo: true,
       repeat: -1,
       ease: "Sine.inOut",
@@ -126,54 +154,52 @@ export class LabScene extends Phaser.Scene {
     this.add
       .image(326, 42, "props/hq/mission_clock.png")
       .setDepth(8)
-      .setAlpha(0.92);
-    const clockLight = this.add.rectangle(326, 39, 27, 2, 0xf0b64b, 0.45).setDepth(9);
+      .setAlpha(0.95);
+    const clockLight = this.add.rectangle(326, 39, 27, 2, 0xf0b64b, 0.55).setDepth(9);
     this.tweens.add({
       targets: clockLight,
-      alpha: 0.1,
+      alpha: 0.12,
       duration: 750,
       yoyo: true,
       repeat: -1,
     });
 
     this.voss = this.add
-      .sprite(318, 202, characterTexture("voss"))
+      .sprite(332, 210, characterTexture("voss"))
       .setOrigin(0.5, 1)
       .setDepth(210);
     playIdle(this, this.voss, "voss", "left");
-    this.add.ellipse(318, 203, 15, 5, 0x060b14, 0.3).setDepth(209);
+    this.add.ellipse(332, 211, 15, 5, 0x060b14, 0.34).setDepth(209);
 
-    this.moduleLayer = this.add.container(0, 0).setDepth(80);
-    for (const module of MODULES) {
-      const anchor = MODULE_ANCHORS[module.id];
-      if (!anchor) continue;
-
-      const link = this.add.graphics();
-      link.lineStyle(1, 0x34465f, 0.75);
-      link.beginPath();
-      link.moveTo(anchor.x, anchor.y + 12);
-      link.lineTo(anchor.x < 192 ? 150 : 234, anchor.y + 12);
-      link.lineTo(anchor.x < 192 ? 162 : 222, 156);
-      link.strokePath();
-      this.moduleLayer.add(link);
-      this.moduleLinks.set(module.id, link);
-
+    this.partLayer = this.add.container(0, 0).setDepth(80);
+    for (const slot of COMPONENT_SLOTS) {
+      const anchor = PART_ANCHORS[slot.id];
+      const ring = this.add
+        .circle(anchor.x, anchor.y, 13, 0x0b1224, 0.58)
+        .setStrokeStyle(1, 0x34465f, 0.9);
       const icon = this.add
-        .image(anchor.x, anchor.y, module.file)
-        .setScale(0.82)
-        .setAlpha(0.3);
-      this.moduleLayer.add(icon);
-      this.moduleIcons.set(module.id, icon);
-
-      const tag = this.add
-        .text(anchor.x, anchor.y + 17, module.category, {
+        .image(anchor.x, anchor.y, "equipment/chassis.png")
+        .setScale(0.7)
+        .setAlpha(0.32);
+      const label = this.add
+        .text(anchor.x, anchor.y + 14, slot.name, {
           fontFamily: "monospace",
           fontSize: "4px",
           color: "#9caaa7",
           align: "center",
         })
         .setOrigin(0.5, 0);
-      this.moduleLayer.add(tag);
+      this.partLayer.add([ring, icon, label]);
+      this.partRings.set(slot.id, ring);
+      this.partIcons.set(slot.id, icon);
+      this.partLabels.set(slot.id, label);
+    }
+
+    const len = this.cameras.main.width;
+    const dust = this.add.graphics().setDepth(70).setAlpha(0.5);
+    for (let index = 0; index < 52; index += 1) {
+      dust.fillStyle(0xf4ead8, 0.12 + (index % 5) * 0.04);
+      dust.fillRect((index * 73) % len, (index * 39) % 220, 1, 1);
     }
 
     this.unsubscribe = store.subscribe((state) => this.sync(state));
@@ -187,55 +213,47 @@ export class LabScene extends Phaser.Scene {
   private sync(state: GameState): void {
     const room = state.room;
     const phase = room?.phase ?? "lobby";
-    const phaseKey = `${phase}:${room?.design.modules.join(",") ?? ""}`;
+    const design = room?.design;
+    const phaseKey = `${phase}:${JSON.stringify(design?.components ?? {})}`;
     if (this.phaseSignature !== phaseKey) {
       this.phaseSignature = phaseKey;
+      const designing = phase === "design";
       this.background?.setTexture(
-        phase === "design" ? "scenes/hq_engineering_lab.png" : "scenes/hq_mission_control.png",
+        designing ? "scenes/hq_engineering_lab.png" : "scenes/hq_mission_control.png",
       );
-      this.moduleLayer?.setVisible(phase === "design");
-      this.scanLine?.setVisible(phase === "design");
-      this.rover?.setVisible(phase === "design");
-      this.voss?.setVisible(phase === "design");
+      this.partLayer?.setVisible(designing);
+      this.scanLine?.setVisible(designing);
+      this.rover?.setVisible(designing);
+      this.glow?.setVisible(designing);
+      this.voss?.setVisible(designing);
       if (this.voss) {
-        this.voss.setPosition(phase === "design" ? 318 : 322, phase === "design" ? 202 : 196);
-        playIdle(this, this.voss, "voss", phase === "design" ? "left" : "down");
+        this.voss.setPosition(designing ? 332 : 322, designing ? 210 : 196);
+        playIdle(this, this.voss, "voss", designing ? "left" : "down");
       }
     }
 
-    const designSet = new Set(room?.design.modules ?? []);
-    for (const module of MODULES) {
-      const icon = this.moduleIcons.get(module.id);
-      const link = this.moduleLinks.get(module.id);
-      const selected = designSet.has(module.id);
-      icon?.setAlpha(selected ? 1 : 0.26);
-      icon?.setTint(selected ? 0xffffff : 0x6d7c88);
-      link?.clear();
-      const anchor = MODULE_ANCHORS[module.id];
-      if (anchor) {
-        link?.lineStyle(1, selected ? 0xf0b64b : 0x34465f, selected ? 0.85 : 0.55);
-        link?.beginPath();
-        link?.moveTo(anchor.x, anchor.y + 12);
-        link?.lineTo(anchor.x < 192 ? 150 : 234, anchor.y + 12);
-        link?.lineTo(anchor.x < 192 ? 162 : 222, 156);
-        link?.strokePath();
-      }
-      if (icon && this.selectedModules.has(module.id) !== selected) {
-        this.tweens.killTweensOf(icon);
-        icon.setScale(0.82);
-        if (selected) {
-          this.tweens.add({
-            targets: icon,
-            scale: { from: 0.82, to: 0.88 },
-            duration: 420,
-            ease: "Sine.inOut",
-            yoyo: true,
-            repeat: -1,
-          });
+    if (design) {
+      for (const slot of COMPONENT_SLOTS) {
+        const component = componentById(design.components[slot.id]);
+        const icon = this.partIcons.get(slot.id);
+        const label = this.partLabels.get(slot.id);
+        const ring = this.partRings.get(slot.id);
+        if (!component || !icon || !label || !ring) continue;
+        icon.setTexture(component.file);
+        const upgraded = component.level > 0;
+        icon.setAlpha(upgraded ? 1 : 0.58);
+        icon.setTint(upgraded ? 0xffe1a6 : 0xb8c6c3);
+        label.setText(component.shortName);
+        label.setColor(upgraded ? "#f0b64b" : "#b7c4c2");
+        if (upgraded) {
+          ring.setStrokeStyle(1.5, 0xf0b64b, 0.95);
+          ring.setFillStyle(0x3a2218, 0.62);
+        } else {
+          ring.setStrokeStyle(1, 0x526575, 0.7);
+          ring.setFillStyle(0x0b1224, 0.52);
         }
       }
     }
-    this.selectedModules = designSet;
 
     const players = room?.players ?? [];
     const playerSignature = `${phase}:${players
@@ -259,7 +277,9 @@ export class LabScene extends Phaser.Scene {
       if (!slot) return;
       const role = roleById(player.role);
       const characterId = role?.characterId ?? "nia";
-      const shadow = this.add.ellipse(slot.x, slot.y - 1, 16, 5, 0x060b14, 0.32).setDepth(slot.y - 2);
+      const shadow = this.add
+        .ellipse(slot.x, slot.y - 1, 16, 5, 0x060b14, 0.34)
+        .setDepth(slot.y - 2);
       const sprite = this.add
         .sprite(slot.x, slot.y, characterTexture(characterId))
         .setOrigin(0.5, 1)

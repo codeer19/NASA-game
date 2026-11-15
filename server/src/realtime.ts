@@ -4,56 +4,66 @@ import path from "node:path";
 import express from "express";
 import { Server } from "socket.io";
 import {
-  DATA_TARGET,
+  COMPONENTS,
+  DEFAULT_BUILD,
   EVENTS,
   FIELD_OBJECTIVES,
   LANDER_POSITION,
-  MAX_MODULES,
   QUICK_COMMS,
   ROLES,
   SPAWN_POINTS,
-  STARTING_COMMS,
-  STARTING_POWER,
   WORLD,
+  componentById,
 } from "../../shared/content";
 import {
+  actionLabel,
+  allScienceComplete,
   applyEffects,
+  buildEffects,
   canLaunch,
-  computeScore,
+  computeResult,
   createActiveEvent,
   createMission,
-  designStats,
-  eventDefinitionById,
-  initialResources,
+  failureOutcome,
+  makeDesign,
   nextEventDefinition,
+  objectiveDuration,
+  refreshObjectiveLocks,
   resolveEventEffects,
-  validateModuleSelection,
+  scienceCollected,
+  scienceStatus,
+  validateBuild,
 } from "../../shared/rules";
 import type {
   Ack,
   ActiveEventPublic,
   ClientToServerEvents,
+  ComponentId,
+  ComponentSlot,
   DesignPublic,
+  EventOutcome,
+  LandingSiteId,
   MissionEventDefinition,
   MissionLogEntry,
   MissionState,
-  ModuleId,
   MovePayload,
   Phase,
   PlayerPublic,
   PositionState,
-  ResourceId,
   Resources,
   RoleId,
   RoomJoinResult,
   RoomPublic,
+  RoverBuild,
+  ScienceCategory,
   ServerToClientEvents,
 } from "../../shared/types";
 import { MAX_PLAYERS } from "../../shared/types";
 
-const LAUNCH_DURATION_MS = 14_000;
+const LAUNCH_DURATION_MS = 10_000;
 const TICK_MS = 100;
 const MISSION_BROADCAST_MS = 250;
+const VOTE_LOCK_DELAY_MS = 1_200;
 const EMPTY_POSITION = (index: number): PositionState => {
   const spawn = SPAWN_POINTS[index % SPAWN_POINTS.length] ?? SPAWN_POINTS[0]!;
   return {
@@ -91,7 +101,9 @@ interface Room {
   hostId: string;
   phase: Phase;
   players: Map<string, ServerPlayer>;
-  design: ModuleId[];
+  design: RoverBuild;
+  landingSite: LandingSiteId | null;
+  scienceFocus: ScienceCategory | null;
   launchAt: number | null;
   attempt: number;
   mission: MissionRuntime | null;
@@ -142,10 +154,33 @@ function isRoleId(value: unknown): value is RoleId {
   return typeof value === "string" && ROLES.some((role) => role.id === value);
 }
 
-function isModuleId(value: unknown): value is ModuleId {
+function isComponentId(value: unknown): value is ComponentId {
+  return typeof value === "string" && COMPONENTS.some((component) => component.id === value);
+}
+
+function isComponentSlot(value: unknown): value is ComponentSlot {
   return (
-    typeof value === "string" &&
-    (["suspension", "arm", "spectrometer", "weather"] as const).includes(value as ModuleId)
+    value === "body" ||
+    value === "wheels" ||
+    value === "suspension" ||
+    value === "arm" ||
+    value === "camera" ||
+    value === "instruments" ||
+    value === "power" ||
+    value === "antenna"
+  );
+}
+
+function isLandingSite(value: unknown): value is LandingSiteId {
+  return value === "sunny" || value === "rocky" || value === "dunes";
+}
+
+function isScienceCategory(value: unknown): value is ScienceCategory {
+  return (
+    value === "rocks" ||
+    value === "soil" ||
+    value === "soilResearch" ||
+    value === "weather"
   );
 }
 
@@ -184,8 +219,8 @@ function playerPublic(room: Room, player: ServerPlayer): PlayerPublic {
   };
 }
 
-function designPublic(modules: readonly ModuleId[]): DesignPublic {
-  return designStats(modules);
+function designPublic(room: Room): DesignPublic {
+  return makeDesign(room.design, room.landingSite, room.scienceFocus);
 }
 
 function publicRoom(room: Room, now: number): RoomPublic {
@@ -197,7 +232,7 @@ function publicRoom(room: Room, now: number): RoomPublic {
     players: [...room.players.values()]
       .sort((a, b) => a.joinedAt - b.joinedAt)
       .map((player) => playerPublic(room, player)),
-    design: designPublic(room.design),
+    design: designPublic(room),
     launchAt: room.launchAt,
     attempt: room.attempt,
     mission: room.mission ? room.mission.state : null,
@@ -253,7 +288,7 @@ function startLaunch(room: Room, now: number): void {
 }
 
 function beginMission(room: Room, now: number): void {
-  const design = designPublic(room.design);
+  const design = designPublic(room);
   const runtime: MissionRuntime = {
     state: createMission(crypto.randomUUID(), design, now),
     positions: respawnPositions(room),
@@ -268,12 +303,12 @@ function beginMission(room: Room, now: number): void {
   addLog(
     runtime,
     "info",
-    "MERIDIAN is on the surface. Complete five field objectives, then transmit from the lander.",
+    "The rover is safely on Mars. Walk to a marker and hold E to start collecting science.",
   );
   addLog(
     runtime,
     "crew",
-    "DR. VOSS: Surface link is yours, MERIDIAN. Keep the clock and the bus in mind.",
+    "DR. VOSS: Welcome, explorers. Let's find out what this place can teach us.",
   );
   room.phase = "mission";
   room.launchAt = null;
@@ -284,18 +319,18 @@ function beginMission(room: Room, now: number): void {
 function finishMission(
   room: Room,
   runtime: MissionRuntime,
-  success: boolean,
+  outcome: "success" | "partial" | "failure",
   reason: string,
   now: number,
 ): void {
-  const result = computeScore(runtime.state, success, reason, now);
+  const result = computeResult(runtime.state, outcome, reason, now);
   runtime.state.result = result;
   runtime.state.activeEvent = null;
   runtime.interactions.clear();
   addLog(
     runtime,
-    success ? "success" : "danger",
-    success ? "Science package received in orbit." : reason,
+    outcome === "success" ? "success" : outcome === "partial" ? "warning" : "danger",
+    reason,
   );
   room.phase = "debrief";
   room.updatedAt = now;
@@ -303,14 +338,29 @@ function finishMission(
 
 function checkFailure(room: Room, runtime: MissionRuntime, now: number): boolean {
   if (runtime.state.result) return true;
+  const collected = scienceCollected(runtime.state.objectives);
   if (runtime.state.resources.power <= 0) {
     runtime.state.resources.power = 0;
-    finishMission(room, runtime, false, "Rover bus power depleted.", now);
+    const outcome = failureOutcome(runtime.state);
+    finishMission(
+      room,
+      runtime,
+      outcome,
+      `The rover battery ran out. The team collected ${collected} of ${runtime.state.dataTarget} science results.`,
+      now,
+    );
     return true;
   }
   if (runtime.state.resources.time <= 0) {
     runtime.state.resources.time = 0;
-    finishMission(room, runtime, false, "Surface mission window closed.", now);
+    const outcome = failureOutcome(runtime.state);
+    finishMission(
+      room,
+      runtime,
+      outcome,
+      `The mission timer ran out. The team collected ${collected} of ${runtime.state.dataTarget} science results.`,
+      now,
+    );
     return true;
   }
   return false;
@@ -321,8 +371,8 @@ function maybeOpenEvent(room: Room, runtime: MissionRuntime, now: number): void 
   const completedField = runtime.state.objectives.filter(
     (objective) => objective.completed && objective.kind !== "transmit",
   ).length;
-  const threshold = Math.min(EVENTS.length, 1 + completedField);
-  if (runtime.state.elapsed < 12 && completedField === 0) return;
+  if (runtime.state.elapsed < 15 && completedField === 0) return;
+  const threshold = Math.min(EVENTS.length, 1 + Math.floor(completedField / 2));
   if (runtime.openedEvents >= threshold) return;
   const definition = nextEventDefinition(runtime.openedEvents);
   if (!definition) return;
@@ -330,30 +380,34 @@ function maybeOpenEvent(room: Room, runtime: MissionRuntime, now: number): void 
   runtime.openedEvents += 1;
   runtime.interactions.clear();
   for (const position of Object.values(runtime.positions)) position.interacting = null;
-  addLog(runtime, "warning", `EVENT ${definition.order}/5 — ${definition.title}.`);
+  addLog(runtime, "warning", `${definition.title} — the crew needs to decide what to do.`);
 }
 
-function voteCounts(event: ActiveEventPublic): Record<string, number> {
+function voteCounts(event: ActiveEventPublic, room: Room): Record<string, number> {
   const counts: Record<string, number> = {};
   for (const choice of event.choices) counts[choice.id] = 0;
-  for (const choiceId of Object.values(event.votes)) {
-    if (counts[choiceId] !== undefined) counts[choiceId] += 1;
+  for (const player of connectedPlayers(room)) {
+    const choiceId = event.votes[player.id];
+    if (choiceId && counts[choiceId] !== undefined) counts[choiceId] += 1;
   }
   return counts;
 }
 
 function pickWinningChoice(event: ActiveEventPublic, room: Room): string {
-  const counts = voteCounts(event);
+  const counts = voteCounts(event, room);
   const entries = Object.entries(counts);
   const best = Math.max(...entries.map(([, count]) => count));
   const tied = entries.filter(([, count]) => count === best).map(([id]) => id);
+  if (best === 0) return event.recommendedChoiceId || event.choices[0]?.id || "";
   if (tied.length === 1) return tied[0]!;
-  const advisory = event.roleAdvisory.role;
-  const adviser = [...room.players.values()].find(
-    (player) => player.role === advisory && player.connected,
+  const adviser = connectedPlayers(room).find(
+    (player) => player.role === event.roleAdvisory.role,
   );
   const adviserVote = adviser ? event.votes[adviser.id] : undefined;
   if (adviserVote && tied.includes(adviserVote)) return adviserVote;
+  const hostVote = event.votes[room.hostId];
+  if (hostVote && tied.includes(hostVote)) return hostVote;
+  if (tied.includes(event.recommendedChoiceId)) return event.recommendedChoiceId;
   return tied[0] ?? event.choices[0]?.id ?? "";
 }
 
@@ -368,44 +422,25 @@ function resolveEvent(room: Room, runtime: MissionRuntime, now: number): void {
   const choiceId = pickWinningChoice(active, room);
   const result = resolveEventEffects(definition, choiceId, {
     roles: activeRoles(room),
-    modules: room.design,
+    design: runtime.state.design,
     eventId: definition.id,
+    now,
   });
   if (result) {
     runtime.state.resources = applyEffects(runtime.state.resources, result.effects);
-    result.outcome.at = now;
     runtime.state.eventOutcome = result.outcome;
+    runtime.state.decisions.push(result.outcome);
     runtime.state.eventsResolved += 1;
-    addLog(
-      runtime,
-      "info",
-      `${definition.title}: ${result.outcome.choiceLabel}. ${formatEffects(result.effects)}`,
-    );
-    if (result.modifiers[0] !== "No crew bonus applied.") {
-      addLog(runtime, "crew", result.modifiers.join(" "));
-    }
+    addLog(runtime, "info", `${definition.title}: ${result.outcome.choiceLabel}.`);
+    addLog(runtime, "crew", result.modifiers.join(" "));
   }
   runtime.state.activeEvent = null;
   runtime.state.serverNow = now;
   checkFailure(room, runtime, now);
 }
 
-function formatEffects(effects: Partial<Resources>): string {
-  const labels: Record<ResourceId, string> = {
-    budget: "budget",
-    mass: "mass",
-    power: "power",
-    data: "data",
-    comms: "comms",
-    time: "time",
-  };
-  return (Object.entries(effects) as [ResourceId, number][])
-    .filter(([, value]) => value !== 0)
-    .map(([key, value]) => {
-      const shown = key === "time" ? `${Math.abs(value)}s` : `${Math.abs(value)}`;
-      return `${value > 0 ? "+" : "-"}${shown} ${labels[key]}`;
-    })
-    .join(" · ");
+function eventDefinitionById(id: string): MissionEventDefinition | undefined {
+  return EVENTS.find((event) => event.id === id);
 }
 
 function completeObjective(
@@ -416,18 +451,22 @@ function completeObjective(
 ): void {
   const objective = runtime.state.objectives.find((entry) => entry.id === objectiveId);
   if (!objective || objective.completed) return;
+  const state = runtime.state;
+
   if (objective.kind === "transmit") {
-    if (runtime.state.resources.data < runtime.state.dataTarget) {
-      addLog(
-        runtime,
-        "warning",
-        `Downlink threshold not met. ${runtime.state.dataTarget} data required before transmission.`,
-      );
+    if (!allScienceComplete(state.objectives)) {
+      addLog(runtime, "warning", "The team still needs to finish all four science goals.");
       return;
     }
     objective.completed = true;
     objective.progress = 1;
-    finishMission(room, runtime, true, "Science package downlinked before the window closed.", now);
+    finishMission(
+      room,
+      runtime,
+      "success",
+      "All four science goals are complete, and the results are safely on their way home.",
+      now,
+    );
     return;
   }
 
@@ -436,43 +475,27 @@ function completeObjective(
   objective.interactingCount = 0;
   const field = FIELD_OBJECTIVES.find((entry) => entry.id === objective.id);
   if (!field) return;
-  const hasArm = room.design.includes("arm");
-  const hasSpectrometer = room.design.includes("spectrometer");
-  const sampleBonus =
-    objective.kind === "sample" ? (hasArm ? 2 : 0) + (hasSpectrometer ? 4 : 0) : 0;
-  runtime.state.resources.data += field.dataReward + sampleBonus;
-  runtime.state.resources.power = Math.max(
-    0,
-    runtime.state.resources.power - field.powerCost,
-  );
-  if (field.commsGain) {
-    runtime.state.resources.comms = Math.min(
-      100,
-      runtime.state.resources.comms + field.commsGain,
-    );
+  state.resources.data += 1;
+  state.resources.power = Math.max(0, state.resources.power - field.powerCost);
+  if (objective.kind === "rocks" || objective.kind === "soil") {
+    state.resources.mass = Math.min(62, state.resources.mass + 0.4);
   }
-  if (field.budgetGain) runtime.state.resources.budget += field.budgetGain;
-  if (field.timeGain) {
-    runtime.state.resources.time = Math.min(420, runtime.state.resources.time + field.timeGain);
-  }
-  if (objective.kind === "sample") {
-    runtime.state.resources.mass = Math.max(0, runtime.state.resources.mass - 2);
-  }
+  state.science = scienceStatus(state.objectives);
+  refreshObjectiveLocks(state);
+
+  const collected = scienceCollected(state.objectives);
   addLog(
     runtime,
     "success",
-    `${objective.name} complete · +${field.dataReward + sampleBonus} data${
-      field.commsGain ? ` · +${field.commsGain} comms` : ""
-    }`,
+    `${objective.name}: ${actionLabel(objective.kind)} complete. Science ${collected} of ${state.dataTarget}.`,
   );
 
-  const fieldComplete = runtime.state.objectives.filter(
-    (entry) => entry.completed && entry.kind !== "transmit",
-  ).length;
-  if (fieldComplete === FIELD_OBJECTIVES.length) {
-    const transmit = runtime.state.objectives.find((entry) => entry.kind === "transmit");
-    if (transmit) transmit.unlocked = true;
-    addLog(runtime, "success", "All field objectives complete. Return to the lander to transmit.");
+  const freshSoilGoal = state.science.find((goal) => goal.id === "soil")?.done;
+  if (freshSoilGoal) {
+    addLog(runtime, "info", "Both soil samples are ready. The mini lab tests are now open.");
+  }
+  if (allScienceComplete(state.objectives)) {
+    addLog(runtime, "success", "All four science goals are complete! Return to the lander to send the results home.");
   }
 
   if (checkFailure(room, runtime, now)) return;
@@ -484,8 +507,9 @@ function updateMission(room: Room, runtime: MissionRuntime, now: number): void {
   const dt = Math.min(0.35, (now - runtime.lastTickAt) / 1000);
   runtime.lastTickAt = now;
   if (dt <= 0) return;
+  const state = runtime.state;
 
-  const active = runtime.state.activeEvent;
+  const active = state.activeEvent;
   if (active) {
     if (active.resolution === "resolving" && active.resolveAt && now >= active.resolveAt) {
       resolveEvent(room, runtime, now);
@@ -494,18 +518,20 @@ function updateMission(room: Room, runtime: MissionRuntime, now: number): void {
     if (now >= active.deadline) {
       resolveEvent(room, runtime, now);
     }
-    runtime.state.serverNow = now;
+    state.serverNow = now;
     return;
   }
 
-  runtime.state.elapsed += dt;
-  runtime.state.serverNow = now;
+  state.elapsed += dt;
+  state.serverNow = now;
   const roles = activeRoles(room);
   const players = connectedPlayers(room);
   const positions = runtime.positions;
+  const effects = buildEffects(state.design);
 
   const movingCount = players.filter((player) => positions[player.id]?.moving).length;
-  let powerDrain = 0.055 * (roles.has("engineer") ? 0.85 : 1) + movingCount * 0.018;
+  const powerDrain =
+    (0.055 + movingCount * 0.018) * effects.batteryDrainMultiplier;
   let commsDrain = 0;
   for (const player of players) {
     const position = positions[player.id];
@@ -514,22 +540,19 @@ function updateMission(room: Room, runtime: MissionRuntime, now: number): void {
     if (distance > 520) commsDrain = Math.max(commsDrain, 0.2);
     else if (distance > 260) commsDrain = Math.max(commsDrain, 0.1);
   }
-  if (roles.has("satellite")) commsDrain *= 0.75;
-  if (room.design.includes("weather")) commsDrain *= 0.75;
+  commsDrain *= effects.commsDrainMultiplier;
+  if (roles.has("satellite")) commsDrain *= 0.92;
 
-  runtime.state.resources.power = Math.max(
-    0,
-    runtime.state.resources.power - powerDrain * dt,
-  );
-  runtime.state.resources.comms = Math.max(0, runtime.state.resources.comms - commsDrain * dt);
-  runtime.state.resources.time = Math.max(0, runtime.state.resources.time - dt);
+  state.resources.power = Math.max(0, state.resources.power - powerDrain * dt);
+  state.resources.comms = Math.max(0, state.resources.comms - commsDrain * dt);
+  state.resources.time = Math.max(0, state.resources.time - dt);
 
-  if (runtime.state.resources.power <= 0 || runtime.state.resources.time <= 0) {
+  if (state.resources.power <= 0 || state.resources.time <= 0) {
     checkFailure(room, runtime, now);
     return;
   }
 
-  for (const objective of runtime.state.objectives) {
+  for (const objective of state.objectives) {
     if (!objective.unlocked || objective.completed) {
       objective.interactingCount = 0;
       continue;
@@ -551,12 +574,9 @@ function updateMission(room: Room, runtime: MissionRuntime, now: number): void {
     objective.interactingCount = contributors.length;
     if (contributors.length === 0) continue;
     const crewBoost = Math.min(1.9, 1 + (contributors.length - 1) * 0.35);
-    const commsFactor = runtime.state.resources.comms < 20 ? 0.72 : 1;
-    objective.progress = Math.min(
-      1,
-      objective.progress +
-        (dt / objective.duration) * crewBoost * commsFactor,
-    );
+    const signalFactor = state.resources.comms < 20 ? 0.75 : 1;
+    const duration = objectiveDuration(objective, state, now);
+    objective.progress = Math.min(1, objective.progress + (dt / duration) * crewBoost * signalFactor);
     if (objective.progress >= 1) {
       completeObjective(room, runtime, objective.id, now);
       if (room.phase !== "mission") return;
@@ -565,6 +585,17 @@ function updateMission(room: Room, runtime: MissionRuntime, now: number): void {
 
   maybeOpenEvent(room, runtime, now);
   if (room.phase === "mission") checkFailure(room, runtime, now);
+}
+
+function maybeLockVote(room: Room, runtime: MissionRuntime, now: number): void {
+  const event = runtime.state.activeEvent;
+  if (!event || event.resolution !== "open") return;
+  const players = connectedPlayers(room);
+  if (players.length === 0) return;
+  if (players.every((player) => event.votes[player.id] !== undefined)) {
+    event.resolution = "resolving";
+    event.resolveAt = now + VOTE_LOCK_DELAY_MS;
+  }
 }
 
 function removePlayer(room: Room, playerId: string): void {
@@ -585,7 +616,7 @@ function safeHandler<T>(
     if (typeof ack === "function") ack(fn());
   } catch (error) {
     console.error("[red-frontier] room handler failed", error);
-    if (typeof ack === "function") ack({ ok: false, error: "Server could not process that action." });
+    if (typeof ack === "function") ack({ ok: false, error: "The game could not complete that action." });
   }
 }
 
@@ -677,10 +708,10 @@ export function createRealtimeServer(options: RealtimeOptions = {}): RealtimeSer
       safeHandler(ack, () => {
         const name = normalizeName(payload?.name);
         const token = typeof payload?.token === "string" ? payload.token.slice(0, 80) : "";
-        if (!name) return { ok: false, error: "Use a crew name between 2 and 18 characters." };
+        if (!name) return { ok: false, error: "Use a name between 2 and 18 characters." };
         if (token.length < 12) return { ok: false, error: "Invalid client token." };
         if (socket.data.roomCode) return { ok: false, error: "Leave your current room first." };
-        if (rooms.size >= 250) return { ok: false, error: "Mission control is at capacity." };
+        if (rooms.size >= 250) return { ok: false, error: "Too many games are running right now. Try again in a moment." };
 
         let code = roomCode();
         while (rooms.has(code)) code = roomCode();
@@ -703,7 +734,9 @@ export function createRealtimeServer(options: RealtimeOptions = {}): RealtimeSer
           hostId: playerId,
           phase: "lobby",
           players: new Map([[playerId, player]]),
-          design: [],
+          design: { ...DEFAULT_BUILD },
+          landingSite: null,
+          scienceFocus: null,
           launchAt: null,
           attempt: 0,
           mission: null,
@@ -725,10 +758,10 @@ export function createRealtimeServer(options: RealtimeOptions = {}): RealtimeSer
         const code = String(payload?.code ?? "").toUpperCase().trim();
         const name = normalizeName(payload?.name);
         const token = typeof payload?.token === "string" ? payload.token.slice(0, 80) : "";
-        if (!name) return { ok: false, error: "Use a crew name between 2 and 18 characters." };
+        if (!name) return { ok: false, error: "Use a name between 2 and 18 characters." };
         if (token.length < 12) return { ok: false, error: "Invalid client token." };
         const room = rooms.get(code);
-        if (!room) return { ok: false, error: "No mission found for that crew code." };
+        if (!room) return { ok: false, error: "No game found for that room code." };
 
         const existing = [...room.players.values()].find((player) => player.token === token);
         if (existing) {
@@ -741,7 +774,7 @@ export function createRealtimeServer(options: RealtimeOptions = {}): RealtimeSer
           return { ok: true, value: result };
         }
 
-        if (room.phase !== "lobby") return { ok: false, error: "That crew has already left the lobby." };
+        if (room.phase !== "lobby") return { ok: false, error: "That game has already started." };
         if (room.players.size >= MAX_PLAYERS) return { ok: false, error: "That crew is full." };
         if (socket.data.roomCode) return { ok: false, error: "Leave your current room first." };
 
@@ -772,7 +805,7 @@ export function createRealtimeServer(options: RealtimeOptions = {}): RealtimeSer
         const code = String(payload?.code ?? "").toUpperCase().trim();
         const token = typeof payload?.token === "string" ? payload.token.slice(0, 80) : "";
         const room = rooms.get(code);
-        if (!room) return { ok: false, error: "That mission is no longer available." };
+        if (!room) return { ok: false, error: "That game is no longer available." };
         const player = [...room.players.values()].find((entry) => entry.token === token);
         if (!player) return { ok: false, error: "Crew token did not match." };
         if (socket.data.roomCode && socket.data.roomCode !== room.code) {
@@ -808,8 +841,11 @@ export function createRealtimeServer(options: RealtimeOptions = {}): RealtimeSer
         socket.data.playerId = undefined;
         if (room.players.size === 0) rooms.delete(room.code);
         else {
+          if (room.mission) {
+            maybeLockVote(room, room.mission, Date.now());
+            broadcastMission(room);
+          }
           broadcastRoom(room);
-          if (room.mission) broadcastMission(room);
         }
         return { ok: true, value: undefined };
       });
@@ -818,12 +854,12 @@ export function createRealtimeServer(options: RealtimeOptions = {}): RealtimeSer
     socket.on("player:role", (payload, ack) => {
       safeHandler(ack, () => {
         const context = currentContext(socket);
-        if (!context) return { ok: false, error: "Reconnect to mission control." };
+        if (!context) return { ok: false, error: "Reconnect to the game." };
         const { room, player } = context;
-        if (room.phase !== "lobby") return { ok: false, error: "Roles are locked after the crew link opens." };
-        if (!isRoleId(payload?.role)) return { ok: false, error: "Unknown mission role." };
+        if (room.phase !== "lobby") return { ok: false, error: "Jobs are locked after the workshop opens." };
+        if (!isRoleId(payload?.role)) return { ok: false, error: "Unknown job." };
         const role = payload.role;
-        if (!roleFree(room, role, player.id)) return { ok: false, error: "That station is already crewed." };
+        if (!roleFree(room, role, player.id)) return { ok: false, error: "That job is already taken." };
         player.role = role;
         player.ready = false;
         room.updatedAt = Date.now();
@@ -835,10 +871,10 @@ export function createRealtimeServer(options: RealtimeOptions = {}): RealtimeSer
     socket.on("player:ready", (payload, ack) => {
       safeHandler(ack, () => {
         const context = currentContext(socket);
-        if (!context) return { ok: false, error: "Reconnect to mission control." };
+        if (!context) return { ok: false, error: "Reconnect to the game." };
         const { room, player } = context;
         if (room.phase !== "lobby" && room.phase !== "design") {
-          return { ok: false, error: "The crew is no longer assembling." };
+          return { ok: false, error: "The crew is no longer getting ready." };
         }
         player.ready = Boolean(payload?.ready);
         room.updatedAt = Date.now();
@@ -847,24 +883,53 @@ export function createRealtimeServer(options: RealtimeOptions = {}): RealtimeSer
       });
     });
 
-    socket.on("design:toggle", (payload, ack) => {
+    socket.on("design:component", (payload, ack) => {
       safeHandler(ack, () => {
         const context = currentContext(socket);
-        if (!context) return { ok: false, error: "Reconnect to mission control." };
+        if (!context) return { ok: false, error: "Reconnect to the game." };
         const { room } = context;
-        if (room.phase !== "design") return { ok: false, error: "The rover bay is not open." };
-        if (!isModuleId(payload?.moduleId)) return { ok: false, error: "Unknown payload module." };
-        const moduleId = payload.moduleId;
-        const present = room.design.includes(moduleId);
-        const next = present
-          ? room.design.filter((id) => id !== moduleId)
-          : [...room.design, moduleId];
-        if (next.length > MAX_MODULES) {
-          return { ok: false, error: "Payload bay is full. Remove a module first." };
+        if (room.phase !== "design") return { ok: false, error: "The workshop is not open." };
+        if (!isComponentSlot(payload?.slot) || !isComponentId(payload?.componentId)) {
+          return { ok: false, error: "That rover part is not available." };
         }
-        const invalid = next.length > 0 ? validateModuleSelection(next) : null;
+        const component = componentById(payload.componentId);
+        if (!component || component.slot !== payload.slot) {
+          return { ok: false, error: "That part does not fit in this slot." };
+        }
+        const next: RoverBuild = { ...room.design, [payload.slot]: payload.componentId };
+        const invalid = validateBuild(next);
         if (invalid) return { ok: false, error: invalid };
         room.design = next;
+        for (const entry of room.players.values()) entry.ready = false;
+        room.updatedAt = Date.now();
+        broadcastRoom(room);
+        return { ok: true, value: undefined };
+      });
+    });
+
+    socket.on("design:site", (payload, ack) => {
+      safeHandler(ack, () => {
+        const context = currentContext(socket);
+        if (!context) return { ok: false, error: "Reconnect to the game." };
+        const { room } = context;
+        if (room.phase !== "design") return { ok: false, error: "The workshop is not open." };
+        if (!isLandingSite(payload?.siteId)) return { ok: false, error: "Unknown landing place." };
+        room.landingSite = payload.siteId;
+        for (const entry of room.players.values()) entry.ready = false;
+        room.updatedAt = Date.now();
+        broadcastRoom(room);
+        return { ok: true, value: undefined };
+      });
+    });
+
+    socket.on("design:focus", (payload, ack) => {
+      safeHandler(ack, () => {
+        const context = currentContext(socket);
+        if (!context) return { ok: false, error: "Reconnect to the game." };
+        const { room } = context;
+        if (room.phase !== "design") return { ok: false, error: "The workshop is not open." };
+        if (!isScienceCategory(payload?.category)) return { ok: false, error: "Unknown science goal." };
+        room.scienceFocus = payload.category;
         for (const entry of room.players.values()) entry.ready = false;
         room.updatedAt = Date.now();
         broadcastRoom(room);
@@ -875,16 +940,18 @@ export function createRealtimeServer(options: RealtimeOptions = {}): RealtimeSer
     socket.on("game:toDesign", (ack) => {
       safeHandler(ack, () => {
         const context = currentContext(socket);
-        if (!context) return { ok: false, error: "Reconnect to mission control." };
+        if (!context) return { ok: false, error: "Reconnect to the game." };
         const { room, player } = context;
-        if (room.hostId !== player.id) return { ok: false, error: "Only the flight director can open the rover bay." };
-        if (room.phase !== "lobby") return { ok: false, error: "The rover bay is already open." };
-        if (!allConnectedReady(room)) return { ok: false, error: "Every connected crew member must be ready." };
+        if (room.hostId !== player.id) return { ok: false, error: "Only the host can open the workshop." };
+        if (room.phase !== "lobby") return { ok: false, error: "The workshop is already open." };
+        if (!allConnectedReady(room)) return { ok: false, error: "Everyone connected needs to be ready first." };
         if ([...room.players.values()].some((entry) => entry.role === null)) {
-          return { ok: false, error: "Every crew member needs a station." };
+          return { ok: false, error: "Everyone needs to pick a job first." };
         }
         room.phase = "design";
-        room.design = ["suspension", "arm", "weather"];
+        room.design = { ...DEFAULT_BUILD };
+        room.landingSite = null;
+        room.scienceFocus = null;
         for (const entry of room.players.values()) entry.ready = false;
         room.updatedAt = Date.now();
         broadcastRoom(room);
@@ -895,12 +962,12 @@ export function createRealtimeServer(options: RealtimeOptions = {}): RealtimeSer
     socket.on("game:start", (ack) => {
       safeHandler(ack, () => {
         const context = currentContext(socket);
-        if (!context) return { ok: false, error: "Reconnect to mission control." };
+        if (!context) return { ok: false, error: "Reconnect to the game." };
         const { room, player } = context;
-        if (room.hostId !== player.id) return { ok: false, error: "Only the flight director can begin the launch." };
-        if (room.phase !== "design") return { ok: false, error: "Open the rover bay before launch." };
-        if (!allConnectedReady(room)) return { ok: false, error: "Every connected crew member must certify the design." };
-        const invalid = canLaunch(room.design);
+        if (room.hostId !== player.id) return { ok: false, error: "Only the host can start the launch." };
+        if (room.phase !== "design") return { ok: false, error: "Open the workshop before launch." };
+        if (!allConnectedReady(room)) return { ok: false, error: "Everyone connected needs to be ready for launch." };
+        const invalid = canLaunch(designPublic(room));
         if (invalid) return { ok: false, error: invalid };
         startLaunch(room, Date.now());
         broadcastRoom(room);
@@ -940,11 +1007,11 @@ export function createRealtimeServer(options: RealtimeOptions = {}): RealtimeSer
     socket.on("mission:interact", (payload, ack) => {
       safeHandler(ack, () => {
         const context = currentContext(socket);
-        if (!context) return { ok: false, error: "Reconnect to mission control." };
+        if (!context) return { ok: false, error: "Reconnect to the game." };
         const { room, player } = context;
-        if (room.phase !== "mission" || !room.mission) return { ok: false, error: "Surface link is not active." };
+        if (room.phase !== "mission" || !room.mission) return { ok: false, error: "The mission is not active." };
         if (room.mission.state.activeEvent || room.mission.state.result) {
-          return { ok: false, error: "Mission is holding." };
+          return { ok: false, error: "The game is paused for a crew decision." };
         }
         const targetId = payload?.targetId ?? null;
         if (targetId === null) {
@@ -954,13 +1021,16 @@ export function createRealtimeServer(options: RealtimeOptions = {}): RealtimeSer
           return { ok: true, value: undefined };
         }
         const objective = room.mission.state.objectives.find((entry) => entry.id === targetId);
-        if (!objective || !objective.unlocked || objective.completed) {
-          return { ok: false, error: "That field objective is not available." };
+        if (!objective || objective.completed) {
+          return { ok: false, error: "That science site is already finished." };
+        }
+        if (!objective.unlocked) {
+          return { ok: false, error: objective.unlockHint || "That science site is not open yet." };
         }
         const pos = room.mission.positions[player.id];
-        if (!pos) return { ok: false, error: "Crew position is not synchronised." };
+        if (!pos) return { ok: false, error: "Your crew marker is not ready yet." };
         if (Math.hypot(pos.x - objective.x, pos.y - objective.y) > 60) {
-          return { ok: false, error: "Move closer to the objective." };
+          return { ok: false, error: "Move closer to the marker." };
         }
         room.mission.interactions.set(player.id, targetId);
         pos.interacting = targetId;
@@ -972,34 +1042,34 @@ export function createRealtimeServer(options: RealtimeOptions = {}): RealtimeSer
     socket.on("mission:ability", (ack) => {
       safeHandler(ack, () => {
         const context = currentContext(socket);
-        if (!context) return { ok: false, error: "Reconnect to mission control." };
+        if (!context) return { ok: false, error: "Reconnect to the game." };
         const { room, player } = context;
-        if (room.phase !== "mission" || !room.mission) return { ok: false, error: "Surface link is not active." };
-        if (!player.role) return { ok: false, error: "No station assigned." };
+        if (room.phase !== "mission" || !room.mission) return { ok: false, error: "The mission is not active." };
+        if (!player.role) return { ok: false, error: "No job assigned." };
         if (room.mission.state.activeEvent || room.mission.state.result) {
-          return { ok: false, error: "Mission is holding." };
+          return { ok: false, error: "The game is paused for a crew decision." };
         }
         const now = Date.now();
         const readyAt = room.mission.state.abilityReadyAt[player.id] ?? 0;
         if (readyAt > now) {
-          return { ok: false, error: `Station tool recharges in ${Math.ceil((readyAt - now) / 1000)}s.` };
+          return { ok: false, error: `Your job tool is ready again in ${Math.ceil((readyAt - now) / 1000)} seconds.` };
         }
         const role = ROLES.find((entry) => entry.id === player.role);
-        if (!role) return { ok: false, error: "Unknown station role." };
+        if (!role) return { ok: false, error: "Unknown job." };
         const runtime = room.mission;
         let message = "";
         if (player.role === "engineer") {
-          runtime.state.resources.power = Math.min(100, runtime.state.resources.power + 20);
-          message = `${player.name} completed a field repair. +20 power.`;
+          runtime.state.resources.power = Math.min(100, runtime.state.resources.power + 18);
+          message = `${player.name} repaired the rover. Battery recovered 18%.`;
         } else if (player.role === "satellite") {
-          runtime.state.resources.comms = Math.min(100, runtime.state.resources.comms + 28);
-          message = `${player.name} reacquired the orbital relay. +28 comms.`;
+          runtime.state.resources.comms = Math.min(100, runtime.state.resources.comms + 18);
+          message = `${player.name} checked the weather. Signal recovered 18%.`;
         } else if (player.role === "finance") {
-          runtime.state.resources.budget += 15;
-          message = `${player.name} released an emergency reserve. +15 budget.`;
+          runtime.state.resources.budget += 12;
+          message = `${player.name} released 12 credits from the reserve.`;
         } else if (player.role === "designer") {
-          runtime.state.speedUntil = now + 15_000;
-          message = `${player.name} shared a route pulse. Crew speed +25% for 15 seconds.`;
+          runtime.state.boostUntil = now + 20_000;
+          message = `${player.name} focused the team. Science actions are faster for 20 seconds.`;
         }
         runtime.state.abilityReadyAt[player.id] = now + role.ability.cooldownSeconds * 1000;
         addLog(runtime, "crew", message);
@@ -1012,25 +1082,39 @@ export function createRealtimeServer(options: RealtimeOptions = {}): RealtimeSer
     socket.on("event:vote", (payload, ack) => {
       safeHandler(ack, () => {
         const context = currentContext(socket);
-        if (!context) return { ok: false, error: "Reconnect to mission control." };
+        if (!context) return { ok: false, error: "Reconnect to the game." };
         const { room, player } = context;
-        if (room.phase !== "mission" || !room.mission) return { ok: false, error: "No active event." };
+        if (room.phase !== "mission" || !room.mission) return { ok: false, error: "No crew decision is open." };
         const event = room.mission.state.activeEvent;
-        if (!event) return { ok: false, error: "No active event." };
-        if (event.resolution !== "open") return { ok: false, error: "The crew is already resolving this event." };
+        if (!event) return { ok: false, error: "No crew decision is open." };
+        if (event.resolution !== "open") return { ok: false, error: "The decision is already locked." };
         const choiceId = String(payload?.choiceId ?? "");
         if (!event.choices.some((choice) => choice.id === choiceId)) {
-          return { ok: false, error: "Unknown event response." };
+          return { ok: false, error: "Unknown choice." };
         }
         event.votes[player.id] = choiceId;
-        const activePlayers = connectedPlayers(room);
         const now = Date.now();
-        if (activePlayers.every((entry) => event.votes[entry.id] !== undefined)) {
-          event.resolution = "resolving";
-          event.resolveAt = now + 1_200;
-        }
+        maybeLockVote(room, room.mission, now);
         room.updatedAt = now;
         broadcastMission(room, now);
+        return { ok: true, value: undefined };
+      });
+    });
+
+    socket.on("event:finalize", (ack) => {
+      safeHandler(ack, () => {
+        const context = currentContext(socket);
+        if (!context) return { ok: false, error: "Reconnect to the game." };
+        const { room, player } = context;
+        if (room.hostId !== player.id) return { ok: false, error: "Only the host can lock in the decision." };
+        if (room.phase !== "mission" || !room.mission) return { ok: false, error: "No crew decision is open." };
+        const event = room.mission.state.activeEvent;
+        if (!event) return { ok: false, error: "No crew decision is open." };
+        if (event.resolution !== "open") return { ok: false, error: "The decision is already locked." };
+        event.resolution = "resolving";
+        event.resolveAt = Date.now() + 650;
+        event.finalizedBy = player.id;
+        broadcastMission(room, Date.now());
         return { ok: true, value: undefined };
       });
     });
@@ -1038,12 +1122,12 @@ export function createRealtimeServer(options: RealtimeOptions = {}): RealtimeSer
     socket.on("comm:quick", (payload, ack) => {
       safeHandler(ack, () => {
         const context = currentContext(socket);
-        if (!context) return { ok: false, error: "Reconnect to mission control." };
+        if (!context) return { ok: false, error: "Reconnect to the game." };
         const { room, player } = context;
-        if (room.phase !== "mission" || !room.mission) return { ok: false, error: "Surface link is not active." };
+        if (room.phase !== "mission" || !room.mission) return { ok: false, error: "The mission is not active." };
         const text = String(payload?.text ?? "").slice(0, 100);
         if (!QUICK_COMMS.includes(text as (typeof QUICK_COMMS)[number])) {
-          return { ok: false, error: "Unknown quick transmission." };
+          return { ok: false, error: "Unknown quick message." };
         }
         const now = Date.now();
         io.to(room.code).emit("comm:message", {
@@ -1062,10 +1146,10 @@ export function createRealtimeServer(options: RealtimeOptions = {}): RealtimeSer
     socket.on("mission:retry", (ack) => {
       safeHandler(ack, () => {
         const context = currentContext(socket);
-        if (!context) return { ok: false, error: "Reconnect to mission control." };
+        if (!context) return { ok: false, error: "Reconnect to the game." };
         const { room, player } = context;
-        if (room.hostId !== player.id) return { ok: false, error: "Only the flight director can restart the mission." };
-        if (room.phase !== "debrief") return { ok: false, error: "The mission is still active." };
+        if (room.hostId !== player.id) return { ok: false, error: "Only the host can restart the mission." };
+        if (room.phase !== "debrief") return { ok: false, error: "The mission is still running." };
         startLaunch(room, Date.now());
         broadcastRoom(room);
         return { ok: true, value: undefined };
@@ -1075,13 +1159,16 @@ export function createRealtimeServer(options: RealtimeOptions = {}): RealtimeSer
     socket.on("room:lobby", (ack) => {
       safeHandler(ack, () => {
         const context = currentContext(socket);
-        if (!context) return { ok: false, error: "Reconnect to mission control." };
+        if (!context) return { ok: false, error: "Reconnect to the game." };
         const { room, player } = context;
-        if (room.hostId !== player.id) return { ok: false, error: "Only the flight director can recall the crew." };
-        if (room.phase !== "debrief") return { ok: false, error: "Mission is still active." };
+        if (room.hostId !== player.id) return { ok: false, error: "Only the host can return everyone to the lobby." };
+        if (room.phase !== "debrief") return { ok: false, error: "The mission is still running." };
         room.phase = "lobby";
         room.mission = null;
         room.launchAt = null;
+        room.design = { ...DEFAULT_BUILD };
+        room.landingSite = null;
+        room.scienceFocus = null;
         for (const entry of room.players.values()) entry.ready = false;
         room.updatedAt = Date.now();
         broadcastRoom(room);
@@ -1104,6 +1191,7 @@ export function createRealtimeServer(options: RealtimeOptions = {}): RealtimeSer
           position.interacting = null;
           position.moving = false;
         }
+        maybeLockVote(room, room.mission, Date.now());
       }
       chooseHost(room);
       broadcastRoom(room);

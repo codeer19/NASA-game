@@ -2,9 +2,12 @@ import { io, type Socket } from "socket.io-client";
 import type {
   Ack,
   ClientToServerEvents,
-  ModuleId,
+  ComponentId,
+  ComponentSlot,
+  LandingSiteId,
   RoomJoinResult,
   RoleId,
+  ScienceCategory,
   ServerToClientEvents,
 } from "../../shared/types";
 import { appBus, store, toast } from "./store";
@@ -40,7 +43,7 @@ function request<T>(
     const timer = window.setTimeout(() => {
       if (settled) return;
       settled = true;
-      resolve({ ok: false, error: "Mission control did not respond. Check the surface link." });
+      resolve({ ok: false, error: "The game did not answer. Check your connection and try again." });
     }, timeoutMs);
     try {
       emit((result) => {
@@ -52,7 +55,7 @@ function request<T>(
     } catch {
       settled = true;
       window.clearTimeout(timer);
-      resolve({ ok: false, error: "Surface link is unavailable." });
+      resolve({ ok: false, error: "The game connection is unavailable." });
     }
   });
 }
@@ -139,9 +142,21 @@ class NetworkClient {
     );
   }
 
-  async toggleModule(moduleId: ModuleId): Promise<Ack> {
+  async setComponent(slot: ComponentSlot, componentId: ComponentId): Promise<Ack> {
     return request(this.socket, (callback) =>
-      this.socket.emit("design:toggle", { moduleId }, callback),
+      this.socket.emit("design:component", { slot, componentId }, callback),
+    );
+  }
+
+  async setLandingSite(siteId: LandingSiteId): Promise<Ack> {
+    return request(this.socket, (callback) =>
+      this.socket.emit("design:site", { siteId }, callback),
+    );
+  }
+
+  async setScienceFocus(category: ScienceCategory): Promise<Ack> {
+    return request(this.socket, (callback) =>
+      this.socket.emit("design:focus", { category }, callback),
     );
   }
 
@@ -184,6 +199,10 @@ class NetworkClient {
     );
   }
 
+  async finalizeEvent(): Promise<Ack> {
+    return request(this.socket, (callback) => this.socket.emit("event:finalize", callback));
+  }
+
   async quickComm(text: string): Promise<Ack> {
     return request(this.socket, (callback) =>
       this.socket.emit("comm:quick", { text }, callback),
@@ -209,7 +228,7 @@ class NetworkClient {
       store.setConnection("offline");
       if (!this.hasShownOffline) {
         this.hasShownOffline = true;
-        toast("Surface link interrupted. Reconnecting…", "warning", 6_000);
+        toast("Connection interrupted. Trying to reconnect…", "warning", 6_000);
       }
     });
 
@@ -217,13 +236,13 @@ class NetworkClient {
       store.setConnection("offline");
       if (!this.hasShownOffline) {
         this.hasShownOffline = true;
-        toast("Cannot reach mission control. Is the server running?", "error", 7_000);
+        toast("Cannot reach the game server. Is it running?", "error", 7_000);
       }
     });
 
     this.socket.on("room:state", (room) => {
       store.setRoom(room);
-      if (room.phase === "lobby") this.savedRoomCode = room.code;
+      if (room.phase !== "debrief") this.savedRoomCode = room.code;
     });
 
     this.socket.on("mission:state", ({ mission, positions }) => {
@@ -263,7 +282,7 @@ class NetworkClient {
       if (this.wasOnline) {
         appBus.dispatchEvent(
           new CustomEvent<string>("session-message", {
-            detail: "Previous crew link expired. Start or join a new mission.",
+            detail: "Your old game has ended. Start or join a new one.",
           }),
         );
       }

@@ -8,24 +8,35 @@ export class TitleScene extends Phaser.Scene {
 
   create(): void {
     this.cameras.main.fadeIn(700, 0, 0, 0);
-    this.add.image(192, 112, "scenes/hq_mission_control.png").setDepth(0);
+    this.add.image(192, 112, "scenes/mars_landing_zone.png").setDepth(0);
 
-    const shade = this.add.graphics().setDepth(1);
-    shade.fillStyle(0x07101e, 0.18);
+    const shade = this.add.graphics().setDepth(2);
+    shade.fillStyle(0x1c0f0c, 0.18);
     shade.fillRect(0, 0, 384, 224);
 
+    const warm = this.add
+      .rectangle(192, 120, 384, 224, 0xffa864, 0.08)
+      .setDepth(3)
+      .setBlendMode(Phaser.BlendModes.ADD);
+
+    this.add
+      .image(142, 191, "props/mars/lander.png")
+      .setOrigin(0.5, 0.86)
+      .setDepth(10)
+      .setScale(0.9);
+
     const rover = this.add
-      .image(300, 188, "rover/rover_assembled.png")
+      .image(274, 190, "rover/rover_assembled.png")
       .setOrigin(0.5, 0.86)
       .setDepth(20)
       .setScale(1);
-    rover.setAlpha(0.94);
+    rover.setAlpha(0.96);
 
-    const roverShadow = this.add.ellipse(300, 189, 84, 20, 0x060b14, 0.35).setDepth(19);
+    const roverShadow = this.add.ellipse(274, 191, 84, 20, 0x1a0d0b, 0.38).setDepth(19);
 
     this.tweens.add({
       targets: rover,
-      y: 186,
+      y: 188,
       duration: 2400,
       ease: "Sine.inOut",
       yoyo: true,
@@ -42,34 +53,27 @@ export class TitleScene extends Phaser.Scene {
     });
 
     ensureSparkTexture(this, "title-dust", 0xf4ead8, 1);
-    const dust = this.add.particles(0, 0, "title-dust", {
-      x: { min: 0, max: 384 },
-      y: { min: 20, max: 224 },
-      lifespan: { min: 3_500, max: 7_000 },
-      speedX: { min: -4, max: 8 },
-      speedY: { min: -6, max: -1 },
-      scale: { start: 1, end: 0 },
-      alpha: { start: 0.22, end: 0 },
-      frequency: 420,
-      blendMode: Phaser.BlendModes.ADD,
-    });
-    dust.setDepth(30);
+    this.add
+      .particles(0, 0, "title-dust", {
+        x: { min: 0, max: 384 },
+        y: { min: 20, max: 224 },
+        lifespan: { min: 3_500, max: 7_000 },
+        speedX: { min: -4, max: 8 },
+        speedY: { min: -6, max: -1 },
+        scale: { start: 1, end: 0 },
+        alpha: { start: 0.24, end: 0 },
+        frequency: 380,
+        blendMode: Phaser.BlendModes.ADD,
+      })
+      .setDepth(30);
 
-    const signal = this.add.graphics().setDepth(31);
-    signal.fillStyle(0x6adbe0, 0.8);
-    signal.fillRect(326, 62, 13, 1);
     this.tweens.add({
-      targets: signal,
-      alpha: 0.15,
-      duration: 860,
+      targets: warm,
+      alpha: 0.14,
+      duration: 3_400,
       yoyo: true,
       repeat: -1,
-      ease: "Steps",
+      ease: "Sine.inOut",
     });
-
-    const ticks = this.add.graphics().setDepth(31);
-    ticks.lineStyle(1, 0xf0b64b, 0.28);
-    ticks.strokeRect(368, 8, 7, 7);
-    ticks.strokeRect(8, 208, 40, 1);
   }
 }
