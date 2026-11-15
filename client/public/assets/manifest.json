@@ -1,0 +1,806 @@
+{
+  "project": "RED FRONTIER - MISSION MARS",
+  "checkpoint": "Art Direction Checkpoint 01",
+  "status": "awaiting art approval",
+  "generatedBy": "scripts/build_art.py",
+  "palette": "Master palette defined in scripts/pixel.py and docs/ART_BIBLE.md.",
+  "nativeResolution": {
+    "sceneWidth": 384,
+    "sceneHeight": 224
+  },
+  "counts": {
+    "characters": 5,
+    "portraits": 5,
+    "hqTiles": 64,
+    "marsTiles": 64,
+    "hqProps": 18,
+    "labProps": 7,
+    "marsProps": 13,
+    "roverDirections": 4,
+    "equipmentIcons": 8,
+    "resourceIcons": 6,
+    "roleBadges": 5,
+    "uiMarks": 4,
+    "branding": 4,
+    "scenes": 3
+  },
+  "files": [
+    {
+      "path": "branding/branding_sheet.png",
+      "bytes": 4146,
+      "sha256": "39f0a90a2608b612eea3e3fe6b1ece8be04b542ebb9464e6f276a01e97a8f76d",
+      "width": 256,
+      "height": 144,
+      "mode": "RGBA"
+    },
+    {
+      "path": "branding/logo_mission_mars.png",
+      "bytes": 818,
+      "sha256": "a9944b4d18b5a6111d8c4a3da1dae00a234c2d86ae3a24626b8da853c7db9864",
+      "width": 160,
+      "height": 32,
+      "mode": "RGBA"
+    },
+    {
+      "path": "branding/logo_red_frontier.png",
+      "bytes": 1522,
+      "sha256": "fd98f1fcde5347bada77e7c66935317e52c883f111cb033dc45cd67917f183f8",
+      "width": 192,
+      "height": 64,
+      "mode": "RGBA"
+    },
+    {
+      "path": "branding/patch_ares_survey.png",
+      "bytes": 1251,
+      "sha256": "b2f56e18a71c77383317a0625ffdbf2f07e861847419a4b8b5ce39209c410e24",
+      "width": 64,
+      "height": 64,
+      "mode": "RGBA"
+    },
+    {
+      "path": "branding/wordmark_small.png",
+      "bytes": 566,
+      "sha256": "e04cd6726e969c831f54fe2311fcc5459e396cead97e5fa2fa8989126e6eb8b6",
+      "width": 152,
+      "height": 24,
+      "mode": "RGBA"
+    },
+    {
+      "path": "characters/characters.json",
+      "bytes": 12732,
+      "sha256": "d81abbdd9315cc93fdbc7aff2d42b44492d4ab17b24c2f3740ca37b8e99c71f8"
+    },
+    {
+      "path": "characters/dr_miriam_voss.png",
+      "bytes": 4246,
+      "sha256": "634f5861cf1cbf06d2a33b747358db712f1d30c69c5edc5b9cac1660f47f7626",
+      "width": 144,
+      "height": 128,
+      "mode": "RGBA"
+    },
+    {
+      "path": "characters/nia_okafor.png",
+      "bytes": 4692,
+      "sha256": "b35ca0a4c769e981e7be2c85c7fd2931836af390e32473f504f79df58748befc",
+      "width": 144,
+      "height": 128,
+      "mode": "RGBA"
+    },
+    {
+      "path": "characters/ren_ito.png",
+      "bytes": 4452,
+      "sha256": "5378bf39f56d180ccc479166bc91dd1ca03e063482967a19cfdfe8627541e6e1",
+      "width": 144,
+      "height": 128,
+      "mode": "RGBA"
+    },
+    {
+      "path": "characters/samir_haddad.png",
+      "bytes": 4708,
+      "sha256": "9e4e13ae19edeab576c7f521aa62fa350010fe6948e525b150ad8d6a2e092f97",
+      "width": 144,
+      "height": 128,
+      "mode": "RGBA"
+    },
+    {
+      "path": "characters/val_ruiz.png",
+      "bytes": 4641,
+      "sha256": "da5e9e692321443605762ae33383a442e22d42b2a0621e71ed4c3a63ad1d1ce6",
+      "width": 144,
+      "height": 128,
+      "mode": "RGBA"
+    },
+    {
+      "path": "equipment/antenna.png",
+      "bytes": 542,
+      "sha256": "1bbdb3b9254fab1d0e2ccb2664cc349ed11cbec963c6237540d03f45511ea44e",
+      "width": 32,
+      "height": 32,
+      "mode": "RGBA"
+    },
+    {
+      "path": "equipment/arm.png",
+      "bytes": 409,
+      "sha256": "2aef4778f3c2bfdc9a2897aaa2ffda63c4b6a722e40aede5a41fdd820a83ed23",
+      "width": 32,
+      "height": 32,
+      "mode": "RGBA"
+    },
+    {
+      "path": "equipment/chassis.png",
+      "bytes": 415,
+      "sha256": "64776c388de5786155569c699ba68f10d3f2f2d43dbc672c93ed3d7f1080b151",
+      "width": 32,
+      "height": 32,
+      "mode": "RGBA"
+    },
+    {
+      "path": "equipment/drive.png",
+      "bytes": 568,
+      "sha256": "0f7e26c998af7dccf457c978ce92178d1f8e524fc9ad8790283eb86024b75a06",
+      "width": 32,
+      "height": 32,
+      "mode": "RGBA"
+    },
+    {
+      "path": "equipment/equipment.json",
+      "bytes": 3690,
+      "sha256": "00210a12921e7381e7dc9d146a704f27b31b0d0c17a170de725d4cb15ab16982"
+    },
+    {
+      "path": "equipment/equipment_sheet.png",
+      "bytes": 2279,
+      "sha256": "42679ad9c4741fbd77488a2e0b14afc4494edba39e2a3e4add123914fd3325f6",
+      "width": 128,
+      "height": 64,
+      "mode": "RGBA"
+    },
+    {
+      "path": "equipment/power.png",
+      "bytes": 445,
+      "sha256": "f03c9663b2874d3a2ca4280f128a6f9967b9d89007eb432fedc0c7f030e6402e",
+      "width": 32,
+      "height": 32,
+      "mode": "RGBA"
+    },
+    {
+      "path": "equipment/spectrometer.png",
+      "bytes": 453,
+      "sha256": "05c87f14c7a22f2cdfb1a07c42a4138a83195da50e9e9fe0b861e40b30d9e8d3",
+      "width": 32,
+      "height": 32,
+      "mode": "RGBA"
+    },
+    {
+      "path": "equipment/suspension.png",
+      "bytes": 473,
+      "sha256": "6e602a6c0900c4615f0e67e180b065eb93c30b0d4ee5efda785c69abb3d89c59",
+      "width": 32,
+      "height": 32,
+      "mode": "RGBA"
+    },
+    {
+      "path": "equipment/weather.png",
+      "bytes": 441,
+      "sha256": "09d29c964b8e54cb05548b31b7d3bb72f17704d46f0b1ee95f3dbfaa6d214dff",
+      "width": 32,
+      "height": 32,
+      "mode": "RGBA"
+    },
+    {
+      "path": "portraits/dr_miriam_voss.png",
+      "bytes": 1015,
+      "sha256": "4f9826c0c741927397b466a93956108eacef9bd9cb5b248b028c881fe5ca944d",
+      "width": 48,
+      "height": 48,
+      "mode": "RGBA"
+    },
+    {
+      "path": "portraits/nia_okafor.png",
+      "bytes": 1072,
+      "sha256": "f40fa1af0f4949a9065b0640e126f66d431d0b3de38a53f0fd81f46b46fca614",
+      "width": 48,
+      "height": 48,
+      "mode": "RGBA"
+    },
+    {
+      "path": "portraits/ren_ito.png",
+      "bytes": 1126,
+      "sha256": "8153f2bb95113b26132c6e89dfc5fb8fd5b2ad1e064d4cedd952f8f9eb9a1a8b",
+      "width": 48,
+      "height": 48,
+      "mode": "RGBA"
+    },
+    {
+      "path": "portraits/samir_haddad.png",
+      "bytes": 1071,
+      "sha256": "48af1178e98c0ccb42ea6e0ee399b52ab6c19b71eb868ca59d425b03c9e66e4d",
+      "width": 48,
+      "height": 48,
+      "mode": "RGBA"
+    },
+    {
+      "path": "portraits/val_ruiz.png",
+      "bytes": 1086,
+      "sha256": "fb8baf1fcec45f9a30f2de30c4442e506ed62d43cf0c78ce03d1420dae289217",
+      "width": 48,
+      "height": 48,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/hq/airlock_door.png",
+      "bytes": 466,
+      "sha256": "826d0eee0973e1d93cb05cd434860f6b56a3d7546c8d6d48f97e21075445764d",
+      "width": 32,
+      "height": 48,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/hq/banner_frontier.png",
+      "bytes": 396,
+      "sha256": "543e65f9f9eb44b2477e6ca32b93da38545dd18bf3c03a23b99ff6c020a2305a",
+      "width": 24,
+      "height": 48,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/hq/chair.png",
+      "bytes": 232,
+      "sha256": "945ea91bf0fe1fc0010df22c1f0abf8c8a75843ef0c622a874d4b1afa30d96d1",
+      "width": 16,
+      "height": 22,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/hq/coffee_station.png",
+      "bytes": 329,
+      "sha256": "025ebfe267002c9ee259246eccb44b6ddaa7e715470ba9d6142ebec5117e6007",
+      "width": 24,
+      "height": 28,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/hq/console_single.png",
+      "bytes": 362,
+      "sha256": "613c4db70a4a85620f9f33340dc089f2a059dbde8cd6ceecb4a6c205df4b8913",
+      "width": 32,
+      "height": 32,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/hq/console_wide.png",
+      "bytes": 642,
+      "sha256": "67ed19042f76ef417713e24e9a385e3c9e33b857451e5e6279102a9f20578a09",
+      "width": 64,
+      "height": 34,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/hq/main_display.png",
+      "bytes": 1048,
+      "sha256": "3043d81f9173f44d77238204970dc9c30dcda43086143248c4d66e96c0eef740",
+      "width": 96,
+      "height": 48,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/hq/meeting_table.png",
+      "bytes": 809,
+      "sha256": "0c09976faab7f9649c0cedcd3c78ae304261b7f797efe631b3c1eb72a442e6be",
+      "width": 80,
+      "height": 40,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/hq/mission_clock.png",
+      "bytes": 224,
+      "sha256": "8bf5c0b85039de03261db5e60cb59e11b3705d56cf16eb206ddb113058bc2518",
+      "width": 32,
+      "height": 18,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/hq/plant.png",
+      "bytes": 359,
+      "sha256": "dcd5fd7dae833874ef7d851be7a897ce2a5f7e659c1b5abbfade1e1c0c745d2e",
+      "width": 16,
+      "height": 26,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/hq/plant_big.png",
+      "bytes": 458,
+      "sha256": "b0557456eeeb72210eeeab6a5546d0aa8fc89aafb83a9412914a3c7902132085",
+      "width": 24,
+      "height": 36,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/hq/reception_desk.png",
+      "bytes": 519,
+      "sha256": "c200da9c789cba1bee8dac3a8d747303f4aa4d9f055336a0cbff084a00017d3f",
+      "width": 64,
+      "height": 30,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/hq/server_rack.png",
+      "bytes": 323,
+      "sha256": "4b4890c866e40c0974f72465e6f2ed70937f95e08be5747a3e5d5b2382874e1e",
+      "width": 24,
+      "height": 40,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/hq/wall_screen_small.png",
+      "bytes": 328,
+      "sha256": "828fc38783c360fee4d75e0a443b17758ad576e769dac56950ed89082661fcf5",
+      "width": 32,
+      "height": 24,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/hq/water_cooler.png",
+      "bytes": 233,
+      "sha256": "7c64762156d01485dab2b668dd14d9f4cbec1f21fcab469865370dd5ca634cf2",
+      "width": 16,
+      "height": 28,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/hq/whiteboard.png",
+      "bytes": 453,
+      "sha256": "f330ac382b54d63256afbd9c1090b895a0727b7307e52e3d7a804cc162222f42",
+      "width": 48,
+      "height": 32,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/hq/window_bank.png",
+      "bytes": 664,
+      "sha256": "c2aa0e6f1cb0ed09f98db5849333dc6b878da6c1cc8620d76a7be6b04d03ef68",
+      "width": 64,
+      "height": 32,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/hq/workstation.png",
+      "bytes": 435,
+      "sha256": "c2103232b82fc2a1775f744dfe8b00a1d7566012137d8c5bd492ae704f5ada95",
+      "width": 48,
+      "height": 30,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/lab/cable_reel.png",
+      "bytes": 493,
+      "sha256": "3997262f5529216d182eca9391e09510e278161878fa5b5cc9566a0dd866285a",
+      "width": 28,
+      "height": 24,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/lab/component_bin.png",
+      "bytes": 327,
+      "sha256": "eb3d3cdd01088b90e4a76409551574d24af0891d596acc52652c5f57c5e928c4",
+      "width": 32,
+      "height": 24,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/lab/gantry_crane.png",
+      "bytes": 548,
+      "sha256": "9eff2868119f73a208230ffdc96d4c0d6b6fb58ec8e1a3fd9459ab5a948821f8",
+      "width": 80,
+      "height": 50,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/lab/lab_bench.png",
+      "bytes": 622,
+      "sha256": "95a24dd100b8995cd1bef701dd302f3d41495e73aa88de7befc883650566a188",
+      "width": 64,
+      "height": 32,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/lab/rover_jig.png",
+      "bytes": 574,
+      "sha256": "58114184f4936412219a2d6f8062e7370cd4e7901ea541f8f50d2f3e336f6791",
+      "width": 64,
+      "height": 42,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/lab/tool_cart.png",
+      "bytes": 311,
+      "sha256": "1e161a304160464b33166f55842307ca6dc0cb33b2ef793432b9577902eb72e1",
+      "width": 32,
+      "height": 28,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/lab/wheel_rack.png",
+      "bytes": 616,
+      "sha256": "40557b88048b105fe1b605fe1b16d9094766958cb0ef138092f93a2469bb0669",
+      "width": 40,
+      "height": 40,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/mars/beacon.png",
+      "bytes": 365,
+      "sha256": "d704b56fbd9787c90cf4335448e1d0f2fbb91546a941b05712b25f7bb05244cf",
+      "width": 20,
+      "height": 32,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/mars/cargo_crate.png",
+      "bytes": 359,
+      "sha256": "506cf261952bc90fac9ff494f0b230dd2dd4b736005eb651db76aa679124905b",
+      "width": 28,
+      "height": 22,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/mars/field_habitat.png",
+      "bytes": 1721,
+      "sha256": "7389007153f3333cf2c75f315d86db51e04fa65a161187db0bdd85ad717b22c9",
+      "width": 96,
+      "height": 68,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/mars/lander.png",
+      "bytes": 1464,
+      "sha256": "13405d4afc8699e177ec22d6c4f2d5187fbb891f424741b54f3b2aa7996e22c3",
+      "width": 80,
+      "height": 64,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/mars/landing_pad.png",
+      "bytes": 1442,
+      "sha256": "2107742a406979669aa3d57e5164789da64dfae3c38784977ade87917b3414dc",
+      "width": 112,
+      "height": 72,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/mars/mars_props.json",
+      "bytes": 4726,
+      "sha256": "1fbeacb26b18921c7942f3b94612f3567523eb3e0895535ad022b26fd078f540"
+    },
+    {
+      "path": "props/mars/mesa.png",
+      "bytes": 2305,
+      "sha256": "bb1e11939c461232b141466fbddedeae4fc31645006865beae902d051e4c326b",
+      "width": 128,
+      "height": 80,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/mars/relay.png",
+      "bytes": 741,
+      "sha256": "ca0290bbc16f2f8ea671d3c00af3206ebdffbc3d46e72ed59d552d45ac848711",
+      "width": 28,
+      "height": 40,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/mars/rock_a.png",
+      "bytes": 515,
+      "sha256": "c7715e572f16c3bf91eb0c19208fb9532207661dfbf740d4cf3c146a3b5a29f1",
+      "width": 28,
+      "height": 20,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/mars/rock_b.png",
+      "bytes": 564,
+      "sha256": "d9c5b16828b16cbc4b7b5f71eef604d73915c9904efe7005abb6d757c07069c3",
+      "width": 44,
+      "height": 28,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/mars/rock_cluster.png",
+      "bytes": 1117,
+      "sha256": "81c733f698f5066ae9d8650d748d55829eac4e3204e0dea12e868eb99bd378c6",
+      "width": 68,
+      "height": 42,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/mars/rover_marker.png",
+      "bytes": 312,
+      "sha256": "0c05b99f9e3dd0859d2d193a1c6462ed7b1f3a82454354acf2654bc33da1eee0",
+      "width": 24,
+      "height": 20,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/mars/sample_rock.png",
+      "bytes": 363,
+      "sha256": "5f5af91dc72342fb7654d3ff8646fa34b1d259681c9f6aa8bff0d24494bd5212",
+      "width": 24,
+      "height": 20,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/mars/solar_array.png",
+      "bytes": 758,
+      "sha256": "a2552da834486c70747de55a5931a1a152b1102423f3d9dc5c6d5fbfb52eb5fa",
+      "width": 64,
+      "height": 34,
+      "mode": "RGBA"
+    },
+    {
+      "path": "props/props.json",
+      "bytes": 5854,
+      "sha256": "578e17d39fd97ac86c49b959b8f2a34b4d12dd8f956ef6db0a0964f739ab4435"
+    },
+    {
+      "path": "rover/rover_assembled.png",
+      "bytes": 2105,
+      "sha256": "f66c649b054d088e5c98faab423a55f7ab781364303ffe1c84c26fca142a2912",
+      "width": 96,
+      "height": 64,
+      "mode": "RGBA"
+    },
+    {
+      "path": "rover/rover_down.png",
+      "bytes": 2105,
+      "sha256": "f66c649b054d088e5c98faab423a55f7ab781364303ffe1c84c26fca142a2912",
+      "width": 96,
+      "height": 64,
+      "mode": "RGBA"
+    },
+    {
+      "path": "rover/rover_left.png",
+      "bytes": 1771,
+      "sha256": "6aa363f516a0714bdf5306e57dfb7dcca592768bde0432c0d3a57a283c912f6a",
+      "width": 96,
+      "height": 64,
+      "mode": "RGBA"
+    },
+    {
+      "path": "rover/rover_right.png",
+      "bytes": 1783,
+      "sha256": "5e42ec7c39fe17bd1c0eea3ff11a4cb53fa50c73fe476ba550bc5d6ba00043df",
+      "width": 96,
+      "height": 64,
+      "mode": "RGBA"
+    },
+    {
+      "path": "rover/rover_sheet.png",
+      "bytes": 4893,
+      "sha256": "7dea8fdbc9b106790beff2929597e909228c1323b79050559bae1e12bbea886e",
+      "width": 384,
+      "height": 64,
+      "mode": "RGBA"
+    },
+    {
+      "path": "rover/rover_up.png",
+      "bytes": 1837,
+      "sha256": "55e0fc9cdc1f2e237c6d9c2ee15841f7c18607840a73d80fa14e18f3918dd39b",
+      "width": 96,
+      "height": 64,
+      "mode": "RGBA"
+    },
+    {
+      "path": "scenes/hq_engineering_lab.png",
+      "bytes": 19216,
+      "sha256": "f05189592262e2086d3f8525fc4fa1bbd2429c9e229d89e7fae51fbd0b99eed7",
+      "width": 384,
+      "height": 224,
+      "mode": "RGBA"
+    },
+    {
+      "path": "scenes/hq_mission_control.png",
+      "bytes": 17428,
+      "sha256": "c2f1175f1ebf8db1e9aec9193e7bb4c7af6f69f00d0209f08f03794d730b23cd",
+      "width": 384,
+      "height": 224,
+      "mode": "RGBA"
+    },
+    {
+      "path": "scenes/mars_landing_zone.png",
+      "bytes": 26535,
+      "sha256": "07d86c4f11fa75f8630f4156b0569f8a82031b84f90185a87ddd852909c9b102",
+      "width": 384,
+      "height": 224,
+      "mode": "RGBA"
+    },
+    {
+      "path": "scenes/scenes.json",
+      "bytes": 1057,
+      "sha256": "50c082ad12fb78e611d45e0c3f7a825660b38cca57d5544318b9c291bb8cfb72"
+    },
+    {
+      "path": "tiles/hq_tiles.json",
+      "bytes": 11241,
+      "sha256": "656bae771b669f278c48d72589f607c84b56e2725bc2218f544e6a1b0123bc19"
+    },
+    {
+      "path": "tiles/hq_tiles.png",
+      "bytes": 5927,
+      "sha256": "04f5588fc146ec7c913da9705a3bb89a84ec7310d61d1771c9b6f8ef81ada550",
+      "width": 128,
+      "height": 128,
+      "mode": "RGBA"
+    },
+    {
+      "path": "tiles/mars_tiles.json",
+      "bytes": 13399,
+      "sha256": "6a3b186503c4adc773a6124b355974420b57dabc2ecd1678de1f61022407afdc"
+    },
+    {
+      "path": "tiles/mars_tiles.png",
+      "bytes": 7114,
+      "sha256": "3daaeb5e89754c421b302c393dbae78c21874ce41f5d8d89b4e65056386a9005",
+      "width": 128,
+      "height": 128,
+      "mode": "RGBA"
+    },
+    {
+      "path": "ui/marker_objective.png",
+      "bytes": 201,
+      "sha256": "31cb0a1c96a1b54213de1f236ef06174246a68741720763792f30ab06ad6491a",
+      "width": 16,
+      "height": 16,
+      "mode": "RGBA"
+    },
+    {
+      "path": "ui/marker_scan.png",
+      "bytes": 129,
+      "sha256": "d87398098bf952600cc0184424d38740d8f14bec54596503e122cf62c2965f66",
+      "width": 16,
+      "height": 16,
+      "mode": "RGBA"
+    },
+    {
+      "path": "ui/marker_talk.png",
+      "bytes": 175,
+      "sha256": "fc7ea141f1b4b254a3482e08a67046dac60581937872de678746654d200ae47a",
+      "width": 16,
+      "height": 16,
+      "mode": "RGBA"
+    },
+    {
+      "path": "ui/nav_arrow.png",
+      "bytes": 179,
+      "sha256": "b34ef415bb73657ccc35354592e348e1d29ae6f043fe5a60c81c909744cf794c",
+      "width": 16,
+      "height": 16,
+      "mode": "RGBA"
+    },
+    {
+      "path": "ui/panel_9slice.png",
+      "bytes": 223,
+      "sha256": "ba0d39d3400ca0587439aa265ffca97d8887d72e6c8e4fcb37f5c06023b019a2",
+      "width": 24,
+      "height": 24,
+      "mode": "RGBA"
+    },
+    {
+      "path": "ui/resource_budget.png",
+      "bytes": 328,
+      "sha256": "1297950d9112a70843fb6594889b2b20cbce496949bab9127292f587f2b15b5a",
+      "width": 16,
+      "height": 16,
+      "mode": "RGBA"
+    },
+    {
+      "path": "ui/resource_comms.png",
+      "bytes": 445,
+      "sha256": "8852cd4993b7f26aad289939dea1e6ad3cfbf12303ebf8a0ac6b3416a4ad4832",
+      "width": 16,
+      "height": 16,
+      "mode": "RGBA"
+    },
+    {
+      "path": "ui/resource_data.png",
+      "bytes": 270,
+      "sha256": "1751501e72d35d3952c7257e3220e6126f05364386a7ae79114cdc07a4cab068",
+      "width": 16,
+      "height": 16,
+      "mode": "RGBA"
+    },
+    {
+      "path": "ui/resource_icons.png",
+      "bytes": 1383,
+      "sha256": "df750306f6c8dd8884fd631a31a98f518f777849dc2c36414c3e1f44125b0836",
+      "width": 96,
+      "height": 16,
+      "mode": "RGBA"
+    },
+    {
+      "path": "ui/resource_mass.png",
+      "bytes": 326,
+      "sha256": "7facd73c60557107e11516299e6e576b2ee7a6b566eeb5ea7f712ea7a679d98a",
+      "width": 16,
+      "height": 16,
+      "mode": "RGBA"
+    },
+    {
+      "path": "ui/resource_power.png",
+      "bytes": 334,
+      "sha256": "8e51db14acb2cc3279f12ee2c9122dbaa2c8f882407ba07081eafb0e38d7e649",
+      "width": 16,
+      "height": 16,
+      "mode": "RGBA"
+    },
+    {
+      "path": "ui/resource_time.png",
+      "bytes": 318,
+      "sha256": "ec97826b82dd22aca091fcbe25a833b5a5869e8aefc471607c08057a406be41d",
+      "width": 16,
+      "height": 16,
+      "mode": "RGBA"
+    },
+    {
+      "path": "ui/role_badges.png",
+      "bytes": 2000,
+      "sha256": "76192f541eea87184836414b42e7f70086c8874e5fd5ffad57a30993b91318d3",
+      "width": 160,
+      "height": 32,
+      "mode": "RGBA"
+    },
+    {
+      "path": "ui/role_designer.png",
+      "bytes": 533,
+      "sha256": "2ceb239005934d953efb8c5e3ba7b203f917293d6b73ffea722a861cf9606e8d",
+      "width": 32,
+      "height": 32,
+      "mode": "RGBA"
+    },
+    {
+      "path": "ui/role_engineer.png",
+      "bytes": 571,
+      "sha256": "f103947da9baa96a7a8eadc04ec2e766b9483e498cd18a4692f194a14ff57502",
+      "width": 32,
+      "height": 32,
+      "mode": "RGBA"
+    },
+    {
+      "path": "ui/role_finance.png",
+      "bytes": 513,
+      "sha256": "347946ce37e2f8648445a88f39533b5e4e7add25a6ff3d3c207804b5403ac7bf",
+      "width": 32,
+      "height": 32,
+      "mode": "RGBA"
+    },
+    {
+      "path": "ui/role_satellite.png",
+      "bytes": 569,
+      "sha256": "f895310c10586f2c1fa0190dd7b9ee76380ac82854e77ca65fc6748ea902409a",
+      "width": 32,
+      "height": 32,
+      "mode": "RGBA"
+    },
+    {
+      "path": "ui/role_scientist.png",
+      "bytes": 518,
+      "sha256": "7dee713b445825c699f45486567720503fefc874801d17bdc59d5ba47506f978",
+      "width": 32,
+      "height": 32,
+      "mode": "RGBA"
+    },
+    {
+      "path": "ui/ui.json",
+      "bytes": 4357,
+      "sha256": "d758aabc1cf3ebf934ed0af19fabff9cfe5b63b7e9b840837c44040a0d517f5a"
+    },
+    {
+      "path": "ui/ui_marks.png",
+      "bytes": 462,
+      "sha256": "310520ec3f3d2ffa6b68d67d5d776f153b04b0dd3d9c7a3b88e58936401500e4",
+      "width": 64,
+      "height": 16,
+      "mode": "RGBA"
+    }
+  ],
+  "rights": "Original fictional project. Not affiliated with, endorsed by, or sponsored by NASA. No NASA logo, mission patch, photograph, facility reconstruction or employee likeness is used. All characters, organisations and hardware are fictional. Gameplay values are simplified educational values."
+}

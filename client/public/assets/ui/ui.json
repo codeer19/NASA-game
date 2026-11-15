@@ -1,0 +1,177 @@
+{
+  "resourceIcons": [
+    {
+      "id": "budget",
+      "name": "Budget",
+      "glyph": "coin",
+      "file": "ui/resource_budget.png",
+      "width": 16,
+      "height": 16,
+      "transparent": true
+    },
+    {
+      "id": "mass",
+      "name": "Mass",
+      "glyph": "cargo",
+      "file": "ui/resource_mass.png",
+      "width": 16,
+      "height": 16,
+      "transparent": true
+    },
+    {
+      "id": "power",
+      "name": "Power",
+      "glyph": "battery",
+      "file": "ui/resource_power.png",
+      "width": 16,
+      "height": 16,
+      "transparent": true
+    },
+    {
+      "id": "data",
+      "name": "Data",
+      "glyph": "drive",
+      "file": "ui/resource_data.png",
+      "width": 16,
+      "height": 16,
+      "transparent": true
+    },
+    {
+      "id": "comms",
+      "name": "Comms",
+      "glyph": "dish",
+      "file": "ui/resource_comms.png",
+      "width": 16,
+      "height": 16,
+      "transparent": true
+    },
+    {
+      "id": "time",
+      "name": "Time",
+      "glyph": "clock",
+      "file": "ui/resource_time.png",
+      "width": 16,
+      "height": 16,
+      "transparent": true
+    }
+  ],
+  "roleBadges": [
+    {
+      "id": "engineer",
+      "name": "Aerospace Engineer",
+      "file": "ui/role_engineer.png",
+      "width": 32,
+      "height": 32,
+      "transparent": false,
+      "note": "Original role mark; the fictional cast is not based on NASA employees."
+    },
+    {
+      "id": "satellite",
+      "name": "Mars Satellite Controller",
+      "file": "ui/role_satellite.png",
+      "width": 32,
+      "height": 32,
+      "transparent": false,
+      "note": "Original role mark; the fictional cast is not based on NASA employees."
+    },
+    {
+      "id": "finance",
+      "name": "Finance Administrator",
+      "file": "ui/role_finance.png",
+      "width": 32,
+      "height": 32,
+      "transparent": false,
+      "note": "Original role mark; the fictional cast is not based on NASA employees."
+    },
+    {
+      "id": "designer",
+      "name": "Mission Designer",
+      "file": "ui/role_designer.png",
+      "width": 32,
+      "height": 32,
+      "transparent": false,
+      "note": "Original role mark; the fictional cast is not based on NASA employees."
+    },
+    {
+      "id": "scientist",
+      "name": "Mission Scientist",
+      "file": "ui/role_scientist.png",
+      "width": 32,
+      "height": 32,
+      "transparent": false,
+      "note": "Original role mark; the fictional cast is not based on NASA employees."
+    }
+  ],
+  "marks": [
+    {
+      "id": "marker_objective",
+      "name": "Objective marker",
+      "file": "ui/marker_objective.png",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "id": "marker_scan",
+      "name": "Scan target marker",
+      "file": "ui/marker_scan.png",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "id": "marker_talk",
+      "name": "Dialogue marker",
+      "file": "ui/marker_talk.png",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "id": "nav_arrow",
+      "name": "Wayfinding arrow",
+      "file": "ui/nav_arrow.png",
+      "width": 16,
+      "height": 16
+    }
+  ],
+  "panel": {
+    "file": "ui/panel_9slice.png",
+    "width": 24,
+    "height": 24,
+    "border": 8,
+    "note": "Use a 9-slice border of 8 px; corner pixels are transparent."
+  },
+  "branding": [
+    {
+      "id": "logo_red_frontier",
+      "name": "Primary wordmark",
+      "file": "branding/logo_red_frontier.png",
+      "width": 192,
+      "height": 64,
+      "fictional": true
+    },
+    {
+      "id": "logo_mission_mars",
+      "name": "Mission lockup",
+      "file": "branding/logo_mission_mars.png",
+      "width": 160,
+      "height": 32,
+      "fictional": true
+    },
+    {
+      "id": "patch_ares_survey",
+      "name": "Fictional Ares Survey patch",
+      "file": "branding/patch_ares_survey.png",
+      "width": 64,
+      "height": 64,
+      "fictional": true
+    },
+    {
+      "id": "wordmark_small",
+      "name": "Compact wordmark",
+      "file": "branding/wordmark_small.png",
+      "width": 152,
+      "height": 24,
+      "fictional": true
+    }
+  ],
+  "usageNote": "Original RED FRONTIER interface art. No NASA logo, typeface, patch or icon is reproduced."
+}

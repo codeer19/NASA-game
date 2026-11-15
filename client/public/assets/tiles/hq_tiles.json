@@ -1,0 +1,522 @@
+{
+  "image": "hq_tiles.png",
+  "tileWidth": 16,
+  "tileHeight": 16,
+  "columns": 8,
+  "rows": 8,
+  "tiles": [
+    {
+      "index": 0,
+      "id": "hq_carpet_a",
+      "col": 0,
+      "row": 0,
+      "kind": "floor",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 1,
+      "id": "hq_carpet_b",
+      "col": 1,
+      "row": 0,
+      "kind": "floor",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 2,
+      "id": "hq_carpet_c",
+      "col": 2,
+      "row": 0,
+      "kind": "floor",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 3,
+      "id": "hq_carpet_seal",
+      "col": 3,
+      "row": 0,
+      "kind": "floor",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 4,
+      "id": "hq_carpet_wine",
+      "col": 4,
+      "row": 0,
+      "kind": "floor",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 5,
+      "id": "hq_carpet_transition",
+      "col": 5,
+      "row": 0,
+      "kind": "floor",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 6,
+      "id": "hq_steel_floor",
+      "col": 6,
+      "row": 0,
+      "kind": "floor",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 7,
+      "id": "hq_steel_grate",
+      "col": 7,
+      "row": 0,
+      "kind": "floor",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 8,
+      "id": "hq_lab_tile",
+      "col": 0,
+      "row": 1,
+      "kind": "floor",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 9,
+      "id": "hq_lab_tile_b",
+      "col": 1,
+      "row": 1,
+      "kind": "floor",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 10,
+      "id": "hq_hazard_floor",
+      "col": 2,
+      "row": 1,
+      "kind": "floor",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 11,
+      "id": "hq_access_panel",
+      "col": 3,
+      "row": 1,
+      "kind": "floor",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 12,
+      "id": "hq_cable_run_h",
+      "col": 4,
+      "row": 1,
+      "kind": "floor",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 13,
+      "id": "hq_cable_run_v",
+      "col": 5,
+      "row": 1,
+      "kind": "floor",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 14,
+      "id": "hq_floor_shadow",
+      "col": 6,
+      "row": 1,
+      "kind": "overlay",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 15,
+      "id": "hq_floor_light",
+      "col": 7,
+      "row": 1,
+      "kind": "overlay",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 16,
+      "id": "hq_wall_panel_a",
+      "col": 0,
+      "row": 2,
+      "kind": "wall",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 17,
+      "id": "hq_wall_panel_b",
+      "col": 1,
+      "row": 2,
+      "kind": "wall",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 18,
+      "id": "hq_wall_panel_c",
+      "col": 2,
+      "row": 2,
+      "kind": "wall",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 19,
+      "id": "hq_wall_trim_top",
+      "col": 3,
+      "row": 2,
+      "kind": "wall",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 20,
+      "id": "hq_wall_trim_mid",
+      "col": 4,
+      "row": 2,
+      "kind": "wall",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 21,
+      "id": "hq_wall_corner_l",
+      "col": 5,
+      "row": 2,
+      "kind": "wall",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 22,
+      "id": "hq_wall_corner_r",
+      "col": 6,
+      "row": 2,
+      "kind": "wall",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 23,
+      "id": "hq_wall_base",
+      "col": 7,
+      "row": 2,
+      "kind": "wall",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 24,
+      "id": "hq_window_left",
+      "col": 0,
+      "row": 3,
+      "kind": "wall",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 25,
+      "id": "hq_window_glass",
+      "col": 1,
+      "row": 3,
+      "kind": "wall",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 26,
+      "id": "hq_window_right",
+      "col": 2,
+      "row": 3,
+      "kind": "wall",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 27,
+      "id": "hq_window_glass_lit",
+      "col": 3,
+      "row": 3,
+      "kind": "wall",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 28,
+      "id": "hq_door_frame_l",
+      "col": 4,
+      "row": 3,
+      "kind": "wall",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 29,
+      "id": "hq_door_frame_r",
+      "col": 5,
+      "row": 3,
+      "kind": "wall",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 30,
+      "id": "hq_airlock_tile",
+      "col": 6,
+      "row": 3,
+      "kind": "wall",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 31,
+      "id": "hq_wall_hazard",
+      "col": 7,
+      "row": 3,
+      "kind": "wall",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 32,
+      "id": "hq_wall_vent",
+      "col": 0,
+      "row": 4,
+      "kind": "wall",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 33,
+      "id": "hq_wall_panel_light",
+      "col": 1,
+      "row": 4,
+      "kind": "wall",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 34,
+      "id": "hq_wall_panel_dark",
+      "col": 2,
+      "row": 4,
+      "kind": "wall",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 35,
+      "id": "hq_wall_emblem",
+      "col": 3,
+      "row": 4,
+      "kind": "wall",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 36,
+      "id": "hq_wall_cable_tray",
+      "col": 4,
+      "row": 4,
+      "kind": "wall",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 37,
+      "id": "hq_wall_board",
+      "col": 5,
+      "row": 4,
+      "kind": "wall",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 38,
+      "id": "hq_wall_light",
+      "col": 6,
+      "row": 4,
+      "kind": "wall",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 39,
+      "id": "hq_wall_sconce",
+      "col": 7,
+      "row": 4,
+      "kind": "wall",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 40,
+      "id": "hq_lab_drain",
+      "col": 0,
+      "row": 5,
+      "kind": "floor",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 41,
+      "id": "hq_marked_corner",
+      "col": 1,
+      "row": 5,
+      "kind": "floor",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 42,
+      "id": "hq_hazard_edge_h",
+      "col": 2,
+      "row": 5,
+      "kind": "overlay",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 43,
+      "id": "hq_hazard_edge_v",
+      "col": 3,
+      "row": 5,
+      "kind": "overlay",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 44,
+      "id": "hq_carpet_edge",
+      "col": 4,
+      "row": 5,
+      "kind": "overlay",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 45,
+      "id": "hq_floor_hatch",
+      "col": 5,
+      "row": 5,
+      "kind": "floor",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 46,
+      "id": "hq_floor_ladder",
+      "col": 6,
+      "row": 5,
+      "kind": "overlay",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 47,
+      "id": "hq_floor_warning",
+      "col": 7,
+      "row": 5,
+      "kind": "floor",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 48,
+      "id": "hq_glass_top",
+      "col": 0,
+      "row": 6,
+      "kind": "overlay",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 49,
+      "id": "hq_glass_mid",
+      "col": 1,
+      "row": 6,
+      "kind": "overlay",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 50,
+      "id": "hq_glass_bottom",
+      "col": 2,
+      "row": 6,
+      "kind": "overlay",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 51,
+      "id": "hq_glass_rail",
+      "col": 3,
+      "row": 6,
+      "kind": "overlay",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 52,
+      "id": "hq_ceiling_light",
+      "col": 4,
+      "row": 6,
+      "kind": "overlay",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 53,
+      "id": "hq_ceiling_vent",
+      "col": 5,
+      "row": 6,
+      "kind": "overlay",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 54,
+      "id": "hq_floor_trench",
+      "col": 6,
+      "row": 6,
+      "kind": "floor",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 55,
+      "id": "hq_nav_stripe",
+      "col": 7,
+      "row": 6,
+      "kind": "floor",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 56,
+      "id": "hq_rug_red_a",
+      "col": 0,
+      "row": 7,
+      "kind": "floor",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 57,
+      "id": "hq_rug_red_b",
+      "col": 1,
+      "row": 7,
+      "kind": "floor",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 58,
+      "id": "hq_rug_edge",
+      "col": 2,
+      "row": 7,
+      "kind": "overlay",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 59,
+      "id": "hq_wall_shadow",
+      "col": 3,
+      "row": 7,
+      "kind": "overlay",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 60,
+      "id": "hq_wall_seal",
+      "col": 4,
+      "row": 7,
+      "kind": "wall",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 61,
+      "id": "hq_wall_poster",
+      "col": 5,
+      "row": 7,
+      "kind": "wall",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 62,
+      "id": "hq_wall_pipe",
+      "col": 6,
+      "row": 7,
+      "kind": "wall",
+      "subject": "fictional NASA headquarters"
+    },
+    {
+      "index": 63,
+      "id": "hq_floor_dec_arrow",
+      "col": 7,
+      "row": 7,
+      "kind": "floor",
+      "subject": "fictional NASA headquarters"
+    }
+  ],
+  "note": "Original fictional mission-control environment. No NASA building is reconstructed."
+}

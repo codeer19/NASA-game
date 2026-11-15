@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RED FRONTIER - Art Direction Checkpoint 01</title>
+<meta name="description" content="Original 16-bit mission art for RED FRONTIER - MISSION MARS. Art-direction approval checkpoint.">
+<style>
+:root{
+  --ink:#1A1422; --void:#0B1224; --navy0:#0A101D; --navy1:#162037; --navy2:#23324D;
+  --navy3:#344A67; --steel-dark:#3C4A5C; --steel:#667687; --steel-light:#9CAAA7;
+  --cream:#DFCFB0; --white:#F4EAD8; --fog:#AAB4B2;
+  --rust:#A74A2E; --rust-dark:#6D2F22; --rust-light:#D06B3C; --gold:#F0B64B;
+  --yellow:#FFDA7A; --cyan:#6ADBE0; --cyan-dark:#2D7183; --teal:#2E8C80; --wine:#6F3344;
+  --line:#3C4A5C;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;color:var(--cream);background:
+    linear-gradient(180deg,rgba(11,18,36,.96),rgba(10,16,29,.99)),
+    repeating-linear-gradient(0deg,transparent 0 3px,rgba(244,234,216,.018) 3px 4px);
+  font-family:"Segoe UI",system-ui,-apple-system,sans-serif;line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--cyan);text-decoration:none}
+a:hover{text-decoration:underline}
+img{max-width:100%}
+.pixel{image-rendering:pixelated}
+.mono{font-family:"Courier New",ui-monospace,monospace}
+.eyebrow{font:700 11px/1.4 "Courier New",monospace;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+.status{display:inline-block;border:1px solid var(--gold);color:var(--gold);font:700 11px/1 "Courier New",monospace;letter-spacing:.18em;text-transform:uppercase;padding:9px 12px;background:rgba(240,182,75,.06);clip-path:polygon(7px 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%,0 7px)}
+.wrap{max-width:1420px;margin:0 auto;padding:0 24px}
+header.hero{padding:46px 0 0;border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+header.hero:before{content:"";position:absolute;inset:0;background:
+  linear-gradient(90deg,transparent 0 49.8%,rgba(106,219,224,.06) 49.8% 50.2%,transparent 50.2%),
+  radial-gradient(ellipse at 78% 0%,rgba(208,107,60,.12),transparent 58%);
+  pointer-events:none}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(320px,.95fr);gap:36px;align-items:center;position:relative}
+h1{font-family:"Courier New",monospace;font-size:clamp(54px,8.2vw,118px);line-height:.86;letter-spacing:.04em;margin:18px 0 8px;color:var(--white);text-shadow:4px 4px 0 var(--ink)}
+h1 .red{color:var(--rust-light);display:block}
+h1 .frontier{display:block;font-size:.62em;letter-spacing:.07em;margin-top:12px}
+.hero-sub{color:var(--fog);max-width:60ch;font-size:15px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:10px 22px;margin:20px 0 0;font:11px/1.5 "Courier New",monospace;letter-spacing:.13em;text-transform:uppercase;color:var(--steel-light)}
+.hero-art{position:relative;border:1px solid var(--line);background:var(--navy0);padding:8px;clip-path:polygon(14px 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%,0 14px)}
+.hero-art img{display:block;width:100%;image-rendering:pixelated;border:1px solid #26364e}
+.hero-art .tag{display:block;margin-top:9px;padding:9px 2px 1px;border-top:1px solid var(--line);color:var(--gold);font:700 10px/1.4 "Courier New",monospace;letter-spacing:.15em;text-transform:uppercase}
+nav{position:sticky;top:0;z-index:20;background:rgba(11,18,36,.94);border-bottom:1px solid var(--line);backdrop-filter:blur(6px)}
+nav .wrap{display:flex;gap:22px;padding:12px 24px;overflow-x:auto;scrollbar-width:thin}
+nav a{font:700 10px/1.4 "Courier New",monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--fog);white-space:nowrap}
+nav a:hover{color:var(--cyan);text-decoration:none}
+main{padding-bottom:60px}
+section{padding-top:64px}
+.section-head{display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:26px}
+.section-head .num{font:700 13px/1 "Courier New",monospace;color:var(--gold);letter-spacing:.14em}
+.section-head h2{font-family:"Courier New",monospace;font-size:clamp(20px,2.6vw,32px);letter-spacing:.08em;text-transform:uppercase;margin:0;color:var(--white)}
+.section-head .note{margin-left:auto;color:var(--fog);font:10px/1.4 "Courier New",monospace;letter-spacing:.12em;text-transform:uppercase;text-align:right}
+.lede{color:var(--fog);max-width:78ch;margin:0 0 24px;font-size:15px}
+.panel{background:rgba(22,32,55,.9);border:1px solid var(--line);box-shadow:inset 0 0 0 1px rgba(156,170,167,.07);position:relative}
+.panel:before{content:"";position:absolute;left:0;top:0;width:9px;height:2px;background:var(--gold)}
+.checker{background-color:#162037;background-image:
+  linear-gradient(45deg,#23324D 25%,transparent 25%,transparent 75%,#23324D 75%),
+  linear-gradient(45deg,#23324D 25%,transparent 25%,transparent 75%,#23324D 75%);
+  background-size:16px 16px;background-position:0 0,8px 8px}
+.cast-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:18px}
+.cast-card{display:grid;grid-template-columns:96px minmax(0,1fr);gap:16px;padding:16px}
+.cast-card .portrait{width:96px;height:96px;image-rendering:pixelated;border:1px solid var(--line);display:block}
+.cast-card h3{margin:0;color:var(--white);font-size:17px;letter-spacing:.02em}
+.cast-card .role{font:700 10px/1.5 "Courier New",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:4px 0 8px}
+.cast-card p{margin:0;color:var(--fog);font-size:13px}
+.sprite-stage{display:block;background-repeat:no-repeat;image-rendering:pixelated;margin:10px auto 0}
+.dir-row{display:flex;gap:12px;align-items:flex-end;margin-top:12px;flex-wrap:wrap}
+.dir{text-align:center;font:9px/1.4 "Courier New",monospace;letter-spacing:.12em;color:var(--fog);text-transform:uppercase}
+.dir .sprite-stage{margin:4px auto 0}
+.anim-box{display:flex;gap:18px;align-items:flex-end;flex-wrap:wrap;padding:12px;border:1px solid rgba(60,74,92,.6);background:rgba(10,16,29,.5);margin-top:12px}
+.sheet-details{margin-top:10px}
+.sheet-details summary{cursor:pointer;color:var(--cyan);font:10px/1.4 "Courier New",monospace;letter-spacing:.12em;text-transform:uppercase}
+.sheet-details img{display:block;margin-top:10px;width:288px;max-width:100%;image-rendering:pixelated;border:1px solid var(--line);background:#162037}
+.tiles-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:20px}
+.tile-card{padding:16px}
+.tile-card h3{margin:0 0 4px;color:var(--white);font:700 12px/1.4 "Courier New",monospace;letter-spacing:.14em;text-transform:uppercase}
+.tile-card p{margin:0 0 12px;color:var(--fog);font-size:13px}
+.tile-card img{display:block;width:100%;max-width:512px;image-rendering:pixelated;border:1px solid var(--line);background:#162037}
+details.tile-list{margin-top:12px}
+details.tile-list summary{cursor:pointer;color:var(--cyan);font:10px/1.4 "Courier New",monospace;letter-spacing:.1em;text-transform:uppercase}
+.tile-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px;max-height:160px;overflow:auto;padding-right:6px}
+.tile-tags span{font:9px/1.2 "Courier New",monospace;color:var(--steel-light);border:1px solid rgba(60,74,92,.8);padding:3px 5px;background:rgba(10,16,29,.45)}
+.scene-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:20px}
+.scene-card{padding:12px}
+.scene-card img{display:block;width:100%;image-rendering:pixelated;border:1px solid var(--line);background:#0a101d}
+.scene-card h3{margin:12px 0 2px;color:var(--white);font:700 12px/1.4 "Courier New",monospace;letter-spacing:.12em;text-transform:uppercase}
+.scene-card p{margin:0;color:var(--fog);font-size:12px}
+.prop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.prop{min-height:150px;padding:10px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:8px;overflow:hidden}
+.prop img{max-width:100%;max-height:104px;image-rendering:pixelated}
+.prop .name{font:700 9px/1.3 "Courier New",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--cream);text-align:center}
+.prop .dims{font:9px/1 "Courier New",monospace;color:var(--fog)}
+.group-label{color:var(--gold);font:700 10px/1.4 "Courier New",monospace;letter-spacing:.17em;text-transform:uppercase;margin:26px 0 12px}
+.gear-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.gear-card{padding:16px}
+.gear-card h3{margin:0 0 4px;color:var(--white);font:700 12px/1.4 "Courier New",monospace;letter-spacing:.12em;text-transform:uppercase}
+.gear-card p{margin:0 0 14px;color:var(--fog);font-size:12px}
+.rover-row{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end}
+.rover-row figure{margin:0;text-align:center;font:9px/1.5 "Courier New",monospace;letter-spacing:.1em;color:var(--fog);text-transform:uppercase}
+.rover-row img{display:block;width:288px;max-width:100%;image-rendering:pixelated}
+.icon-row{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start}
+.icon-item{text-align:center;font:9px/1.3 "Courier New",monospace;color:var(--fog);text-transform:uppercase;letter-spacing:.08em}
+.icon-item img{display:block;image-rendering:pixelated;margin:0 auto 6px}
+.contrast{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.contrast .swatch{padding:10px;border:1px solid var(--line)}
+.contrast .dark{background:#162037}
+.contrast .light{background:#DFCFB0;color:#1A1422}
+.contrast .swatch .icon-row{gap:8px}
+.brand-stack{display:grid;gap:10px}
+.brand-stack img{display:block;max-width:100%;image-rendering:pixelated}
+.brand-stack .logo{background:#162037;padding:8px;border:1px solid var(--line)}
+.nine-slice{
+  border:24px solid transparent;
+  border-image:url(../client/public/assets/ui/panel_9slice.png) 8 fill / 24px / 0 stretch;
+  width:min(100%,420px);min-height:86px;padding:6px 10px;image-rendering:pixelated;
+  font:11px/1.5 "Courier New",monospace;color:var(--cream);
+}
+.nine-slice b{color:var(--gold)}
+.manifest-card{padding:16px}
+.manifest-card table{width:100%;border-collapse:collapse;font:10px/1.5 "Courier New",monospace}
+.manifest-card th{text-align:left;color:var(--gold);font-weight:700;letter-spacing:.08em;border-bottom:1px solid var(--line);padding:7px 6px}
+.manifest-card td{border-bottom:1px solid rgba(60,74,92,.45);padding:5px 6px;color:var(--fog);vertical-align:top;word-break:break-all}
+.manifest-card td:first-child{color:var(--cream)}
+details.manifest{max-height:520px;overflow:auto;margin-top:12px}
+.downloads{display:flex;flex-wrap:wrap;gap:12px;margin-top:16px}
+.downloads a{border:1px solid var(--line);background:rgba(22,32,55,.8);padding:10px 12px;font:700 10px/1.4 "Courier New",monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--cream)}
+.downloads a:hover{border-color:var(--cyan);color:var(--cyan);text-decoration:none}
+.checklist{display:grid;gap:10px;margin-top:8px}
+.checklist label{display:flex;gap:12px;align-items:flex-start;padding:11px 12px;border:1px solid rgba(60,74,92,.65);background:rgba(10,16,29,.4);font-size:13px;color:var(--cream)}
+.checklist input{margin-top:2px;accent-color:#2E8C80}
+.checklist span small{display:block;color:var(--fog);font-size:11px;margin-top:2px}
+.approval-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr);gap:20px;align-items:start}
+.approval-side{padding:18px}
+.approval-side h3{margin:0 0 8px;color:var(--white);font:700 12px/1.4 "Courier New",monospace;letter-spacing:.12em;text-transform:uppercase}
+.approval-side p{color:var(--fog);font-size:13px;margin:0 0 12px}
+.approval-side .stamp{border:1px dashed var(--gold);color:var(--gold);padding:12px;font:700 11px/1.6 "Courier New",monospace;letter-spacing:.14em;text-transform:uppercase;text-align:center}
+.disclaimer{border-top:1px solid var(--line);margin-top:64px;padding:26px 0 40px;color:var(--fog);font-size:12px}
+.disclaimer strong{color:var(--cream)}
+.footer-row{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font:10px/1.6 "Courier New",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--steel-light)}
+.corner{position:absolute;width:12px;height:12px;border-color:var(--gold);border-style:solid}
+.corner.tl{left:-1px;top:-1px;border-width:1px 0 0 1px}.corner.tr{right:-1px;top:-1px;border-width:1px 1px 0 0}
+.corner.bl{left:-1px;bottom:-1px;border-width:0 0 1px 1px}.corner.br{right:-1px;bottom:-1px;border-width:0 1px 1px 0}
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr;gap:22px}
+  .approval-grid{grid-template-columns:1fr}
+  .contrast{grid-template-columns:1fr}
+  header.hero{padding-top:28px}
+  section{padding-top:48px}
+  .section-head .note{display:none}
+}
+@media (max-width:640px){
+  .wrap{padding:0 18px}
+  .cast-grid,.tiles-grid,.scene-grid,.gear-grid{grid-template-columns:minmax(0,1fr)}
+  .cast-card{grid-template-columns:80px minmax(0,1fr);gap:12px;padding:14px}
+  .cast-card .portrait{width:80px;height:80px}
+  .anim-box{gap:12px}
+  .hero-meta{gap:8px 16px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">NASA Space Apps Challenge 2026 / original game project</div>
+        <h1><span class="red">RED</span><span class="frontier">FRONTIER</span></h1>
+        <p class="hero-sub">A cooperative Mars mission game about careful people solving difficult problems together. This page is the complete art-direction checkpoint: cast, environments, rover, equipment, interface and composed visual targets.</p>
+        <div class="hero-meta">
+          <span>Native 384 x 224</span><span>16 x 16 tiles</span><span>24 x 32 cast frames</span><span>Integer scaling</span>
+        </div>
+        <p style="margin:22px 0 0"><span class="status">Awaiting art approval / production paused</span></p>
+      </div>
+      <div class="hero-art">
+        <img class="pixel" src="../client/public/assets/scenes/mars_landing_zone.png" width="384" height="224" alt="Mars landing zone visual target">
+        <span class="tag">Visual target / Ares Basin / documentation only</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav><div class="wrap">
+  <a href="#direction">Direction</a>
+  <a href="#cast">Cast</a>
+  <a href="#environments">Environments</a>
+  <a href="#props">Props</a>
+  <a href="#gear">Rover + Gear</a>
+  <a href="#interface">Interface</a>
+  <a href="#scenes">Scenes</a>
+  <a href="#manifest">Files</a>
+  <a href="#approval">Approval</a>
+</div></nav>
+
+<main class="wrap">
+
+<section id="direction">
+  <div class="section-head"><span class="num">00</span><h2>Direction</h2><span class="note">Checkpoint 01 / November 2026</span></div>
+  <p class="lede">A lost 16-bit adventure cartridge made by a contemporary aerospace design studio: warm, tactile and hand-built, with interfaces that are crisp, technical and calm. The palette is limited, outlines are selective, and every room explains what people do there before a line of dialogue is read.</p>
+  <div class="tiles-grid">
+    <article class="gear-card panel"><h3>What this checkpoint proves</h3>
+      <p>One coherent visual language across three authored environments, five fictional characters, two 64-tile atlases, a six-wheel rover, instrument art and a complete interface kit.</p>
+      <p class="mono" style="color:#9CAAA7">SELECTIVE OUTLINES / UPPER-LEFT KEY LIGHT / HARD ALPHA / NO BAKED SHADOWS ON CHARACTERS</p>
+    </article>
+    <article class="gear-card panel"><h3>Originality boundary</h3>
+      <p>Every raster asset is drawn by checked-in Pillow scripts. No generative image model, third-party sprite pack, NASA photograph, logo, typeface, mission patch or employee likeness is used. Mars colour is a reference, not sampled imagery.</p>
+      <p class="mono" style="color:#9CAAA7">FICTIONAL CAST / FICTIONAL HARDWARE / SIMPLIFIED EDUCATIONAL GAMEPLAY VALUES</p>
+    </article>
+    <article class="gear-card panel"><h3>Approval gate</h3>
+      <p>Production integration is deliberately paused. If this direction is approved, implementation continues from these assets instead of restarting planning or replacing the art direction.</p>
+      <p class="mono" style="color:#9CAAA7">REPLY APPROVED OR REQUEST CHANGES WITH NOTES</p>
+    </article>
+  </div>
+</section>
+
+<section id="cast">
+  <div class="section-head"><span class="num">01</span><h2>Fictional Cast</h2><span class="note">5 characters / 4 directions / idle + walk + work</span></div>
+  <p class="lede">Each character has one silhouette-defining accessory and one role colour. Animation strips are authored, not tweened or rotated. Right-facing frames are mirrored from the authored left row at export, as permitted by the art bible.</p>
+  <div class="cast-grid"><article class="cast-card panel">
+  <span class="corner tl"></span><span class="corner br"></span>
+  <img class="portrait checker" src="../client/public/assets/portraits/nia_okafor.png" width="96" height="96" alt="Nia Okafor dialogue portrait">
+  <div>
+    <h3>Nia Okafor</h3>
+    <div class="role" style="color:#C76537">Aerospace Engineer</div>
+    <p>Short twists, safety goggles on forehead, rust coveralls, tool belt.</p>
+    <div class="anim-box">
+      <div class="dir">WALK<div class="sprite-stage" data-sheet="../client/public/assets/characters/nia_okafor.png" data-row="0" data-frames="2,3,4,5" data-fps="8" data-scale="3"></div></div>
+      <div class="dir">IDLE<div class="sprite-stage" data-sheet="../client/public/assets/characters/nia_okafor.png" data-row="0" data-frames="0,1" data-fps="1.4" data-scale="3"></div></div>
+    </div>
+    <div class="dir-row"><div class="dir">DOWN<div class="sprite-stage" data-sheet="../client/public/assets/characters/nia_okafor.png" data-row="0" data-frames="2,3,4,5" data-fps="8" data-scale="2"></div></div><div class="dir">LEFT<div class="sprite-stage" data-sheet="../client/public/assets/characters/nia_okafor.png" data-row="1" data-frames="8,9,10,11" data-fps="8" data-scale="2"></div></div><div class="dir">RIGHT<div class="sprite-stage" data-sheet="../client/public/assets/characters/nia_okafor.png" data-row="2" data-frames="14,15,16,17" data-fps="8" data-scale="2"></div></div><div class="dir">UP<div class="sprite-stage" data-sheet="../client/public/assets/characters/nia_okafor.png" data-row="3" data-frames="20,21,22,23" data-fps="8" data-scale="2"></div></div></div>
+    <details class="sheet-details"><summary>Open full 6 x 4 sheet</summary>
+      <img src="../client/public/assets/characters/nia_okafor.png" width="288" height="256" alt="Nia Okafor character sheet at 2x">
+    </details>
+  </div>
+</article>
+<article class="cast-card panel">
+  <span class="corner tl"></span><span class="corner br"></span>
+  <img class="portrait checker" src="../client/public/assets/portraits/ren_ito.png" width="96" height="96" alt="Ren Ito dialogue portrait">
+  <div>
+    <h3>Ren Ito</h3>
+    <div class="role" style="color:#2E8C80">Mars Satellite Controller</div>
+    <p>Undercut, headset ear cups and boom, teal field jacket, comms pack.</p>
+    <div class="anim-box">
+      <div class="dir">WALK<div class="sprite-stage" data-sheet="../client/public/assets/characters/ren_ito.png" data-row="0" data-frames="2,3,4,5" data-fps="8" data-scale="3"></div></div>
+      <div class="dir">IDLE<div class="sprite-stage" data-sheet="../client/public/assets/characters/ren_ito.png" data-row="0" data-frames="0,1" data-fps="1.4" data-scale="3"></div></div>
+    </div>
+    <div class="dir-row"><div class="dir">DOWN<div class="sprite-stage" data-sheet="../client/public/assets/characters/ren_ito.png" data-row="0" data-frames="2,3,4,5" data-fps="8" data-scale="2"></div></div><div class="dir">LEFT<div class="sprite-stage" data-sheet="../client/public/assets/characters/ren_ito.png" data-row="1" data-frames="8,9,10,11" data-fps="8" data-scale="2"></div></div><div class="dir">RIGHT<div class="sprite-stage" data-sheet="../client/public/assets/characters/ren_ito.png" data-row="2" data-frames="14,15,16,17" data-fps="8" data-scale="2"></div></div><div class="dir">UP<div class="sprite-stage" data-sheet="../client/public/assets/characters/ren_ito.png" data-row="3" data-frames="20,21,22,23" data-fps="8" data-scale="2"></div></div></div>
+    <details class="sheet-details"><summary>Open full 6 x 4 sheet</summary>
+      <img src="../client/public/assets/characters/ren_ito.png" width="288" height="256" alt="Ren Ito character sheet at 2x">
+    </details>
+  </div>
+</article>
+<article class="cast-card panel">
+  <span class="corner tl"></span><span class="corner br"></span>
+  <img class="portrait checker" src="../client/public/assets/portraits/val_ruiz.png" width="96" height="96" alt="Valeria Ruiz dialogue portrait">
+  <div>
+    <h3>Valeria Ruiz</h3>
+    <div class="role" style="color:#6F3344">Finance Administrator</div>
+    <p>High bun, neat profile, wine waistcoat, gold jewelry, held tablet.</p>
+    <div class="anim-box">
+      <div class="dir">WALK<div class="sprite-stage" data-sheet="../client/public/assets/characters/val_ruiz.png" data-row="0" data-frames="2,3,4,5" data-fps="8" data-scale="3"></div></div>
+      <div class="dir">IDLE<div class="sprite-stage" data-sheet="../client/public/assets/characters/val_ruiz.png" data-row="0" data-frames="0,1" data-fps="1.4" data-scale="3"></div></div>
+    </div>
+    <div class="dir-row"><div class="dir">DOWN<div class="sprite-stage" data-sheet="../client/public/assets/characters/val_ruiz.png" data-row="0" data-frames="2,3,4,5" data-fps="8" data-scale="2"></div></div><div class="dir">LEFT<div class="sprite-stage" data-sheet="../client/public/assets/characters/val_ruiz.png" data-row="1" data-frames="8,9,10,11" data-fps="8" data-scale="2"></div></div><div class="dir">RIGHT<div class="sprite-stage" data-sheet="../client/public/assets/characters/val_ruiz.png" data-row="2" data-frames="14,15,16,17" data-fps="8" data-scale="2"></div></div><div class="dir">UP<div class="sprite-stage" data-sheet="../client/public/assets/characters/val_ruiz.png" data-row="3" data-frames="20,21,22,23" data-fps="8" data-scale="2"></div></div></div>
+    <details class="sheet-details"><summary>Open full 6 x 4 sheet</summary>
+      <img src="../client/public/assets/characters/val_ruiz.png" width="288" height="256" alt="Valeria Ruiz character sheet at 2x">
+    </details>
+  </div>
+</article>
+<article class="cast-card panel">
+  <span class="corner tl"></span><span class="corner br"></span>
+  <img class="portrait checker" src="../client/public/assets/portraits/samir_haddad.png" width="96" height="96" alt="Samir Haddad dialogue portrait">
+  <div>
+    <h3>Samir Haddad</h3>
+    <div class="role" style="color:#344A67">Mission Designer</div>
+    <p>Curly top, short beard, slate utility vest, mission lanyard and satchel.</p>
+    <div class="anim-box">
+      <div class="dir">WALK<div class="sprite-stage" data-sheet="../client/public/assets/characters/samir_haddad.png" data-row="0" data-frames="2,3,4,5" data-fps="8" data-scale="3"></div></div>
+      <div class="dir">IDLE<div class="sprite-stage" data-sheet="../client/public/assets/characters/samir_haddad.png" data-row="0" data-frames="0,1" data-fps="1.4" data-scale="3"></div></div>
+    </div>
+    <div class="dir-row"><div class="dir">DOWN<div class="sprite-stage" data-sheet="../client/public/assets/characters/samir_haddad.png" data-row="0" data-frames="2,3,4,5" data-fps="8" data-scale="2"></div></div><div class="dir">LEFT<div class="sprite-stage" data-sheet="../client/public/assets/characters/samir_haddad.png" data-row="1" data-frames="8,9,10,11" data-fps="8" data-scale="2"></div></div><div class="dir">RIGHT<div class="sprite-stage" data-sheet="../client/public/assets/characters/samir_haddad.png" data-row="2" data-frames="14,15,16,17" data-fps="8" data-scale="2"></div></div><div class="dir">UP<div class="sprite-stage" data-sheet="../client/public/assets/characters/samir_haddad.png" data-row="3" data-frames="20,21,22,23" data-fps="8" data-scale="2"></div></div></div>
+    <details class="sheet-details"><summary>Open full 6 x 4 sheet</summary>
+      <img src="../client/public/assets/characters/samir_haddad.png" width="288" height="256" alt="Samir Haddad character sheet at 2x">
+    </details>
+  </div>
+</article>
+<article class="cast-card panel">
+  <span class="corner tl"></span><span class="corner br"></span>
+  <img class="portrait checker" src="../client/public/assets/portraits/dr_miriam_voss.png" width="96" height="96" alt="Dr. Miriam Voss dialogue portrait">
+  <div>
+    <h3>Dr. Miriam Voss</h3>
+    <div class="role" style="color:#14544F">Mission Scientist</div>
+    <p>Silver bob, reading glasses, long lab coat over plum, clipboard.</p>
+    <div class="anim-box">
+      <div class="dir">WALK<div class="sprite-stage" data-sheet="../client/public/assets/characters/dr_miriam_voss.png" data-row="0" data-frames="2,3,4,5" data-fps="8" data-scale="3"></div></div>
+      <div class="dir">IDLE<div class="sprite-stage" data-sheet="../client/public/assets/characters/dr_miriam_voss.png" data-row="0" data-frames="0,1" data-fps="1.4" data-scale="3"></div></div>
+    </div>
+    <div class="dir-row"><div class="dir">DOWN<div class="sprite-stage" data-sheet="../client/public/assets/characters/dr_miriam_voss.png" data-row="0" data-frames="2,3,4,5" data-fps="8" data-scale="2"></div></div><div class="dir">LEFT<div class="sprite-stage" data-sheet="../client/public/assets/characters/dr_miriam_voss.png" data-row="1" data-frames="8,9,10,11" data-fps="8" data-scale="2"></div></div><div class="dir">RIGHT<div class="sprite-stage" data-sheet="../client/public/assets/characters/dr_miriam_voss.png" data-row="2" data-frames="14,15,16,17" data-fps="8" data-scale="2"></div></div><div class="dir">UP<div class="sprite-stage" data-sheet="../client/public/assets/characters/dr_miriam_voss.png" data-row="3" data-frames="20,21,22,23" data-fps="8" data-scale="2"></div></div></div>
+    <details class="sheet-details"><summary>Open full 6 x 4 sheet</summary>
+      <img src="../client/public/assets/characters/dr_miriam_voss.png" width="288" height="256" alt="Dr. Miriam Voss character sheet at 2x">
+    </details>
+  </div>
+</article></div>
+</section>
+
+<section id="environments">
+  <div class="section-head"><span class="num">02</span><h2>Environment Sets</h2><span class="note">64 + 64 authored 16 px tiles</span></div>
+  <p class="lede">The HQ atlas supplies navy acoustic panels, carpet, lab tile, steel service floor, hazard borders, cable runs, rugs and transition pieces. The Mars atlas separates dune sand, regolith, basalt shelf and crater families so the surface reads as geology rather than one red noise field.</p>
+  <div class="tiles-grid">
+    <article class="tile-card panel">
+  <h3>HQ / LAB ATLAS</h3>
+  <p>Mission control and engineering bay. Fictional facility; not a reconstruction of a NASA building.<br>FLOOR 23 / OVERLAY 14 / WALL 27</p>
+  <img class="pixel checker" src="../client/public/assets/tiles/hq_tiles.png" width="512" height="512" alt="HQ / LAB ATLAS tile atlas at 4x">
+  <details class="tile-list"><summary>Inspect all 64 tile IDs</summary><div class="tile-tags"><span>hq_carpet_a</span><span>hq_carpet_b</span><span>hq_carpet_c</span><span>hq_carpet_seal</span><span>hq_carpet_wine</span><span>hq_carpet_transition</span><span>hq_steel_floor</span><span>hq_steel_grate</span><span>hq_lab_tile</span><span>hq_lab_tile_b</span><span>hq_hazard_floor</span><span>hq_access_panel</span><span>hq_cable_run_h</span><span>hq_cable_run_v</span><span>hq_floor_shadow</span><span>hq_floor_light</span><span>hq_wall_panel_a</span><span>hq_wall_panel_b</span><span>hq_wall_panel_c</span><span>hq_wall_trim_top</span><span>hq_wall_trim_mid</span><span>hq_wall_corner_l</span><span>hq_wall_corner_r</span><span>hq_wall_base</span><span>hq_window_left</span><span>hq_window_glass</span><span>hq_window_right</span><span>hq_window_glass_lit</span><span>hq_door_frame_l</span><span>hq_door_frame_r</span><span>hq_airlock_tile</span><span>hq_wall_hazard</span><span>hq_wall_vent</span><span>hq_wall_panel_light</span><span>hq_wall_panel_dark</span><span>hq_wall_emblem</span><span>hq_wall_cable_tray</span><span>hq_wall_board</span><span>hq_wall_light</span><span>hq_wall_sconce</span><span>hq_lab_drain</span><span>hq_marked_corner</span><span>hq_hazard_edge_h</span><span>hq_hazard_edge_v</span><span>hq_carpet_edge</span><span>hq_floor_hatch</span><span>hq_floor_ladder</span><span>hq_floor_warning</span><span>hq_glass_top</span><span>hq_glass_mid</span><span>hq_glass_bottom</span><span>hq_glass_rail</span><span>hq_ceiling_light</span><span>hq_ceiling_vent</span><span>hq_floor_trench</span><span>hq_nav_stripe</span><span>hq_rug_red_a</span><span>hq_rug_red_b</span><span>hq_rug_edge</span><span>hq_wall_shadow</span><span>hq_wall_seal</span><span>hq_wall_poster</span><span>hq_wall_pipe</span><span>hq_floor_dec_arrow</span></div></details>
+</article>
+    <article class="tile-card panel">
+  <h3>MARS ATLAS</h3>
+  <p>Ares Basin terrain families. Stylised gameplay terrain, not a georeferenced Mars dataset.<br>FLOOR 55 / OVERLAY 9</p>
+  <img class="pixel checker" src="../client/public/assets/tiles/mars_tiles.png" width="512" height="512" alt="MARS ATLAS tile atlas at 4x">
+  <details class="tile-list"><summary>Inspect all 64 tile IDs</summary><div class="tile-tags"><span>mars_sand_a</span><span>mars_sand_b</span><span>mars_sand_c</span><span>mars_sand_d</span><span>mars_sand_ripple_a</span><span>mars_sand_ripple_b</span><span>mars_sand_coarse</span><span>mars_sand_pebbles</span><span>mars_regolith_a</span><span>mars_regolith_b</span><span>mars_regolith_c</span><span>mars_dust_dark</span><span>mars_dust_rust</span><span>mars_gravel_a</span><span>mars_gravel_b</span><span>mars_wind_patch</span><span>mars_basalt_a</span><span>mars_basalt_b</span><span>mars_basalt_fracture</span><span>mars_basalt_gravel</span><span>mars_rock_shelf</span><span>mars_rock_shelf_cracked</span><span>mars_dune_shadow</span><span>mars_dune_crest</span><span>mars_transition_sand_n</span><span>mars_transition_sand_e</span><span>mars_transition_sand_s</span><span>mars_transition_sand_w</span><span>mars_transition_dust_n</span><span>mars_transition_dust_e</span><span>mars_transition_dust_s</span><span>mars_transition_dust_w</span><span>mars_crater_nw</span><span>mars_crater_n</span><span>mars_crater_ne</span><span>mars_crater_w</span><span>mars_crater_center</span><span>mars_crater_e</span><span>mars_crater_sw</span><span>mars_crater_s</span><span>mars_crater_se</span><span>mars_wind_h</span><span>mars_wind_v</span><span>mars_pebbles</span><span>mars_cracks</span><span>mars_track_h</span><span>mars_track_v</span><span>mars_scan_patch</span><span>mars_dust_haze</span><span>mars_compacted_a</span><span>mars_compacted_b</span><span>mars_path_h</span><span>mars_path_v</span><span>mars_landing_pad_center</span><span>mars_landing_pad_edge</span><span>mars_rover_park</span><span>mars_sample_ground</span><span>mars_sand_bright</span><span>mars_sand_shadow</span><span>mars_basalt_rubble</span><span>mars_gravel_dark</span><span>mars_dune_ridge_h</span><span>mars_dune_ridge_v</span><span>mars_dust_edge</span></div></details>
+</article>
+  </div>
+</section>
+
+<section id="props">
+  <div class="section-head"><span class="num">03</span><h2>Props</h2><span class="note">18 HQ / 7 lab / 13 Mars / transparent</span></div>
+  <p class="lede">Landmark props carry the narrative: the central mission display, double console, meeting table, gantry crane, rover jig, wheel rack, lander, habitat, solar array and the butte landmark. Metadata records bottom-centre anchors, with the landing pad marked as a centre-anchored ground decal.</p>
+  <div class="group-label">HQ / MISSION CONTROL</div><div class="prop-grid"><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/hq/main_display.png" width="192" height="96" alt="MAIN DISPLAY"><figcaption class="name">MAIN DISPLAY</figcaption><span class="dims">96 X 48</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/hq/console_wide.png" width="128" height="68" alt="CONSOLE WIDE"><figcaption class="name">CONSOLE WIDE</figcaption><span class="dims">64 X 34</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/hq/console_single.png" width="64" height="64" alt="CONSOLE SINGLE"><figcaption class="name">CONSOLE SINGLE</figcaption><span class="dims">32 X 32</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/hq/workstation.png" width="96" height="60" alt="WORKSTATION"><figcaption class="name">WORKSTATION</figcaption><span class="dims">48 X 30</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/hq/chair.png" width="32" height="44" alt="CHAIR"><figcaption class="name">CHAIR</figcaption><span class="dims">16 X 22</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/hq/meeting_table.png" width="160" height="80" alt="MEETING TABLE"><figcaption class="name">MEETING TABLE</figcaption><span class="dims">80 X 40</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/hq/server_rack.png" width="48" height="80" alt="SERVER RACK"><figcaption class="name">SERVER RACK</figcaption><span class="dims">24 X 40</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/hq/plant.png" width="32" height="52" alt="PLANT"><figcaption class="name">PLANT</figcaption><span class="dims">16 X 26</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/hq/plant_big.png" width="48" height="72" alt="PLANT BIG"><figcaption class="name">PLANT BIG</figcaption><span class="dims">24 X 36</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/hq/whiteboard.png" width="96" height="64" alt="WHITEBOARD"><figcaption class="name">WHITEBOARD</figcaption><span class="dims">48 X 32</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/hq/window_bank.png" width="128" height="64" alt="WINDOW BANK"><figcaption class="name">WINDOW BANK</figcaption><span class="dims">64 X 32</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/hq/reception_desk.png" width="128" height="60" alt="RECEPTION DESK"><figcaption class="name">RECEPTION DESK</figcaption><span class="dims">64 X 30</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/hq/coffee_station.png" width="48" height="56" alt="COFFEE STATION"><figcaption class="name">COFFEE STATION</figcaption><span class="dims">24 X 28</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/hq/water_cooler.png" width="32" height="56" alt="WATER COOLER"><figcaption class="name">WATER COOLER</figcaption><span class="dims">16 X 28</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/hq/mission_clock.png" width="64" height="36" alt="MISSION CLOCK"><figcaption class="name">MISSION CLOCK</figcaption><span class="dims">32 X 18</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/hq/wall_screen_small.png" width="64" height="48" alt="WALL SCREEN SMALL"><figcaption class="name">WALL SCREEN SMALL</figcaption><span class="dims">32 X 24</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/hq/banner_frontier.png" width="48" height="96" alt="BANNER FRONTIER"><figcaption class="name">BANNER FRONTIER</figcaption><span class="dims">24 X 48</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/hq/airlock_door.png" width="64" height="96" alt="AIRLOCK DOOR"><figcaption class="name">AIRLOCK DOOR</figcaption><span class="dims">32 X 48</span></figure></div>
+  <div class="group-label">ENGINEERING LAB</div><div class="prop-grid"><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/lab/lab_bench.png" width="128" height="64" alt="LAB BENCH"><figcaption class="name">LAB BENCH</figcaption><span class="dims">64 X 32</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/lab/rover_jig.png" width="128" height="84" alt="ROVER JIG"><figcaption class="name">ROVER JIG</figcaption><span class="dims">64 X 42</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/lab/tool_cart.png" width="64" height="56" alt="TOOL CART"><figcaption class="name">TOOL CART</figcaption><span class="dims">32 X 28</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/lab/component_bin.png" width="64" height="48" alt="COMPONENT BIN"><figcaption class="name">COMPONENT BIN</figcaption><span class="dims">32 X 24</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/lab/gantry_crane.png" width="160" height="100" alt="GANTRY CRANE"><figcaption class="name">GANTRY CRANE</figcaption><span class="dims">80 X 50</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/lab/wheel_rack.png" width="80" height="80" alt="WHEEL RACK"><figcaption class="name">WHEEL RACK</figcaption><span class="dims">40 X 40</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/lab/cable_reel.png" width="56" height="48" alt="CABLE REEL"><figcaption class="name">CABLE REEL</figcaption><span class="dims">28 X 24</span></figure></div>
+  <div class="group-label">MARS SURFACE</div><div class="prop-grid"><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/mars/rock_a.png" width="56" height="40" alt="ROCK A"><figcaption class="name">ROCK A</figcaption><span class="dims">28 X 20</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/mars/rock_b.png" width="88" height="56" alt="ROCK B"><figcaption class="name">ROCK B</figcaption><span class="dims">44 X 28</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/mars/rock_cluster.png" width="136" height="84" alt="ROCK CLUSTER"><figcaption class="name">ROCK CLUSTER</figcaption><span class="dims">68 X 42</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/mars/mesa.png" width="256" height="160" alt="MESA"><figcaption class="name">MESA</figcaption><span class="dims">128 X 80</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/mars/sample_rock.png" width="48" height="40" alt="SAMPLE ROCK"><figcaption class="name">SAMPLE ROCK</figcaption><span class="dims">24 X 20</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/mars/beacon.png" width="40" height="64" alt="BEACON"><figcaption class="name">BEACON</figcaption><span class="dims">20 X 32</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/mars/relay.png" width="56" height="80" alt="RELAY"><figcaption class="name">RELAY</figcaption><span class="dims">28 X 40</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/mars/solar_array.png" width="128" height="68" alt="SOLAR ARRAY"><figcaption class="name">SOLAR ARRAY</figcaption><span class="dims">64 X 34</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/mars/cargo_crate.png" width="56" height="44" alt="CARGO CRATE"><figcaption class="name">CARGO CRATE</figcaption><span class="dims">28 X 22</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/mars/field_habitat.png" width="192" height="136" alt="FIELD HABITAT"><figcaption class="name">FIELD HABITAT</figcaption><span class="dims">96 X 68</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/mars/lander.png" width="160" height="128" alt="LANDER"><figcaption class="name">LANDER</figcaption><span class="dims">80 X 64</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/mars/landing_pad.png" width="224" height="144" alt="LANDING PAD"><figcaption class="name">LANDING PAD</figcaption><span class="dims">112 X 72</span></figure><figure class="prop checker"><img class="pixel" src="../client/public/assets/props/mars/rover_marker.png" width="48" height="40" alt="ROVER MARKER"><figcaption class="name">ROVER MARKER</figcaption><span class="dims">24 X 20</span></figure></div>
+</section>
+
+<section id="gear">
+  <div class="section-head"><span class="num">04</span><h2>Rover + Equipment</h2><span class="note">96 x 64 hero / 4 directions / 8 components</span></div>
+  <p class="lede">The MERIDIAN rover is a fictional six-wheel rocker-bogie field science platform. The mast, high-gain antenna and arm create a distinctive top-down silhouette. Component cards use representational abstraction; none reproduces a NASA instrument, logo or photograph.</p>
+  <div class="gear-grid">
+    <article class="gear-card panel" style="grid-column:1/-1">
+      <h3>MERIDIAN field rover / four authored directions</h3>
+      <p>Hero composite at 3x, then native-direction exports. Right-facing art is mirrored from the authored left frame at export.</p>
+      <div class="rover-row"><figure><img class="pixel" src="../client/public/assets/rover/rover_down.png" width="288" height="192" alt="Rover facing down"><figcaption>down</figcaption></figure><figure><img class="pixel" src="../client/public/assets/rover/rover_left.png" width="288" height="192" alt="Rover facing left"><figcaption>left</figcaption></figure><figure><img class="pixel" src="../client/public/assets/rover/rover_right.png" width="288" height="192" alt="Rover facing right"><figcaption>right</figcaption></figure><figure><img class="pixel" src="../client/public/assets/rover/rover_up.png" width="288" height="192" alt="Rover facing up"><figcaption>up</figcaption></figure></div>
+      <p class="mono" style="margin-top:14px;color:#9CAAA7">ORIGIN 0.5 / 0.86 / BOTTOM-CENTRE CONTACT / NO BAKED SHADOW</p>
+    </article>
+    <article class="gear-card panel" style="grid-column:1/-1">
+      <h3>Instrument and component icons / 32 x 32</h3>
+      <p>Original game hardware. All performance values in the finished game will be labelled as simplified educational gameplay values, not operational specifications.</p>
+      <div class="icon-row"><div class="icon-item"><img class="pixel" src="../client/public/assets/equipment/chassis.png" width="128" height="128" alt="Rigid Chassis">chassis</div><div class="icon-item"><img class="pixel" src="../client/public/assets/equipment/drive.png" width="128" height="128" alt="Drive Assembly">drive</div><div class="icon-item"><img class="pixel" src="../client/public/assets/equipment/suspension.png" width="128" height="128" alt="Rocker-Bogie">suspension</div><div class="icon-item"><img class="pixel" src="../client/public/assets/equipment/power.png" width="128" height="128" alt="Power Core">power</div><div class="icon-item"><img class="pixel" src="../client/public/assets/equipment/antenna.png" width="128" height="128" alt="High-Gain Antenna">antenna</div><div class="icon-item"><img class="pixel" src="../client/public/assets/equipment/arm.png" width="128" height="128" alt="Sample Arm">arm</div><div class="icon-item"><img class="pixel" src="../client/public/assets/equipment/spectrometer.png" width="128" height="128" alt="Spectrometer">spectrometer</div><div class="icon-item"><img class="pixel" src="../client/public/assets/equipment/weather.png" width="128" height="128" alt="Weather Mast">weather</div></div>
+    </article>
+  </div>
+</section>
+
+<section id="interface">
+  <div class="section-head"><span class="num">05</span><h2>Interface + Branding</h2><span class="note">6 resources / 5 roles / 4 marks / 4 brand assets</span></div>
+  <p class="lede">Compact mission-ops console crossed with a field notebook: chamfered panels, 1 px inset highlights, no glow bloom, no web-style pills. Colour is always redundant with icon and text. The wordmark, mission lockup and Ares Survey patch are original.</p>
+  <div class="gear-grid">
+    <article class="gear-card panel">
+      <h3>Mission resources</h3>
+      <p>Budget, mass, power, data, comms and time. Readable at 1x and 4x on both dark and cream panels.</p>
+      <div class="icon-row"><div class="icon-item"><img class="pixel" src="../client/public/assets/ui/resource_budget.png" width="64" height="64" alt="Budget">Budget</div><div class="icon-item"><img class="pixel" src="../client/public/assets/ui/resource_mass.png" width="64" height="64" alt="Mass">Mass</div><div class="icon-item"><img class="pixel" src="../client/public/assets/ui/resource_power.png" width="64" height="64" alt="Power">Power</div><div class="icon-item"><img class="pixel" src="../client/public/assets/ui/resource_data.png" width="64" height="64" alt="Data">Data</div><div class="icon-item"><img class="pixel" src="../client/public/assets/ui/resource_comms.png" width="64" height="64" alt="Comms">Comms</div><div class="icon-item"><img class="pixel" src="../client/public/assets/ui/resource_time.png" width="64" height="64" alt="Time">Time</div></div>
+      <div class="contrast">
+        <div class="swatch dark"><div class="icon-row"><div class="icon-item"><img class="pixel" src="../client/public/assets/ui/resource_budget.png" width="32" height="32" alt="Budget on navy"><span>budget</span></div><div class="icon-item"><img class="pixel" src="../client/public/assets/ui/resource_mass.png" width="32" height="32" alt="Mass on navy"><span>mass</span></div><div class="icon-item"><img class="pixel" src="../client/public/assets/ui/resource_power.png" width="32" height="32" alt="Power on navy"><span>power</span></div><div class="icon-item"><img class="pixel" src="../client/public/assets/ui/resource_data.png" width="32" height="32" alt="Data on navy"><span>data</span></div><div class="icon-item"><img class="pixel" src="../client/public/assets/ui/resource_comms.png" width="32" height="32" alt="Comms on navy"><span>comms</span></div><div class="icon-item"><img class="pixel" src="../client/public/assets/ui/resource_time.png" width="32" height="32" alt="Time on navy"><span>time</span></div></div></div>
+        <div class="swatch light"><div class="icon-row"><div class="icon-item"><img class="pixel" src="../client/public/assets/ui/resource_budget.png" width="32" height="32" alt="Budget on cream"><span>budget</span></div><div class="icon-item"><img class="pixel" src="../client/public/assets/ui/resource_mass.png" width="32" height="32" alt="Mass on cream"><span>mass</span></div><div class="icon-item"><img class="pixel" src="../client/public/assets/ui/resource_power.png" width="32" height="32" alt="Power on cream"><span>power</span></div><div class="icon-item"><img class="pixel" src="../client/public/assets/ui/resource_data.png" width="32" height="32" alt="Data on cream"><span>data</span></div><div class="icon-item"><img class="pixel" src="../client/public/assets/ui/resource_comms.png" width="32" height="32" alt="Comms on cream"><span>comms</span></div><div class="icon-item"><img class="pixel" src="../client/public/assets/ui/resource_time.png" width="32" height="32" alt="Time on cream"><span>time</span></div></div></div>
+      </div>
+    </article>
+    <article class="gear-card panel">
+      <h3>Role marks</h3>
+      <p>Original role badges. The cast is fictional and is not based on NASA employees.</p>
+      <div class="icon-row"><div class="icon-item"><img class="pixel" src="../client/public/assets/ui/role_engineer.png" width="96" height="96" alt="Aerospace Engineer">Aerospace Engineer</div><div class="icon-item"><img class="pixel" src="../client/public/assets/ui/role_satellite.png" width="96" height="96" alt="Mars Satellite Controller">Mars Satellite Controller</div><div class="icon-item"><img class="pixel" src="../client/public/assets/ui/role_finance.png" width="96" height="96" alt="Finance Administrator">Finance Administrator</div><div class="icon-item"><img class="pixel" src="../client/public/assets/ui/role_designer.png" width="96" height="96" alt="Mission Designer">Mission Designer</div><div class="icon-item"><img class="pixel" src="../client/public/assets/ui/role_scientist.png" width="96" height="96" alt="Mission Scientist">Mission Scientist</div></div>
+      <h3 style="margin-top:22px">Interaction marks</h3>
+      <p>Objective, scan, dialogue and wayfinding cues.</p>
+      <div class="icon-row"><div class="icon-item"><img class="pixel" src="../client/public/assets/ui/marker_objective.png" width="64" height="64" alt="Objective marker">marker objective</div><div class="icon-item"><img class="pixel" src="../client/public/assets/ui/marker_scan.png" width="64" height="64" alt="Scan target marker">marker scan</div><div class="icon-item"><img class="pixel" src="../client/public/assets/ui/marker_talk.png" width="64" height="64" alt="Dialogue marker">marker talk</div><div class="icon-item"><img class="pixel" src="../client/public/assets/ui/nav_arrow.png" width="64" height="64" alt="Wayfinding arrow">nav arrow</div></div>
+    </article>
+    <article class="gear-card panel">
+      <h3>Panel behaviour</h3>
+      <p>The 24 x 24 source panel uses an 8 px 9-slice border. Corner pixels are transparent so the frame stretches without softening.</p>
+      <div class="nine-slice">MISSION CLOCK <b>T-04:12:30</b><br>SAMPLE SEAL VERIFIED<br><span style="color:#AAB4B2">MOCK INTERFACE COPY / NOT LIVE MISSION DATA</span></div>
+    </article>
+    <article class="gear-card panel">
+      <h3>Branding</h3>
+      <p>Primary wordmark, mission lockup and the fictional Ares Survey patch.</p>
+      <div class="brand-stack">
+        <img class="logo pixel" src="../client/public/assets/branding/logo_red_frontier.png" width="384" height="128" alt="RED FRONTIER fictional wordmark">
+        <img class="logo pixel" src="../client/public/assets/branding/logo_mission_mars.png" width="320" height="64" alt="MISSION MARS fictional mission lockup">
+        <img class="pixel" src="../client/public/assets/branding/patch_ares_survey.png" width="192" height="192" alt="Fictional Ares Survey patch">
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="scenes">
+  <div class="section-head"><span class="num">06</span><h2>Composed Scenes</h2><span class="note">384 x 224 native / documentation targets</span></div>
+  <p class="lede">These are composed visual-direction targets built from the delivered assets, not in-game screenshots. They prove that the tiles, props, cast and HUD language fit together at native resolution. All HUD copy is mock interface text, not live mission data.</p>
+  <div class="scene-grid"><article class="scene-card panel"><span class="corner tl"></span><span class="corner br"></span>
+  <a href="../client/public/assets/scenes/hq_mission_control.png" target="_blank" rel="noopener"><img class="pixel" src="../client/public/assets/scenes/hq_mission_control.png" width="768" height="448" alt="HQ Mission Control at 2x"></a>
+  <h3>HQ Mission Control</h3>
+  <p>Mission briefing. Central double console, meeting table, Voss portrait and a 52 px dialogue box. Mock HUD copy is not live mission data.</p>
+  <p class="mono" style="margin-top:8px;color:#9CAAA7">384 X 224 NATIVE / OPEN FOR 1X</p>
+</article><article class="scene-card panel"><span class="corner tl"></span><span class="corner br"></span>
+  <a href="../client/public/assets/scenes/hq_engineering_lab.png" target="_blank" rel="noopener"><img class="pixel" src="../client/public/assets/scenes/hq_engineering_lab.png" width="768" height="448" alt="Engineering Laboratory at 2x"></a>
+  <h3>Engineering Laboratory</h3>
+  <p>Rover assembly bay. Gantry, tooling, wheel rack, component storage, work-lamp pool and the assembled MERIDIAN rover.</p>
+  <p class="mono" style="margin-top:8px;color:#9CAAA7">384 X 224 NATIVE / OPEN FOR 1X</p>
+</article><article class="scene-card panel"><span class="corner tl"></span><span class="corner br"></span>
+  <a href="../client/public/assets/scenes/mars_landing_zone.png" target="_blank" rel="noopener"><img class="pixel" src="../client/public/assets/scenes/mars_landing_zone.png" width="768" height="448" alt="Mars / Ares Basin Landing Zone at 2x"></a>
+  <h3>Mars / Ares Basin Landing Zone</h3>
+  <p>Ares Basin. Landing pad decal, fictional lander, habitat, solar array, relay, sample site and compact field HUD.</p>
+  <p class="mono" style="margin-top:8px;color:#9CAAA7">384 X 224 NATIVE / OPEN FOR 1X</p>
+</article></div>
+</section>
+
+<section id="manifest">
+  <div class="section-head"><span class="num">07</span><h2>Files + Reproducibility</h2><span class="note">100 delivered files / SHA-256 recorded</span></div>
+  <p class="lede">Every raster asset is regenerated by <span class="mono">python scripts/build_art.py</span> and validated by <span class="mono">python scripts/validate_art.py</span>. The production asset root is <span class="mono">client/public/assets/</span>; metadata JSON sits beside each group.</p>
+  <div class="gear-grid">
+    <article class="manifest-card panel">
+      <h3 style="margin:0 0 8px;color:#F4EAD8;font:700 12px/1.4 'Courier New',monospace;letter-spacing:.12em;text-transform:uppercase">Delivery counts</h3>
+      <table><tbody>
+        <tr><td>Fictional cast</td><td>5</td></tr>
+        <tr><td>Dialogue portraits</td><td>5</td></tr>
+        <tr><td>HQ tiles</td><td>64</td></tr>
+        <tr><td>Mars tiles</td><td>64</td></tr>
+        <tr><td>HQ / lab / Mars props</td><td>18 / 7 / 13</td></tr>
+        <tr><td>Rover directions</td><td>4</td></tr>
+        <tr><td>Equipment icons</td><td>8</td></tr>
+        <tr><td>Resource icons / role badges</td><td>6 / 5</td></tr>
+        <tr><td>UI marks / brand assets</td><td>4 / 4</td></tr>
+        <tr><td>Composed scenes</td><td>3</td></tr>
+      </tbody></table>
+      <div class="downloads">
+        <a href="contact_sheet.png">Contact sheet PNG</a>
+        <a href="../client/public/assets/manifest.json">Asset manifest JSON</a>
+        <a href="VALIDATION.md">Validation report</a>
+      </div>
+    </article>
+    <article class="manifest-card panel">
+      <h3 style="margin:0 0 8px;color:#F4EAD8;font:700 12px/1.4 'Courier New',monospace;letter-spacing:.12em;text-transform:uppercase">Build commands</h3>
+      <p class="mono" style="color:#AAB4B2;font-size:11px">python scripts/build_art.py<br>python scripts/validate_art.py<br>python -m http.server 8000</p>
+      <p style="color:#AAB4B2;font-size:12px">This page uses no external fonts, libraries or network requests. Open it directly, or serve the repository root over HTTP for the most predictable local review.</p>
+    </article>
+  </div>
+  <details class="panel manifest-card manifest" style="margin-top:14px"><summary style="cursor:pointer;color:var(--cyan);font:700 10px/1.4 'Courier New',monospace;letter-spacing:.12em;text-transform:uppercase">Open full file manifest</summary>
+    <table><thead><tr><th>Path</th><th>Native size</th><th>Bytes</th><th>SHA-256 prefix</th></tr></thead><tbody><tr><td>branding/branding_sheet.png</td><td>256 x 144</td><td>4,146</td><td>39f0a90a2608b612</td></tr><tr><td>branding/logo_mission_mars.png</td><td>160 x 32</td><td>818</td><td>a9944b4d18b5a611</td></tr><tr><td>branding/logo_red_frontier.png</td><td>192 x 64</td><td>1,522</td><td>fd98f1fcde5347ba</td></tr><tr><td>branding/patch_ares_survey.png</td><td>64 x 64</td><td>1,251</td><td>b2f56e18a71c7738</td></tr><tr><td>branding/wordmark_small.png</td><td>152 x 24</td><td>566</td><td>e04cd6726e969c83</td></tr><tr><td>characters/characters.json</td><td>-</td><td>12,732</td><td>d81abbdd9315cc93</td></tr><tr><td>characters/dr_miriam_voss.png</td><td>144 x 128</td><td>4,246</td><td>634f5861cf1cbf06</td></tr><tr><td>characters/nia_okafor.png</td><td>144 x 128</td><td>4,692</td><td>b35ca0a4c769e981</td></tr><tr><td>characters/ren_ito.png</td><td>144 x 128</td><td>4,452</td><td>5378bf39f56d180c</td></tr><tr><td>characters/samir_haddad.png</td><td>144 x 128</td><td>4,708</td><td>9e4e13ae19edeab5</td></tr><tr><td>characters/val_ruiz.png</td><td>144 x 128</td><td>4,641</td><td>da5e9e6923214436</td></tr><tr><td>equipment/antenna.png</td><td>32 x 32</td><td>542</td><td>1bbdb3b9254fab1d</td></tr><tr><td>equipment/arm.png</td><td>32 x 32</td><td>409</td><td>2aef4778f3c2bfdc</td></tr><tr><td>equipment/chassis.png</td><td>32 x 32</td><td>415</td><td>64776c388de57861</td></tr><tr><td>equipment/drive.png</td><td>32 x 32</td><td>568</td><td>0f7e26c998af7dcc</td></tr><tr><td>equipment/equipment.json</td><td>-</td><td>3,690</td><td>00210a12921e7381</td></tr><tr><td>equipment/equipment_sheet.png</td><td>128 x 64</td><td>2,279</td><td>42679ad9c4741fbd</td></tr><tr><td>equipment/power.png</td><td>32 x 32</td><td>445</td><td>f03c9663b2874d3a</td></tr><tr><td>equipment/spectrometer.png</td><td>32 x 32</td><td>453</td><td>05c87f14c7a22f2c</td></tr><tr><td>equipment/suspension.png</td><td>32 x 32</td><td>473</td><td>6e602a6c0900c461</td></tr><tr><td>equipment/weather.png</td><td>32 x 32</td><td>441</td><td>09d29c964b8e54cb</td></tr><tr><td>portraits/dr_miriam_voss.png</td><td>48 x 48</td><td>1,015</td><td>4f9826c0c7419273</td></tr><tr><td>portraits/nia_okafor.png</td><td>48 x 48</td><td>1,072</td><td>f40fa1af0f4949a9</td></tr><tr><td>portraits/ren_ito.png</td><td>48 x 48</td><td>1,126</td><td>8153f2bb95113b26</td></tr><tr><td>portraits/samir_haddad.png</td><td>48 x 48</td><td>1,071</td><td>48af1178e98c0ccb</td></tr><tr><td>portraits/val_ruiz.png</td><td>48 x 48</td><td>1,086</td><td>fb8baf1fcec45f9a</td></tr><tr><td>props/hq/airlock_door.png</td><td>32 x 48</td><td>466</td><td>826d0eee0973e1d9</td></tr><tr><td>props/hq/banner_frontier.png</td><td>24 x 48</td><td>396</td><td>543e65f9f9eb44b2</td></tr><tr><td>props/hq/chair.png</td><td>16 x 22</td><td>232</td><td>945ea91bf0fe1fc0</td></tr><tr><td>props/hq/coffee_station.png</td><td>24 x 28</td><td>329</td><td>025ebfe267002c9e</td></tr><tr><td>props/hq/console_single.png</td><td>32 x 32</td><td>362</td><td>613c4db70a4a8562</td></tr><tr><td>props/hq/console_wide.png</td><td>64 x 34</td><td>642</td><td>67ed19042f76ef41</td></tr><tr><td>props/hq/main_display.png</td><td>96 x 48</td><td>1,048</td><td>3043d81f9173f44d</td></tr><tr><td>props/hq/meeting_table.png</td><td>80 x 40</td><td>809</td><td>0c09976faab7f964</td></tr><tr><td>props/hq/mission_clock.png</td><td>32 x 18</td><td>224</td><td>8bf5c0b85039de03</td></tr><tr><td>props/hq/plant.png</td><td>16 x 26</td><td>359</td><td>dcd5fd7dae833874</td></tr><tr><td>props/hq/plant_big.png</td><td>24 x 36</td><td>458</td><td>b0557456eeeb7221</td></tr><tr><td>props/hq/reception_desk.png</td><td>64 x 30</td><td>519</td><td>c200da9c789cba1b</td></tr><tr><td>props/hq/server_rack.png</td><td>24 x 40</td><td>323</td><td>4b4890c866e40c09</td></tr><tr><td>props/hq/wall_screen_small.png</td><td>32 x 24</td><td>328</td><td>828fc38783c360fe</td></tr><tr><td>props/hq/water_cooler.png</td><td>16 x 28</td><td>233</td><td>7c64762156d01485</td></tr><tr><td>props/hq/whiteboard.png</td><td>48 x 32</td><td>453</td><td>f330ac382b54d632</td></tr><tr><td>props/hq/window_bank.png</td><td>64 x 32</td><td>664</td><td>c2aa0e6f1cb0ed09</td></tr><tr><td>props/hq/workstation.png</td><td>48 x 30</td><td>435</td><td>c2103232b82fc2a1</td></tr><tr><td>props/lab/cable_reel.png</td><td>28 x 24</td><td>493</td><td>3997262f5529216d</td></tr><tr><td>props/lab/component_bin.png</td><td>32 x 24</td><td>327</td><td>eb3d3cdd01088b90</td></tr><tr><td>props/lab/gantry_crane.png</td><td>80 x 50</td><td>548</td><td>9eff2868119f73a2</td></tr><tr><td>props/lab/lab_bench.png</td><td>64 x 32</td><td>622</td><td>95a24dd100b8995c</td></tr><tr><td>props/lab/rover_jig.png</td><td>64 x 42</td><td>574</td><td>58114184f4936412</td></tr><tr><td>props/lab/tool_cart.png</td><td>32 x 28</td><td>311</td><td>1e161a304160464b</td></tr><tr><td>props/lab/wheel_rack.png</td><td>40 x 40</td><td>616</td><td>40557b88048b105f</td></tr><tr><td>props/mars/beacon.png</td><td>20 x 32</td><td>365</td><td>d704b56fbd9787c9</td></tr><tr><td>props/mars/cargo_crate.png</td><td>28 x 22</td><td>359</td><td>506cf261952bc90f</td></tr><tr><td>props/mars/field_habitat.png</td><td>96 x 68</td><td>1,721</td><td>7389007153f3333c</td></tr><tr><td>props/mars/lander.png</td><td>80 x 64</td><td>1,464</td><td>13405d4afc8699e1</td></tr><tr><td>props/mars/landing_pad.png</td><td>112 x 72</td><td>1,442</td><td>2107742a40697966</td></tr><tr><td>props/mars/mars_props.json</td><td>-</td><td>4,726</td><td>1fbeacb26b18921c</td></tr><tr><td>props/mars/mesa.png</td><td>128 x 80</td><td>2,305</td><td>bb1e11939c461232</td></tr><tr><td>props/mars/relay.png</td><td>28 x 40</td><td>741</td><td>ca0290bbc16f2f8e</td></tr><tr><td>props/mars/rock_a.png</td><td>28 x 20</td><td>515</td><td>c7715e572f16c3bf</td></tr><tr><td>props/mars/rock_b.png</td><td>44 x 28</td><td>564</td><td>d9c5b16828b16cbc</td></tr><tr><td>props/mars/rock_cluster.png</td><td>68 x 42</td><td>1,117</td><td>81c733f698f5066a</td></tr><tr><td>props/mars/rover_marker.png</td><td>24 x 20</td><td>312</td><td>0c05b99f9e3dd085</td></tr><tr><td>props/mars/sample_rock.png</td><td>24 x 20</td><td>363</td><td>5f5af91dc72342fb</td></tr><tr><td>props/mars/solar_array.png</td><td>64 x 34</td><td>758</td><td>a2552da834486c70</td></tr><tr><td>props/props.json</td><td>-</td><td>5,854</td><td>578e17d39fd97ac8</td></tr><tr><td>rover/rover_assembled.png</td><td>96 x 64</td><td>2,105</td><td>f66c649b054d088e</td></tr><tr><td>rover/rover_down.png</td><td>96 x 64</td><td>2,105</td><td>f66c649b054d088e</td></tr><tr><td>rover/rover_left.png</td><td>96 x 64</td><td>1,771</td><td>6aa363f516a0714b</td></tr><tr><td>rover/rover_right.png</td><td>96 x 64</td><td>1,783</td><td>5e42ec7c39fe17bd</td></tr><tr><td>rover/rover_sheet.png</td><td>384 x 64</td><td>4,893</td><td>7dea8fdbc9b10679</td></tr><tr><td>rover/rover_up.png</td><td>96 x 64</td><td>1,837</td><td>55e0fc9cdc1f2e23</td></tr><tr><td>scenes/hq_engineering_lab.png</td><td>384 x 224</td><td>19,216</td><td>f05189592262e208</td></tr><tr><td>scenes/hq_mission_control.png</td><td>384 x 224</td><td>17,428</td><td>c2f1175f1ebf8db1</td></tr><tr><td>scenes/mars_landing_zone.png</td><td>384 x 224</td><td>26,535</td><td>07d86c4f11fa75f8</td></tr><tr><td>scenes/scenes.json</td><td>-</td><td>1,057</td><td>50c082ad12fb78e6</td></tr><tr><td>tiles/hq_tiles.json</td><td>-</td><td>11,241</td><td>656bae771b669f27</td></tr><tr><td>tiles/hq_tiles.png</td><td>128 x 128</td><td>5,927</td><td>04f5588fc146ec7c</td></tr><tr><td>tiles/mars_tiles.json</td><td>-</td><td>13,399</td><td>6a3b186503c4adc7</td></tr><tr><td>tiles/mars_tiles.png</td><td>128 x 128</td><td>7,114</td><td>3daaeb5e89754c42</td></tr><tr><td>ui/marker_objective.png</td><td>16 x 16</td><td>201</td><td>31cb0a1c96a1b542</td></tr><tr><td>ui/marker_scan.png</td><td>16 x 16</td><td>129</td><td>d87398098bf95260</td></tr><tr><td>ui/marker_talk.png</td><td>16 x 16</td><td>175</td><td>fc7ea141f1b4b254</td></tr><tr><td>ui/nav_arrow.png</td><td>16 x 16</td><td>179</td><td>b34ef415bb73657c</td></tr><tr><td>ui/panel_9slice.png</td><td>24 x 24</td><td>223</td><td>ba0d39d3400ca058</td></tr><tr><td>ui/resource_budget.png</td><td>16 x 16</td><td>328</td><td>1297950d9112a708</td></tr><tr><td>ui/resource_comms.png</td><td>16 x 16</td><td>445</td><td>8852cd4993b7f26a</td></tr><tr><td>ui/resource_data.png</td><td>16 x 16</td><td>270</td><td>1751501e72d35d39</td></tr><tr><td>ui/resource_icons.png</td><td>96 x 16</td><td>1,383</td><td>df750306f6c8dd88</td></tr><tr><td>ui/resource_mass.png</td><td>16 x 16</td><td>326</td><td>7facd73c60557107</td></tr><tr><td>ui/resource_power.png</td><td>16 x 16</td><td>334</td><td>8e51db14acb2cc32</td></tr><tr><td>ui/resource_time.png</td><td>16 x 16</td><td>318</td><td>ec97826b82dd22ac</td></tr><tr><td>ui/role_badges.png</td><td>160 x 32</td><td>2,000</td><td>76192f541eea8718</td></tr><tr><td>ui/role_designer.png</td><td>32 x 32</td><td>533</td><td>2ceb239005934d95</td></tr><tr><td>ui/role_engineer.png</td><td>32 x 32</td><td>571</td><td>f103947da9baa96a</td></tr><tr><td>ui/role_finance.png</td><td>32 x 32</td><td>513</td><td>347946ce37e2f864</td></tr><tr><td>ui/role_satellite.png</td><td>32 x 32</td><td>569</td><td>f895310c10586f2c</td></tr><tr><td>ui/role_scientist.png</td><td>32 x 32</td><td>518</td><td>7dee713b445825c6</td></tr><tr><td>ui/ui.json</td><td>-</td><td>4,357</td><td>d758aabc1cf3ebf9</td></tr><tr><td>ui/ui_marks.png</td><td>64 x 16</td><td>462</td><td>310520ec3f3d2ffa</td></tr></tbody></table>
+  </details>
+</section>
+
+<section id="approval">
+  <div class="section-head"><span class="num">08</span><h2>Approval Checklist</h2><span class="note">Production remains paused until sign-off</span></div>
+  <div class="approval-grid">
+    <div class="panel" style="padding:18px">
+      <p class="lede" style="margin-bottom:10px">The approver reviews the direction and marks each item. These controls are local and do not change the project state.</p>
+      <div class="checklist">
+        <label><input type="checkbox"><span>Cast direction approved<small>Five fictional characters, silhouettes, role colours, portraits and four-direction animation.</small></span></label>
+        <label><input type="checkbox"><span>Environment language approved<small>Mission control, engineering lab, Mars landing zone and both 64-tile atlases.</small></span></label>
+        <label><input type="checkbox"><span>Rover + equipment approved<small>MERIDIAN rover, eight component icons and their representational style.</small></span></label>
+        <label><input type="checkbox"><span>Interface + branding approved<small>Resource icons, role marks, 9-slice panel, wordmark, mission lockup and patch.</small></span></label>
+        <label><input type="checkbox"><span>Scenes + palette approved<small>Three composed visual targets, lighting, contrast and readability at 384 x 224.</small></span></label>
+        <label><input type="checkbox"><span>Originality + rights boundary approved<small>No NASA insignia, mission patch, photograph, employee likeness or third-party character art.</small></span></label>
+        <label><input type="checkbox"><span>Permission to continue implementation<small>Proceed from these assets into game systems, missions, sound and deployment without restarting art direction.</small></span></label>
+      </div>
+    </div>
+    <aside class="approval-side panel">
+      <h3>Decision</h3>
+      <p>Reply with <strong style="color:var(--gold)">APPROVED</strong> to unlock production, or <strong style="color:var(--gold)">REQUEST CHANGES</strong> with the specific asset and direction note.</p>
+      <div class="stamp">STATUS<br>PENDING ART APPROVAL<br>PRODUCTION PAUSED</div>
+      <p style="margin-top:14px">If changes are requested, only the named assets are revised. The approved direction is not re-planned or replaced.</p>
+    </aside>
+  </div>
+</section>
+
+<footer class="disclaimer">
+  <div class="footer-row"><span>RED FRONTIER / MISSION MARS</span><span>Art Direction Checkpoint 01</span></div>
+  <p><strong>Fictional project notice.</strong> RED FRONTIER is an original fictional game project. It is not affiliated with, endorsed by, or sponsored by NASA. No NASA logo, mission patch, photograph, facility reconstruction or employee likeness is used. All named characters, organisations and hardware are fictional. Mission statistics, resources and instrument performance are simplified educational gameplay values, not operational data or real mission specifications.</p>
+  <p><strong>Art provenance.</strong> Every raster asset on this page is authored by checked-in drawing code in <span class="mono">scripts/</span> and rendered deterministically. No generative image model, third-party sprite pack or traced protected graphic is used.</p>
+</footer>
+
+</main>
+<script>
+(function(){
+  var demos = Array.prototype.slice.call(document.querySelectorAll('.sprite-stage'));
+  var items = demos.map(function(el){
+    var scale = parseInt(el.getAttribute('data-scale') || '3', 10);
+    var fw = parseInt(el.getAttribute('data-fw') || '24', 10);
+    var fh = parseInt(el.getAttribute('data-fh') || '32', 10);
+    var row = parseInt(el.getAttribute('data-row') || '0', 10);
+    var frames = (el.getAttribute('data-frames') || '0,1').split(',').map(Number);
+    var fps = parseFloat(el.getAttribute('data-fps') || '6');
+    var sheet = el.getAttribute('data-sheet');
+    el.style.width = (fw * scale) + 'px';
+    el.style.height = (fh * scale) + 'px';
+    el.style.backgroundImage = 'url("' + sheet + '")';
+    el.style.backgroundSize = (fw * 6 * scale) + 'px ' + (fh * 4 * scale) + 'px';
+    return {el:el, fw:fw, fh:fh, row:row, frames:frames, fps:fps, scale:scale, index:0, next:performance.now()};
+  });
+  function frameFor(item, now){
+    if(now >= item.next){
+      item.index = (item.index + 1) % item.frames.length;
+      item.next = now + (1000 / Math.max(0.1, item.fps));
+    }
+    var frame = item.frames[item.index] % 6;
+    var x = -frame * item.fw * item.scale;
+    var y = -item.row * item.fh * item.scale;
+    item.el.style.backgroundPosition = x + 'px ' + y + 'px';
+  }
+  function tick(now){
+    for(var i=0;i<items.length;i++){ frameFor(items[i], now); }
+    requestAnimationFrame(tick);
+  }
+  if(items.length){ requestAnimationFrame(tick); }
+})();
+</script>
+</body>
+</html>

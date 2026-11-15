@@ -1,0 +1,539 @@
+{
+  "image": "mars_tiles.png",
+  "tileWidth": 16,
+  "tileHeight": 16,
+  "columns": 8,
+  "rows": 8,
+  "tiles": [
+    {
+      "index": 0,
+      "id": "mars_sand_a",
+      "col": 0,
+      "row": 0,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 1,
+      "id": "mars_sand_b",
+      "col": 1,
+      "row": 0,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 2,
+      "id": "mars_sand_c",
+      "col": 2,
+      "row": 0,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 3,
+      "id": "mars_sand_d",
+      "col": 3,
+      "row": 0,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 4,
+      "id": "mars_sand_ripple_a",
+      "col": 4,
+      "row": 0,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 5,
+      "id": "mars_sand_ripple_b",
+      "col": 5,
+      "row": 0,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 6,
+      "id": "mars_sand_coarse",
+      "col": 6,
+      "row": 0,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 7,
+      "id": "mars_sand_pebbles",
+      "col": 7,
+      "row": 0,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 8,
+      "id": "mars_regolith_a",
+      "col": 0,
+      "row": 1,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 9,
+      "id": "mars_regolith_b",
+      "col": 1,
+      "row": 1,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 10,
+      "id": "mars_regolith_c",
+      "col": 2,
+      "row": 1,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 11,
+      "id": "mars_dust_dark",
+      "col": 3,
+      "row": 1,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 12,
+      "id": "mars_dust_rust",
+      "col": 4,
+      "row": 1,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 13,
+      "id": "mars_gravel_a",
+      "col": 5,
+      "row": 1,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 14,
+      "id": "mars_gravel_b",
+      "col": 6,
+      "row": 1,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 15,
+      "id": "mars_wind_patch",
+      "col": 7,
+      "row": 1,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 16,
+      "id": "mars_basalt_a",
+      "col": 0,
+      "row": 2,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 17,
+      "id": "mars_basalt_b",
+      "col": 1,
+      "row": 2,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 18,
+      "id": "mars_basalt_fracture",
+      "col": 2,
+      "row": 2,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 19,
+      "id": "mars_basalt_gravel",
+      "col": 3,
+      "row": 2,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 20,
+      "id": "mars_rock_shelf",
+      "col": 4,
+      "row": 2,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 21,
+      "id": "mars_rock_shelf_cracked",
+      "col": 5,
+      "row": 2,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 22,
+      "id": "mars_dune_shadow",
+      "col": 6,
+      "row": 2,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 23,
+      "id": "mars_dune_crest",
+      "col": 7,
+      "row": 2,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 24,
+      "id": "mars_transition_sand_n",
+      "col": 0,
+      "row": 3,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 25,
+      "id": "mars_transition_sand_e",
+      "col": 1,
+      "row": 3,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 26,
+      "id": "mars_transition_sand_s",
+      "col": 2,
+      "row": 3,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 27,
+      "id": "mars_transition_sand_w",
+      "col": 3,
+      "row": 3,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 28,
+      "id": "mars_transition_dust_n",
+      "col": 4,
+      "row": 3,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 29,
+      "id": "mars_transition_dust_e",
+      "col": 5,
+      "row": 3,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 30,
+      "id": "mars_transition_dust_s",
+      "col": 6,
+      "row": 3,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 31,
+      "id": "mars_transition_dust_w",
+      "col": 7,
+      "row": 3,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 32,
+      "id": "mars_crater_nw",
+      "col": 0,
+      "row": 4,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 33,
+      "id": "mars_crater_n",
+      "col": 1,
+      "row": 4,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 34,
+      "id": "mars_crater_ne",
+      "col": 2,
+      "row": 4,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 35,
+      "id": "mars_crater_w",
+      "col": 3,
+      "row": 4,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 36,
+      "id": "mars_crater_center",
+      "col": 4,
+      "row": 4,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 37,
+      "id": "mars_crater_e",
+      "col": 5,
+      "row": 4,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 38,
+      "id": "mars_crater_sw",
+      "col": 6,
+      "row": 4,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 39,
+      "id": "mars_crater_s",
+      "col": 7,
+      "row": 4,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 40,
+      "id": "mars_crater_se",
+      "col": 0,
+      "row": 5,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 41,
+      "id": "mars_wind_h",
+      "col": 1,
+      "row": 5,
+      "kind": "overlay",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 42,
+      "id": "mars_wind_v",
+      "col": 2,
+      "row": 5,
+      "kind": "overlay",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 43,
+      "id": "mars_pebbles",
+      "col": 3,
+      "row": 5,
+      "kind": "overlay",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 44,
+      "id": "mars_cracks",
+      "col": 4,
+      "row": 5,
+      "kind": "overlay",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 45,
+      "id": "mars_track_h",
+      "col": 5,
+      "row": 5,
+      "kind": "overlay",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 46,
+      "id": "mars_track_v",
+      "col": 6,
+      "row": 5,
+      "kind": "overlay",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 47,
+      "id": "mars_scan_patch",
+      "col": 7,
+      "row": 5,
+      "kind": "overlay",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 48,
+      "id": "mars_dust_haze",
+      "col": 0,
+      "row": 6,
+      "kind": "overlay",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 49,
+      "id": "mars_compacted_a",
+      "col": 1,
+      "row": 6,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 50,
+      "id": "mars_compacted_b",
+      "col": 2,
+      "row": 6,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 51,
+      "id": "mars_path_h",
+      "col": 3,
+      "row": 6,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 52,
+      "id": "mars_path_v",
+      "col": 4,
+      "row": 6,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 53,
+      "id": "mars_landing_pad_center",
+      "col": 5,
+      "row": 6,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 54,
+      "id": "mars_landing_pad_edge",
+      "col": 6,
+      "row": 6,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 55,
+      "id": "mars_rover_park",
+      "col": 7,
+      "row": 6,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 56,
+      "id": "mars_sample_ground",
+      "col": 0,
+      "row": 7,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 57,
+      "id": "mars_sand_bright",
+      "col": 1,
+      "row": 7,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 58,
+      "id": "mars_sand_shadow",
+      "col": 2,
+      "row": 7,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 59,
+      "id": "mars_basalt_rubble",
+      "col": 3,
+      "row": 7,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 60,
+      "id": "mars_gravel_dark",
+      "col": 4,
+      "row": 7,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 61,
+      "id": "mars_dune_ridge_h",
+      "col": 5,
+      "row": 7,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 62,
+      "id": "mars_dune_ridge_v",
+      "col": 6,
+      "row": 7,
+      "kind": "floor",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    },
+    {
+      "index": 63,
+      "id": "mars_dust_edge",
+      "col": 7,
+      "row": 7,
+      "kind": "overlay",
+      "scienceNote": "gameplay terrain, not a georeferenced Mars dataset"
+    }
+  ],
+  "craterFootprint": {
+    "tiles": [
+      "mars_crater_nw",
+      "mars_crater_n",
+      "mars_crater_ne",
+      "mars_crater_w",
+      "mars_crater_center",
+      "mars_crater_e",
+      "mars_crater_sw",
+      "mars_crater_s",
+      "mars_crater_se"
+    ],
+    "size": [
+      48,
+      48
+    ]
+  },
+  "note": "Original stylised terrain. Colors are inspired by Mars, not sampled from NASA imagery."
+}

@@ -1,0 +1,32 @@
+{
+  "scenes": [
+    {
+      "id": "hq_mission_control",
+      "title": "HQ Mission Control",
+      "file": "scenes/hq_mission_control.png",
+      "width": 384,
+      "height": 224,
+      "nativeScale": 1,
+      "note": "Composed visual-direction target. HUD elements are mock game UI, not live data."
+    },
+    {
+      "id": "hq_engineering_lab",
+      "title": "Engineering Laboratory",
+      "file": "scenes/hq_engineering_lab.png",
+      "width": 384,
+      "height": 224,
+      "nativeScale": 1,
+      "note": "Composed visual-direction target. HUD elements are mock game UI, not live data."
+    },
+    {
+      "id": "mars_landing_zone",
+      "title": "Mars / Ares Basin Landing Zone",
+      "file": "scenes/mars_landing_zone.png",
+      "width": 384,
+      "height": 224,
+      "nativeScale": 1,
+      "note": "Composed visual-direction target. HUD elements are mock game UI, not live data."
+    }
+  ],
+  "note": "Documentation targets rendered from the authored assets. No screenshot or NASA source imagery is used."
+}

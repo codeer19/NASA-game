@@ -1,0 +1,13 @@
+node_modules
+dist
+art-preview
+.git
+.gitignore
+*.log
+.env
+.env.*
+!/.env.example
+scripts/__pycache__
+__pycache__
+docs
+README.md

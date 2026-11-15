@@ -1,0 +1,113 @@
+{
+  "rover": {
+    "image": "rover/rover_assembled.png",
+    "sheet": "rover/rover_sheet.png",
+    "width": 96,
+    "height": 64,
+    "sheetWidth": 384,
+    "sheetHeight": 64,
+    "directions": [
+      "down",
+      "left",
+      "right",
+      "up"
+    ],
+    "origin": {
+      "x": 0.5,
+      "y": 0.86
+    },
+    "view": "three-quarter top-down",
+    "subject": "Fictional six-wheel field science rover, MERIDIAN class",
+    "note": "Original design. Not a NASA rover, instrument, logo or mission patch."
+  },
+  "components": [
+    {
+      "id": "chassis",
+      "name": "Rigid Chassis",
+      "description": "Structural frame and sample bays",
+      "file": "equipment/chassis.png",
+      "width": 32,
+      "height": 32,
+      "sheetIndex": 0,
+      "fictionalEquipment": true,
+      "note": "Original game hardware; all performance values in the game are simplified, non-operational gameplay values."
+    },
+    {
+      "id": "drive",
+      "name": "Drive Assembly",
+      "description": "Six torque-managed wheels",
+      "file": "equipment/drive.png",
+      "width": 32,
+      "height": 32,
+      "sheetIndex": 1,
+      "fictionalEquipment": true,
+      "note": "Original game hardware; all performance values in the game are simplified, non-operational gameplay values."
+    },
+    {
+      "id": "suspension",
+      "name": "Rocker-Bogie",
+      "description": "Independent suspension linkage",
+      "file": "equipment/suspension.png",
+      "width": 32,
+      "height": 32,
+      "sheetIndex": 2,
+      "fictionalEquipment": true,
+      "note": "Original game hardware; all performance values in the game are simplified, non-operational gameplay values."
+    },
+    {
+      "id": "power",
+      "name": "Power Core",
+      "description": "Simplified thermal generator",
+      "file": "equipment/power.png",
+      "width": 32,
+      "height": 32,
+      "sheetIndex": 3,
+      "fictionalEquipment": true,
+      "note": "Original game hardware; all performance values in the game are simplified, non-operational gameplay values."
+    },
+    {
+      "id": "antenna",
+      "name": "High-Gain Antenna",
+      "description": "Uplink to the mission team",
+      "file": "equipment/antenna.png",
+      "width": 32,
+      "height": 32,
+      "sheetIndex": 4,
+      "fictionalEquipment": true,
+      "note": "Original game hardware; all performance values in the game are simplified, non-operational gameplay values."
+    },
+    {
+      "id": "arm",
+      "name": "Sample Arm",
+      "description": "Drill, scoop and close-up imaging",
+      "file": "equipment/arm.png",
+      "width": 32,
+      "height": 32,
+      "sheetIndex": 5,
+      "fictionalEquipment": true,
+      "note": "Original game hardware; all performance values in the game are simplified, non-operational gameplay values."
+    },
+    {
+      "id": "spectrometer",
+      "name": "Spectrometer",
+      "description": "Simplified mineral composition scan",
+      "file": "equipment/spectrometer.png",
+      "width": 32,
+      "height": 32,
+      "sheetIndex": 6,
+      "fictionalEquipment": true,
+      "note": "Original game hardware; all performance values in the game are simplified, non-operational gameplay values."
+    },
+    {
+      "id": "weather",
+      "name": "Weather Mast",
+      "description": "Wind, pressure and temperature",
+      "file": "equipment/weather.png",
+      "width": 32,
+      "height": 32,
+      "sheetIndex": 7,
+      "fictionalEquipment": true,
+      "note": "Original game hardware; all performance values in the game are simplified, non-operational gameplay values."
+    }
+  ]
+}

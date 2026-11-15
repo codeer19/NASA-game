@@ -1,0 +1,162 @@
+{
+  "environment": "Mars surface",
+  "props": [
+    {
+      "id": "rock_a",
+      "file": "props/mars/rock_a.png",
+      "width": 28,
+      "height": 20,
+      "anchor": "bottom-center",
+      "originX": 14.0,
+      "originY": 20,
+      "groundDecal": false,
+      "fictional": true,
+      "scienceNote": "Stylised original terrain object; not a georeferenced Mars feature."
+    },
+    {
+      "id": "rock_b",
+      "file": "props/mars/rock_b.png",
+      "width": 44,
+      "height": 28,
+      "anchor": "bottom-center",
+      "originX": 22.0,
+      "originY": 28,
+      "groundDecal": false,
+      "fictional": true,
+      "scienceNote": "Stylised original terrain object; not a georeferenced Mars feature."
+    },
+    {
+      "id": "rock_cluster",
+      "file": "props/mars/rock_cluster.png",
+      "width": 68,
+      "height": 42,
+      "anchor": "bottom-center",
+      "originX": 34.0,
+      "originY": 42,
+      "groundDecal": false,
+      "fictional": true,
+      "scienceNote": "Stylised original terrain object; not a georeferenced Mars feature."
+    },
+    {
+      "id": "mesa",
+      "file": "props/mars/mesa.png",
+      "width": 128,
+      "height": 80,
+      "anchor": "bottom-center",
+      "originX": 64.0,
+      "originY": 80,
+      "groundDecal": false,
+      "fictional": true,
+      "scienceNote": "Stylised original terrain object; not a georeferenced Mars feature."
+    },
+    {
+      "id": "sample_rock",
+      "file": "props/mars/sample_rock.png",
+      "width": 24,
+      "height": 20,
+      "anchor": "bottom-center",
+      "originX": 12.0,
+      "originY": 20,
+      "groundDecal": false,
+      "fictional": true,
+      "scienceNote": "Stylised original terrain object; not a georeferenced Mars feature."
+    },
+    {
+      "id": "beacon",
+      "file": "props/mars/beacon.png",
+      "width": 20,
+      "height": 32,
+      "anchor": "bottom-center",
+      "originX": 10.0,
+      "originY": 32,
+      "groundDecal": false,
+      "fictional": true,
+      "scienceNote": "Stylised original terrain object; not a georeferenced Mars feature."
+    },
+    {
+      "id": "relay",
+      "file": "props/mars/relay.png",
+      "width": 28,
+      "height": 40,
+      "anchor": "bottom-center",
+      "originX": 14.0,
+      "originY": 40,
+      "groundDecal": false,
+      "fictional": true,
+      "scienceNote": "Stylised original terrain object; not a georeferenced Mars feature."
+    },
+    {
+      "id": "solar_array",
+      "file": "props/mars/solar_array.png",
+      "width": 64,
+      "height": 34,
+      "anchor": "bottom-center",
+      "originX": 32.0,
+      "originY": 34,
+      "groundDecal": false,
+      "fictional": true,
+      "scienceNote": "Stylised original terrain object; not a georeferenced Mars feature."
+    },
+    {
+      "id": "cargo_crate",
+      "file": "props/mars/cargo_crate.png",
+      "width": 28,
+      "height": 22,
+      "anchor": "bottom-center",
+      "originX": 14.0,
+      "originY": 22,
+      "groundDecal": false,
+      "fictional": true,
+      "scienceNote": "Stylised original terrain object; not a georeferenced Mars feature."
+    },
+    {
+      "id": "field_habitat",
+      "file": "props/mars/field_habitat.png",
+      "width": 96,
+      "height": 68,
+      "anchor": "bottom-center",
+      "originX": 48.0,
+      "originY": 68,
+      "groundDecal": false,
+      "fictional": true,
+      "scienceNote": "Stylised original terrain object; not a georeferenced Mars feature."
+    },
+    {
+      "id": "lander",
+      "file": "props/mars/lander.png",
+      "width": 80,
+      "height": 64,
+      "anchor": "bottom-center",
+      "originX": 40.0,
+      "originY": 64,
+      "groundDecal": false,
+      "fictional": true,
+      "scienceNote": "Stylised original terrain object; not a georeferenced Mars feature."
+    },
+    {
+      "id": "landing_pad",
+      "file": "props/mars/landing_pad.png",
+      "width": 112,
+      "height": 72,
+      "anchor": "center",
+      "originX": 56.0,
+      "originY": 36.0,
+      "groundDecal": true,
+      "fictional": true,
+      "scienceNote": "Stylised original terrain object; not a georeferenced Mars feature."
+    },
+    {
+      "id": "rover_marker",
+      "file": "props/mars/rover_marker.png",
+      "width": 24,
+      "height": 20,
+      "anchor": "bottom-center",
+      "originX": 12.0,
+      "originY": 20,
+      "groundDecal": false,
+      "fictional": true,
+      "scienceNote": "Stylised original terrain object; not a georeferenced Mars feature."
+    }
+  ],
+  "note": "Original RED FRONTIER environment art. No NASA imagery or mission hardware is reproduced."
+}

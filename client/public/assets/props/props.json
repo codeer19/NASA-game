@@ -1,0 +1,256 @@
+{
+  "hq": [
+    {
+      "id": "main_display",
+      "file": "props/hq/main_display.png",
+      "width": 96,
+      "height": 48,
+      "anchor": "bottom-center",
+      "originX": 48.0,
+      "originY": 48,
+      "fictional": true
+    },
+    {
+      "id": "console_wide",
+      "file": "props/hq/console_wide.png",
+      "width": 64,
+      "height": 34,
+      "anchor": "bottom-center",
+      "originX": 32.0,
+      "originY": 34,
+      "fictional": true
+    },
+    {
+      "id": "console_single",
+      "file": "props/hq/console_single.png",
+      "width": 32,
+      "height": 32,
+      "anchor": "bottom-center",
+      "originX": 16.0,
+      "originY": 32,
+      "fictional": true
+    },
+    {
+      "id": "workstation",
+      "file": "props/hq/workstation.png",
+      "width": 48,
+      "height": 30,
+      "anchor": "bottom-center",
+      "originX": 24.0,
+      "originY": 30,
+      "fictional": true
+    },
+    {
+      "id": "chair",
+      "file": "props/hq/chair.png",
+      "width": 16,
+      "height": 22,
+      "anchor": "bottom-center",
+      "originX": 8.0,
+      "originY": 22,
+      "fictional": true
+    },
+    {
+      "id": "meeting_table",
+      "file": "props/hq/meeting_table.png",
+      "width": 80,
+      "height": 40,
+      "anchor": "bottom-center",
+      "originX": 40.0,
+      "originY": 40,
+      "fictional": true
+    },
+    {
+      "id": "server_rack",
+      "file": "props/hq/server_rack.png",
+      "width": 24,
+      "height": 40,
+      "anchor": "bottom-center",
+      "originX": 12.0,
+      "originY": 40,
+      "fictional": true
+    },
+    {
+      "id": "plant",
+      "file": "props/hq/plant.png",
+      "width": 16,
+      "height": 26,
+      "anchor": "bottom-center",
+      "originX": 8.0,
+      "originY": 26,
+      "fictional": true
+    },
+    {
+      "id": "plant_big",
+      "file": "props/hq/plant_big.png",
+      "width": 24,
+      "height": 36,
+      "anchor": "bottom-center",
+      "originX": 12.0,
+      "originY": 36,
+      "fictional": true
+    },
+    {
+      "id": "whiteboard",
+      "file": "props/hq/whiteboard.png",
+      "width": 48,
+      "height": 32,
+      "anchor": "bottom-center",
+      "originX": 24.0,
+      "originY": 32,
+      "fictional": true
+    },
+    {
+      "id": "window_bank",
+      "file": "props/hq/window_bank.png",
+      "width": 64,
+      "height": 32,
+      "anchor": "bottom-center",
+      "originX": 32.0,
+      "originY": 32,
+      "fictional": true
+    },
+    {
+      "id": "reception_desk",
+      "file": "props/hq/reception_desk.png",
+      "width": 64,
+      "height": 30,
+      "anchor": "bottom-center",
+      "originX": 32.0,
+      "originY": 30,
+      "fictional": true
+    },
+    {
+      "id": "coffee_station",
+      "file": "props/hq/coffee_station.png",
+      "width": 24,
+      "height": 28,
+      "anchor": "bottom-center",
+      "originX": 12.0,
+      "originY": 28,
+      "fictional": true
+    },
+    {
+      "id": "water_cooler",
+      "file": "props/hq/water_cooler.png",
+      "width": 16,
+      "height": 28,
+      "anchor": "bottom-center",
+      "originX": 8.0,
+      "originY": 28,
+      "fictional": true
+    },
+    {
+      "id": "mission_clock",
+      "file": "props/hq/mission_clock.png",
+      "width": 32,
+      "height": 18,
+      "anchor": "bottom-center",
+      "originX": 16.0,
+      "originY": 18,
+      "fictional": true
+    },
+    {
+      "id": "wall_screen_small",
+      "file": "props/hq/wall_screen_small.png",
+      "width": 32,
+      "height": 24,
+      "anchor": "bottom-center",
+      "originX": 16.0,
+      "originY": 24,
+      "fictional": true
+    },
+    {
+      "id": "banner_frontier",
+      "file": "props/hq/banner_frontier.png",
+      "width": 24,
+      "height": 48,
+      "anchor": "bottom-center",
+      "originX": 12.0,
+      "originY": 48,
+      "fictional": true
+    },
+    {
+      "id": "airlock_door",
+      "file": "props/hq/airlock_door.png",
+      "width": 32,
+      "height": 48,
+      "anchor": "bottom-center",
+      "originX": 16.0,
+      "originY": 48,
+      "fictional": true
+    }
+  ],
+  "lab": [
+    {
+      "id": "lab_bench",
+      "file": "props/lab/lab_bench.png",
+      "width": 64,
+      "height": 32,
+      "anchor": "bottom-center",
+      "originX": 32.0,
+      "originY": 32,
+      "fictional": true
+    },
+    {
+      "id": "rover_jig",
+      "file": "props/lab/rover_jig.png",
+      "width": 64,
+      "height": 42,
+      "anchor": "bottom-center",
+      "originX": 32.0,
+      "originY": 42,
+      "fictional": true
+    },
+    {
+      "id": "tool_cart",
+      "file": "props/lab/tool_cart.png",
+      "width": 32,
+      "height": 28,
+      "anchor": "bottom-center",
+      "originX": 16.0,
+      "originY": 28,
+      "fictional": true
+    },
+    {
+      "id": "component_bin",
+      "file": "props/lab/component_bin.png",
+      "width": 32,
+      "height": 24,
+      "anchor": "bottom-center",
+      "originX": 16.0,
+      "originY": 24,
+      "fictional": true
+    },
+    {
+      "id": "gantry_crane",
+      "file": "props/lab/gantry_crane.png",
+      "width": 80,
+      "height": 50,
+      "anchor": "bottom-center",
+      "originX": 40.0,
+      "originY": 50,
+      "fictional": true
+    },
+    {
+      "id": "wheel_rack",
+      "file": "props/lab/wheel_rack.png",
+      "width": 40,
+      "height": 40,
+      "anchor": "bottom-center",
+      "originX": 20.0,
+      "originY": 40,
+      "fictional": true
+    },
+    {
+      "id": "cable_reel",
+      "file": "props/lab/cable_reel.png",
+      "width": 28,
+      "height": 24,
+      "anchor": "bottom-center",
+      "originX": 14.0,
+      "originY": 24,
+      "fictional": true
+    }
+  ]
+}
